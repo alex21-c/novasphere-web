@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Remix Personalizable - Sistema de Entregas y Mensajería GPS</title>
+    <meta name="description" content="Aplicación de logística y mensajería Personalizable con diseño estilo Apple iOS, seguimiento GPS en tiempo real, gestión de mensajeros y prueba de entrega digital con firma y foto unificada para clientes con múltiples guías." />
+    <meta property="og:title" content="Remix Personalizable - Sistema de Entregas y Mensajería GPS" />
+    <meta property="og:description" content="Aplicación de logística y mensajería Personalizable con diseño estilo Apple iOS, seguimiento GPS en tiempo real, gestión de mensajeros y prueba de entrega digital con firma y foto unificada para clientes con múltiples guías." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1e293b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="icon" type="image/svg+xml" href="../assets/novasphere-logo.svg" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+      (function () {
+        'use strict';
+        if (!new URLSearchParams(window.location.search).has('demo')) return;
+
+        function disableDemoCredentialPrompts() {
+          document.querySelectorAll('form').forEach(function (form) {
+            form.setAttribute('autocomplete', 'off');
+          });
+          document.querySelectorAll('input').forEach(function (input) {
+            input.setAttribute('autocomplete', 'off');
+            input.setAttribute('data-form-type', 'other');
+            input.setAttribute('data-lpignore', 'true');
+            if (input.type === 'password') {
+              input.dataset.demoMasked = 'true';
+              input.type = 'text';
+            }
+            if (input.dataset.demoMasked === 'true') {
+              input.style.webkitTextSecurity = 'disc';
+            }
+          });
+        }
+
+        new MutationObserver(disableDemoCredentialPrompts).observe(
+          document.documentElement,
+          { attributes: true, attributeFilter: ['type'], childList: true, subtree: true }
+        );
+        disableDemoCredentialPrompts();
+      })();
+    </script>
+    <script>
+      // ===== SILENCIAR TODO EL AUDIO DE LA APP DENTRO DE LA PANTALLA DE LA LAPTOP =====
+      // Refuerzo respecto al flag ?demo= del bundle: aqui se fuerza el valor INTERNO
+      // de cada GainNode a 0 y se bloquean las ramps y la propiedad .value, de modo
+      // que aunque el bundle haga master.gain.value = 0.9 nada llega a los altavoces
+      // (el sonido de login/arranque queda mudo aunque el app se cargue sin ?demo=).
+      (function(){
+        'use strict';
+        function forceGainSilent(g) {
+          var p = g.gain;
+          try { p.value = 0; } catch (e) {}
+          ['setValueAtTime','linearRampToValueAtTime','setTargetAtTime','exponentialRampToValueAtTime'].forEach(function (m) {
+            var orig = p[m];
+            if (typeof orig !== 'function') return;
+            p[m] = function () {
+              var args = Array.prototype.slice.call(arguments);
+              // La rampa exponencial no admite 0: se usa el minimo audible
+              args[0] = (m === 'exponentialRampToValueAtTime') ? 0.0001 : 0;
+              return orig.apply(p, args);
+            };
+          });
+          try {
+            Object.defineProperty(p, 'value', { get: function () { return 0; }, set: function () {} });
+          } catch (e) { /* AudioParam sellado: los metodos neutralizados bastan */ }
+        }
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (AC && AC.prototype) {
+          var proto = AC.prototype;
+          if (!proto.__rvMuted) {
+            proto.__rvMuted = true;
+            var origCreateGain = proto.createGain;
+            proto.createGain = function(){
+              var g = origCreateGain.call(this);
+              forceGainSilent(g);
+              return g;
+            };
+            proto.resume = function(){ return Promise.resolve(); };
+          }
+        }
+        var origPlay = window.HTMLMediaElement.prototype.play;
+        if (!origPlay.__rvMuted) {
+          origPlay.__rvMuted = true;
+          window.HTMLMediaElement.prototype.play = function(){ return Promise.resolve(); };
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-DUTXFTma.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-UiERCX6-.css">
+  </head>
+  <body class="bg-black text-zinc-100 antialiased selection:bg-blue-500 selection:text-white overflow-x-hidden">
+    <div id="root"></div>
+  </body>
+</html>

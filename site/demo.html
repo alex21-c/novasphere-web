@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personalizable - Demo automática (app real)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:Inter,system-ui,sans-serif}
+#app{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;pointer-events:none;border-radius:20px;overflow:hidden}
+#cursor{position:absolute;left:0;top:0;width:28px;height:28px;z-index:50;pointer-events:none;
+  transform:translate(-100px,-100px);transition:transform .9s cubic-bezier(.45,.05,.2,1);
+  filter:drop-shadow(0 3px 5px rgba(0,0,0,.7))}
+#cursor svg{display:block}
+#ripple{position:absolute;left:0;top:0;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;
+  border:3px solid #22d3ee;background:rgba(34,211,238,.25);z-index:49;pointer-events:none;opacity:0;transform:scale(.3)}
+#ripple.go{animation:rip .55s ease-out}
+@keyframes rip{0%{opacity:.95;transform:scale(.3)}100%{opacity:0;transform:scale(1.5)}}
+#cap{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:60;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;gap:8px}
+#capText{font-size:15px;font-weight:700;letter-spacing:.5px;color:#e0f2fe;background:rgba(2,6,23,.82);
+  border:1px solid rgba(34,211,238,.45);padding:8px 18px;border-radius:999px;backdrop-filter:blur(8px);
+  box-shadow:0 8px 30px rgba(0,0,0,.5);transition:opacity .35s;white-space:nowrap}
+#dots{display:flex;gap:7px}
+#dots span{width:30px;height:5px;border-radius:3px;background:rgba(255,255,255,.22);transition:all .3s}
+#dots span.on{background:#22d3ee;box-shadow:0 0 10px rgba(34,211,238,.9)}
+#rec{position:absolute;top:12px;right:14px;z-index:60;pointer-events:none;display:flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:800;letter-spacing:2px;color:#fca5a5;background:rgba(2,6,23,.75);
+  border:1px solid rgba(239,68,68,.45);padding:5px 11px;border-radius:999px}
+#rec i{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:bl 1.1s infinite}
+@keyframes bl{50%{opacity:.25}}
+#fade{position:absolute;inset:0;background:#000;z-index:70;pointer-events:none;opacity:0;transition:opacity .6s}
+#fade.on{opacity:1}
+#laptopLogin{position:absolute;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;
+  padding:24px;background:linear-gradient(145deg,#07111f,#101d31 58%,#0b1525);color:#e2e8f0}
+#laptopLogin[hidden]{display:none}
+.login-card{width:min(430px,88%);padding:32px;border:1px solid rgba(148,163,184,.25);
+  border-radius:22px;background:rgba(15,23,42,.94);box-shadow:0 28px 80px rgba(0,0,0,.55)}
+.login-brand{margin-bottom:26px;color:#67e8f9;font-size:12px;font-weight:800;letter-spacing:2px}
+.login-card h1{margin-bottom:8px;font-size:28px}
+.login-card p{margin-bottom:24px;color:#94a3b8;font-size:14px}
+.login-card label{display:block;margin:14px 0 6px;color:#cbd5e1;font-size:12px}
+.login-field{width:100%;height:44px;display:flex;align-items:center;padding:0 12px;border:1px solid #334155;border-radius:10px;
+  background:#0b1220;color:#e2e8f0;font-size:14px}
+.login-field-placeholder{color:#64748b}
+.login-card button{width:100%;height:46px;margin-top:22px;border:0;border-radius:10px;
+  background:linear-gradient(100deg,#0891b2,#2563eb);color:white;font-weight:800}
+</style>
+<script>
+// ===== SILENCIAR TODA EL AUDIO DE LA PAGINA EN LA PANTALLA DE LA LAPTOP =====
+(function(){
+  'use strict';
+  function muteWin(win){
+    try {
+      // 1) Web Audio API: crearGain siempre con volumen 0
+      var AC = win.AudioContext || win.webkitAudioContext;
+      if (AC && AC.prototype) {
+        var proto = AC.prototype;
+        if (!proto.__muted) {
+          proto.__muted = true;
+          var origCreateGain = proto.createGain;
+          proto.createGain = function(){
+            var g = origCreateGain.call(this);
+            g.gain.setValueAtTime(0, this.currentTime);
+            return g;
+          };
+          var origResume = proto.resume;
+          proto.resume = function(){ return Promise.resolve(); };
+        }
+      }
+      // 2) Elementos <video>/<audio>: bloquear play()
+      var origPlay = win.HTMLMediaElement.prototype.play;
+      if (!origPlay.__muted) {
+        origPlay.__muted = true;
+        win.HTMLMediaElement.prototype.play = function(){ return Promise.resolve(); };
+      }
+    } catch(e){}
+  }
+  // Mute este contexto (demo.html)
+  muteWin(window);
+  // Mute el iframe interno (app/index.html) con polling robusto y inyeccion directa
+  var appFrame = document.getElementById('app');
+  if (appFrame) {
+    appFrame.muted = true;
+    appFrame.setAttribute('muted', '');
+    appFrame.setAttribute('allow', 'autoplay; fullscreen');
+
+    function injectMuteIntoFrame() {
+      try {
+        var doc = appFrame.contentDocument || appFrame.contentWindow.document;
+        if (doc) {
+          // Inyectar silenciamiento directamente en el documento del iframe
+          var s = doc.createElement('script');
+          s.textContent = '(' + function () {
+            'use strict';
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (AC && AC.prototype) {
+              var proto = AC.prototype;
+              if (!proto.__rvMuted) {
+                proto.__rvMuted = true;
+                var cg = proto.createGain;
+                proto.createGain = function () {
+                  var g = cg.call(this);
+                  g.gain.setValueAtTime(0, this.currentTime);
+                  return g;
+                };
+                var rs = proto.resume;
+                proto.resume = function () { return Promise.resolve(); };
+              }
+            }
+            var op = window.HTMLMediaElement.prototype.play;
+            if (!op.__rvMuted) {
+              op.__rvMuted = true;
+              window.HTMLMediaElement.prototype.play = function () { return Promise.resolve(); };
+            }
+          } + ')();';
+          doc.body.appendChild(s);
+        }
+        // También silenciar el window del iframe si es accesible
+        try { muteWin(appFrame.contentWindow); } catch(e){}
+      } catch(e){}
+    }
+
+    // Intentar inmediatamente y luego con polling hasta que el contenido esté listo
+    injectMuteIntoFrame();
+    var poll = 0;
+    var pollInterval = setInterval(function(){
+      injectMuteIntoFrame();
+      poll++;
+      if (poll > 20) clearInterval(pollInterval); // detener tras ~4 segundos
+    }, 200);
+    appFrame.onload = function(){ injectMuteIntoFrame(); };
+  }
+})();
+</script>
+<script>
+  // ===== REROUTE MENSAJES: Demo -> Anfitrión principal =====
+  window.addEventListener('message', function (ev) {
+    var d = ev && ev.data;
+    if (!d) return;
+    var target = ev.source;
+    if (!target || target === window) return;
+    // Reenviar todos los mensajes del iframe al anfitrión principal
+    try {
+      window.parent.postMessage({ __reroute: true, data: d, fromFrame: 'app' }, '*');
+    } catch (e) {
+      console.warn('[hero-laptop-demo] No se pudo reenviar mensaje:', e);
+    }
+  });
+</script>
+</head>
+<body>
+<iframe id="app" title="Personalizable" muted allow=""></iframe>
+<div id="ripple"></div>
+<div id="cursor"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M3 2l7.5 19 2.6-7.9L21 10.5z" fill="#fff" stroke="#0f172a" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+
+<div id="cap"><div id="capText">Cargando sistema...</div><div id="dots"><span></span><span></span><span></span><span></span><span></span></div></div>
+<div id="fade"></div>
+<div id="laptopLogin" hidden>
+  <div class="login-card">
+    <div class="login-brand">PERSONALIZABLE · PANEL DE CONTROL</div>
+    <h1>Iniciar sesión</h1>
+    <p>Accede a la plataforma de gestión de entregas.</p>
+    <label>Correo o usuario</label>
+    <div class="login-field"><span class="login-field-placeholder">Ingresa tu usuario</span></div>
+    <label>Contraseña</label>
+    <div class="login-field"><span class="login-field-placeholder">••••••••</span></div>
+    <button type="button" disabled>Iniciar sesión</button>
+  </div>
+</div>
+<script src="demo-script.js"></script>
+</body>
+</html>

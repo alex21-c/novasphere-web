@@ -1,0 +1,22 @@
+{
+  "short_name": "Personalizable",
+  "name": "Personalizable - Entregas & Mensajería GPS",
+  "description": "App de logística de entregas con rastreo GPS en tiempo real y prueba de entrega digital.",
+  "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?w=192&auto=format&fit=crop&q=80",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?w=512&auto=format&fit=crop&q=80",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0f172a",
+  "theme_color": "#1e293b",
+  "display": "standalone",
+  "orientation": "portrait"
+}

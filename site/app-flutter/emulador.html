@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RapiVoy GPS PRO — Emulador (app Flutter real)</title>
+<style>
+  :root{
+    --bg:#020617; --panel:#0b1220; --borde:rgba(255,255,255,.10);
+    --texto:#e2e8f0; --suave:#94a3b8; --azul:#3b82f6; --esmeralda:#10b981; --rojo:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; font-family:-apple-system,"Segoe UI",Roboto,sans-serif;
+    color:var(--texto); background:var(--bg);
+    background-image:
+      radial-gradient(circle at 20% 0%,rgba(59,130,246,.18),transparent 45%),
+      radial-gradient(circle at 90% 100%,rgba(16,185,129,.12),transparent 40%),
+      linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:auto,auto,28px 28px,28px 28px;
+    display:flex; flex-direction:column;
+  }
+  header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--borde);background:rgba(2,6,23,.78)}
+  header h1{margin:0;font-size:15px;font-weight:800}
+  header .sub{font-size:11px;color:var(--suave)}
+  .punto{width:9px;height:9px;border-radius:50%;background:var(--esmeralda);box-shadow:0 0 10px var(--esmeralda)}
+  main{flex:1;display:grid;grid-template-columns:330px 1fr;gap:18px;padding:18px;min-height:0}
+  @media (max-width:1000px){main{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--borde);border-radius:16px;padding:14px}
+  .panel h2{margin:0 0 10px;font-size:11px;letter-spacing:1.4px;color:var(--suave);text-transform:uppercase}
+  .fila{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  button{
+    flex:1 1 auto;cursor:pointer;font:inherit;font-size:12px;font-weight:600;
+    color:var(--texto);background:rgba(255,255,255,.06);border:1px solid var(--borde);
+    border-radius:10px;padding:8px 10px;transition:.15s;
+  }
+  button:hover{background:rgba(59,130,246,.22);border-color:rgba(59,130,246,.5)}
+  button.act{background:rgba(59,130,246,.28);border-color:var(--azul);color:#fff}
+  label{display:block;font-size:11px;color:var(--suave);margin:10px 0 4px}
+  input[type=text]{
+    width:100%;font:inherit;font-size:12px;color:var(--texto);background:rgba(0,0,0,.35);
+    border:1px solid var(--borde);border-radius:10px;padding:8px 10px;
+  }
+  input[type=range]{width:100%;accent-color:var(--azul)}
+  .estado{font-size:12px;display:flex;align-items:center;gap:8px;margin-top:8px}
+  .k{font-size:11px;color:var(--suave);line-height:1.6;margin:10px 0 0}
+  .escenario{display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:10px;min-height:0}
+  .marco{
+    position:relative;background:#0f172a;border-radius:46px;padding:12px;
+    box-shadow:0 0 0 2px #1e293b,0 0 0 10px #0b1220,0 30px 70px rgba(0,0,0,.65);
+    transform-origin:top center;transition:width .18s,height .18s;flex:0 0 auto;
+  }
+  .marco iframe{width:100%;height:100%;border:0;border-radius:34px;background:#020617;display:block}
+  .isla{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:104px;height:26px;border-radius:16px;background:#000;z-index:3}
+  .pie{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.35);z-index:3}
+  #consola{
+    font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;
+    background:rgba(0,0,0,.45);border:1px solid var(--borde);border-radius:12px;
+    padding:10px;height:160px;overflow:auto;white-space:pre-wrap;color:#a7f3d0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="punto" id="ptEstado"></div>
+  <div>
+    <h1>RapiVoy GPS PRO — Emulador de la app Flutter</h1>
+    <div class="sub">La app REAL corriendo dentro del marco del teléfono (no son imágenes): toque, escriba y navegue como en el celular.</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="panel">
+      <h2>Teléfono</h2>
+      <div class="fila" id="modelos">
+        <button data-w="390" data-h="844" class="act">iPhone 14</button>
+        <button data-w="375" data-h="667">iPhone SE</button>
+        <button data-w="412" data-h="915">Pixel 7</button>
+        <button data-w="768" data-h="1024">Tablet</button>
+      </div>
+      <div class="fila">
+        <button id="btnGirar">🔄 Girar</button>
+        <button id="btnRecargar">↻ Recargar app</button>
+        <button id="btnPantalla">⛶ Pantalla completa</button>
+      </div>
+      <label>Zoom de la emulación: <span id="lblZoom">100 %</span></label>
+      <input type="range" id="zoom" min="40" max="130" value="100" />
+
+      <h2 style="margin-top:16px">Backend de la app</h2>
+      <label>URL del servidor (se guarda en la app)</label>
+      <input type="text" id="url" value="http://localhost:3000" />
+      <div class="fila" style="margin-top:10px">
+        <button id="btnFijar">Fijar servidor</button>
+        <button id="btnAuto">Auto-detectar</button>
+      </div>
+      <div class="estado">
+        <span id="ptApi" class="punto" style="background:#64748b;box-shadow:none"></span>
+        <span id="txtApi">Comprobando backend…</span>
+      </div>
+      <div class="k">
+        • <b>Auto-detectar</b>: borra la URL guardada y deja que la app busque el servidor sola.<br />
+        • <b>Fijar servidor</b>: guarda la URL en el <code>localStorage</code> de este origen
+        (la misma clave que usa la app: <code>rapivoy_server_url_v2</code>) y recarga la app.<br />
+        • El tema claro/oscuro lo decide el “sistema” del teléfono: en Chrome abra
+        <b>F12 → ⋮ More tools → Rendering → Emulate CSS prefers-color-scheme</b>.
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <h2>Consola del emulador</h2>
+      <div id="consola"></div>
+    </div>
+  </section>
+
+  <section class="escenario">
+    <div class="marco" id="marco" style="width:414px;height:868px">
+      <div class="isla"></div>
+      <iframe id="app" src="/" title="RapiVoy GPS PRO"></iframe>
+      <div class="pie"></div>
+    </div>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const app = $('app'), marco = $('marco'), consola = $('consola');
+const CLAVE_URL = 'rapivoy_server_url_v2';   // clave que usa la app (api.dart)
+// La app se puede embeber desde el mismo origen (build web servido por el
+// backend de demo) o desde el servidor de desarrollo de Flutter:
+//   /emulador.html                      → iframe a "/"        (mismo origen)
+//   /emulador.html?app=http://localhost:8080  → iframe al dev server
+const PARAM = new URLSearchParams(location.search);
+const DESTINO_APP = PARAM.get('app') || '/';
+app.src = DESTINO_APP;
+let w = 390, h = 844, zoom = 1, girando = false;
+
+function log(msg, color) {
+  const t = new Date().toLocaleTimeString('es-PA');
+  const linea = document.createElement('div');
+  linea.textContent = `[${t}] ${msg}`;
+  if (color) linea.style.color = color;
+  consola.appendChild(linea);
+  consola.scrollTop = consola.scrollHeight;
+}
+
+function pintarMedidas() {
+  const ancho = girando ? h : w, alto = girando ? w : h;
+  marco.style.width = ancho + 24 + 'px';
+  marco.style.height = alto + 24 + 'px';
+  marco.style.transform = `scale(${zoom})`;
+  $('lblZoom').textContent = Math.round(zoom * 100) + ' %';
+}
+function recargar(motivo) {
+  try { app.contentWindow.location.reload(); } catch (e) { app.src = DESTINO_APP; }
+  log('↻ App recargada' + (motivo ? ' — ' + motivo : ''));
+}
+
+/* -------- tamaño / rotación / zoom -------------------------------------- */
+$('modelos').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  [...$('modelos').children].forEach((x) => x.classList.remove('act'));
+  b.classList.add('act');
+  w = Number(b.dataset.w); h = Number(b.dataset.h); girando = false;
+  pintarMedidas();
+  log(`📱 Tamaño emulado: ${w}×${h} (${b.textContent})`);
+});
+$('btnGirar').onclick = () => { girando = !girando; pintarMedidas(); log('🔄 Teléfono ' + (girando ? 'horizontal' : 'vertical')); };
+$('zoom').oninput = (e) => { zoom = Number(e.target.value) / 100; pintarMedidas(); };
+$('btnRecargar').onclick = () => recargar('a mano');
+$('btnPantalla').onclick = () => window.open(DESTINO_APP, '_blank');
+
+/* -------- servidor de la app ------------------------------------------- */
+$('btnFijar').onclick = () => {
+  const url = $('url').value.trim().replace(/\/+$/, '');
+  // shared_preferences_web (API clásica) guarda las claves como
+  // "flutter.<clave>" y el valor codificado en JSON → de ahí las comillas.
+  localStorage.setItem('flutter.' + CLAVE_URL, JSON.stringify(url));
+  log(`🔗 Servidor guardado en la app: ${url} (localStorage["flutter.${CLAVE_URL}"])`);
+  recargar('nueva URL de servidor: ' + url);
+};
+$('btnAuto').onclick = () => {
+  localStorage.removeItem('flutter.' + CLAVE_URL);
+  log('🔎 URL borrada: la app auto-detecta el servidor (probando sus candidatos).');
+  recargar('auto-detección');
+};
+
+async function revisarApi() {
+  const url = $('url').value.trim().replace(/\/+$/, '');
+  try {
+    const r = await fetch(url + '/api/health', { cache: 'no-store' });
+    const d = await r.json();
+    $('ptApi').style.background = '#10b981';
+    $('ptApi').style.boxShadow = '0 0 10px #10b981';
+    $('txtApi').textContent = `Backend OK · ${d.guias} guías · ${d.mensajeros} mensajeros (${d.modo})`;
+  } catch (e) {
+    $('ptApi').style.background = '#ef4444';
+    $('ptApi').style.boxShadow = 'none';
+    $('txtApi').textContent = 'Sin backend en ' + url + ' (levante el backend de demo)';
+  }
+}
+
+app.addEventListener('load', () => {
+  log('✅ App Flutter cargada dentro del marco (es la app real, no una imagen).');
+});
+
+pintarMedidas();
+log('Emulador listo. Login de prueba: carlos / 123 (DRV-01), valentina / 123, david / 123, andres / 123.');
+revisarApi();
+setInterval(revisarApi, 5000);
+
+</script>
+</body>
+
+</html>

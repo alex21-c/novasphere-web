@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conoce el sistema de entrega NovaSphere: panel administrativo, aplicación móvil, GPS y prueba de entrega digital." />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Sistema de entrega — NovaSphere</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/novasphere-logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="hero-base.css" />
+  <link rel="stylesheet" href="hero-devices.css" />
+  <link rel="stylesheet" href="hero-iphone.css" />
+  <link rel="stylesheet" href="hero-anim.css" />
+  <link rel="stylesheet" href="hero-models.css?v=20261018l" />
+  <link rel="stylesheet" href="hero-real3d.css" />
+  <style>
+    .system-page .navbar {
+      background: transparent;
+      border-bottom: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+    .system-page .nav-container {
+      position: relative;
+    }
+    .system-page .nav-links {
+      position: absolute;
+      left: 50%;
+      translate: -50% 0;
+      gap: 28px;
+      padding: 7px 22px;
+      border: 1px solid rgba(255, 255, 255, .82);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .58);
+      box-shadow: 0 8px 28px rgba(15, 23, 42, .09), inset 0 1px 0 rgba(255, 255, 255, .9);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      animation: system-nav-float 6s ease-in-out infinite;
+    }
+    .system-page .nav-links a {
+      padding: 8px 2px;
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    .system-page .section-tag {
+      color: #000;
+    }
+    .system-contact {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 28px;
+      margin-top: 56px;
+      padding: 32px;
+      border-radius: 22px;
+      color: #fff;
+      background: linear-gradient(130deg, #172554, #1d4ed8 62%, #059669);
+      box-shadow: 0 20px 48px rgba(37, 99, 235, .2);
+    }
+    .system-contact h2 {
+      margin-bottom: 10px;
+      font: 700 24px 'Space Grotesk', sans-serif;
+    }
+    .system-contact p { max-width: 700px; color: rgba(255, 255, 255, .86); }
+    .system-contact .contact-note { margin-top: 10px; font-size: 14px; }
+    .system-contact .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      color: #172554;
+      background: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .system-contact .btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .2);
+    }
+    @keyframes system-nav-float {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-3px); }
+      50% { transform: translateY(1px); }
+      75% { transform: translateY(-2px); }
+    }
+    .system-page #sistema-entrega {
+      isolation: isolate;
+      overflow: hidden;
+      overflow-anchor: none;
+    }
+    .system-page,
+    .system-page main,
+    .system-page #hero-3d,
+    .system-page .device-stage {
+      overflow-anchor: none;
+    }
+    .system-page #sistema-entrega > .container {
+      position: relative;
+      z-index: 2;
+    }
+    .system-wave {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: min(38vh, 320px);
+      pointer-events: none;
+      animation: system-wave-drift 18s ease-in-out infinite alternate;
+    }
+    .system-wave path { fill: url(#system-wave-gradient); }
+    .system-wave-back {
+      top: 16px;
+      opacity: .42;
+      animation-duration: 25s;
+      animation-direction: alternate-reverse;
+    }
+    .system-wave-back path { fill: #60a5fa; opacity: .23; }
+    @keyframes system-wave-drift {
+      from { transform: translateX(-2%); }
+      to { transform: translateX(-50%); }
+    }
+    @media (max-width: 768px) {
+      .system-page .nav-links.open {
+        top: calc(100% + 8px);
+        left: 16px;
+        right: 16px;
+        padding: 20px 24px;
+        border: 1px solid rgba(255, 255, 255, .82);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .88);
+        box-shadow: 0 12px 32px rgba(15, 23, 42, .12);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+        animation: none;
+      }
+    }
+    @media (max-width: 900px) {
+      .system-page .nav-links {
+        display: none;
+      }
+      .system-page .nav-links.open {
+        display: flex;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 16px;
+        right: 16px;
+        translate: none;
+        padding: 20px 24px;
+        border: 1px solid rgba(255, 255, 255, .82);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .88);
+        box-shadow: 0 12px 32px rgba(15, 23, 42, .12);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+      }
+      .system-page .hamburger { display: flex; }
+    }
+    @media (max-width: 700px) {
+      .system-contact {
+        grid-template-columns: 1fr;
+        padding: 26px 22px;
+        text-align: center;
+      }
+      .system-contact .btn-contact { white-space: normal; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .system-wave,
+      .system-page .nav-links { animation: none; }
+    }
+  </style>
+</head>
+<body class="laptop-phase system-page">
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="NovaSphere, inicio">
+        <svg viewBox="0 0 40 40" class="logo-icon" aria-hidden="true">
+          <rect x="2" y="2" width="36" height="36" rx="11" fill="#2563EB"/>
+          <path d="M11 28V12h4l10 10V12h4v16h-4L15 18v10z" fill="#fff"/>
+          <circle cx="31" cy="9" r="3" fill="#A3E635"/>
+        </svg>
+        <span class="logo-text">NovaSphere</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="index.html">Nosotros</a>
+        <a href="sistema-entrega.html" aria-current="page">Sistema de entrega</a>
+        <a href="nuestra-forma-de-trabajar.html">Nuestra forma de trabajar</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section tech-section" id="sistema-entrega">
+      <svg class="system-wave system-wave-back" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 170 C240 90 480 234 720 170 C960 106 1200 234 1440 170 C1680 90 1920 234 2160 170 C2400 106 2640 234 2880 170 V0 H0Z" />
+      </svg>
+      <svg class="system-wave" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="system-wave-gradient" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" />
+            <stop offset="100%" stop-color="#10b981" />
+          </linearGradient>
+        </defs>
+        <path d="M0 196 C240 132 480 270 720 196 C960 122 1200 270 1440 196 C1680 132 1920 270 2160 196 C2400 122 2640 270 2880 196 V0 H0Z" />
+      </svg>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Plataforma integral</span>
+          <h1 class="section-title">Sistema de entrega <span class="gradient-text">a tu medida</span></h1>
+          <p class="section-text">
+            Gestiona envíos desde el panel web, asigna recorridos a los repartidores
+            y sigue cada entrega en tiempo real. La plataforma conecta administración
+            y app móvil, e incluye GPS, incidencias, firma y evidencia fotográfica.
+          </p>
+        </div>
+
+        <section id="hero-3d" class="hero-3d-section">
+          <canvas id="heroParticles"></canvas>
+          <div class="hero-3d-content">
+            <div class="hero-badge">Demostración interactiva</div>
+            <h2 class="hero-title">
+              Del panel a la entrega<br />
+              <span class="gradient-text">en un solo sistema</span>
+            </h2>
+            <p class="hero-subtitle">
+              Mira cómo se coordinan el panel de administración y la app del repartidor.
+            </p>
+          </div>
+          <div class="device-stage" id="deviceStage">
+            <div class="hero-real3d">
+              <div id="realLaptopWrap">
+                <div id="realLaptopLoader" class="real3d-loader">
+                  <div class="real3d-spinner"></div>
+                  <div>Cargando el panel de administración…</div>
+                </div>
+                <div id="realLaptopError" class="real3d-error"></div>
+              </div>
+            </div>
+            <div id="laptop3d" class="laptop-3d">
+              <div class="laptop-screen">
+                <div class="laptop-screen-content">
+                  <iframe id="laptopWebView" src="about:blank" data-src="demo.html" class="laptop-webview" allowfullscreen></iframe>
+                  <div id="laptopFallback" class="laptop-fallback hidden">
+                    <div class="fallback-icon">💻</div>
+                    <div class="fallback-text">Cargando el panel…</div>
+                    <div class="fallback-hint">La demostración interactiva aparecerá aquí.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="laptop-base"></div>
+            </div>
+            <div id="iphone3d" class="iphone-3d">
+              <div class="iphone-device">
+                <div class="iphone-dynamic-island"></div>
+                <div class="iphone-screen">
+                  <div class="iphone-ui">
+                    <div class="iphone-header">
+                      <div class="title">App del repartidor</div>
+                      <div class="iphone-status">GPS · En línea</div>
+                    </div>
+                    <div class="iphone-body">
+                      <div id="routeCard" class="route-card">
+                        <div class="route-header">
+                          <div class="route-dot"></div>
+                          <div>
+                            <div class="route-title">Nueva entrega asignada</div>
+                            <div class="route-desc">Ruta de reparto · 2.4 km</div>
+                          </div>
+                        </div>
+                        <div class="route-action">
+                          <button id="btnAccept" class="btn-accept">Aceptar entrega</button>
+                          <button class="btn-decline">Rechazar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="iphone-home"></div>
+              </div>
+            </div>
+            <div id="mobileNotif" class="mobile-notification">
+              <div class="notif-icon">📦</div>
+              <div class="notif-body">
+                <div class="notif-title">Nueva entrega asignada</div>
+                <div class="notif-sub">Ruta de reparto · 2.4 km</div>
+              </div>
+              <div class="notif-progress"><div id="notifBar" class="notif-progress-bar"></div></div>
+            </div>
+            <div id="fingerTap" class="finger-tap">👆</div>
+          </div>
+        </section>
+
+        <div class="tech-grid">
+          <article class="tech-card laptop-card">
+            <div class="tech-card-icon">💻</div>
+            <h2 class="tech-card-title">Panel administrativo</h2>
+            <p class="tech-card-text">
+              Administra guías, repartidores, rutas y entregas desde el panel web.
+            </p>
+            <ul class="tech-card-list">
+              <li>✅ Rastreo GPS en tiempo real</li>
+              <li>✅ Gestión de guías e incidencias</li>
+              <li>✅ Panel multiusuario</li>
+            </ul>
+          </article>
+          <article class="tech-card phone-card">
+            <div class="tech-card-icon">📱</div>
+            <h2 class="tech-card-title">App del repartidor</h2>
+            <p class="tech-card-text">
+              Gestiona recorridos, GPS e incidencias y registra la prueba de entrega.
+            </p>
+            <ul class="tech-card-list">
+              <li>✅ Navegación y contacto del destinatario</li>
+              <li>✅ Captura de firma y foto</li>
+              <li>✅ Estado de entrega sincronizado</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step">
+            <div class="step-number">1</div>
+            <h2 class="step-title">Crea las entregas</h2>
+            <p>Registra cada paquete o solicitud desde el panel web.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">2</div>
+            <h2 class="step-title">Asigna una ruta</h2>
+            <p>Envía recorridos y guías al repartidor desde el panel.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">3</div>
+            <h2 class="step-title">Sigue el recorrido</h2>
+            <p>Consulta la ubicación GPS y los estados de entrega.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">4</div>
+            <h2 class="step-title">Confirma la entrega</h2>
+            <p>Registra firma, foto o incidencia desde la aplicación móvil.</p>
+          </article>
+        </div>
+        <aside class="system-contact" aria-labelledby="system-contact-title">
+          <div>
+            <h2 id="system-contact-title">Cuéntanos qué necesitas</h2>
+            <p>
+              Podemos conversar sobre tu proyecto, desarrollar una solución a la medida
+              o explorar distintas opciones según lo que tengas en mente. Si todavía estás
+              definiendo la idea, también podemos conversar y ayudarte a plantear el siguiente paso.
+            </p>
+            <p class="contact-note">Contacto: Alex · <a href="mailto:alexandrescruz7@gmail.com">alexandrescruz7@gmail.com</a></p>
+          </div>
+          <a class="btn-contact" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alexandrescruz7%40gmail.com" target="_blank" rel="noopener noreferrer">Escribir a Alex</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="developer-contact">
+    <a href="index.html">Volver a NovaSphere</a>
+  </footer>
+
+  <script src="hero-flow.js?v=20261018n"></script>
+  <script src="hero-models.js?v=20261018l"></script>
+  <script src="hero-real3d.js?v=20261018l"></script>
+  <script>
+    const menuButton = document.getElementById('hamburger');
+    const menu = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('open', !expanded);
+    });
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>

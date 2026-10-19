@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conoce cómo trabaja NovaSphere y las soluciones de software que desarrollamos para cada proyecto." />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Nuestra forma de trabajar — NovaSphere</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/novasphere-logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .work-page .navbar {
+      background: transparent;
+      border-bottom: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+    .work-page .nav-container { position: relative; }
+    .work-page .nav-links {
+      position: absolute;
+      left: 50%;
+      translate: -50% 0;
+      gap: 28px;
+      padding: 7px 22px;
+      border: 1px solid rgba(255,255,255,.82);
+      border-radius: 999px;
+      background: rgba(255,255,255,.58);
+      box-shadow: 0 8px 28px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.9);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      animation: work-nav-float 6s ease-in-out infinite;
+    }
+    .work-page .nav-links a {
+      padding: 8px 2px;
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    .work-page .nav-links a[aria-current="page"] { color: var(--blue-dark); }
+    @keyframes work-nav-float {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-3px); }
+      50% { transform: translateY(1px); }
+      75% { transform: translateY(-2px); }
+    }
+    .work-page .work-hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 170px 24px 92px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 80% 15%, rgba(59,130,246,.13), transparent 42%),
+        radial-gradient(ellipse at 15% 85%, rgba(16,185,129,.1), transparent 42%),
+        var(--bg);
+    }
+    .work-page .work-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+    .work-page .work-hero h1 {
+      margin: 0 0 18px;
+      font: 700 clamp(40px, 6vw, 72px)/1.08 'Space Grotesk', sans-serif;
+    }
+    .work-page .work-hero p {
+      max-width: 740px;
+      margin: 0 auto;
+      color: var(--text-secondary);
+      font-size: 18px;
+    }
+    .work-wave {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: min(38vh, 320px);
+      pointer-events: none;
+      animation: work-wave-drift 18s ease-in-out infinite alternate;
+    }
+    .work-wave path { fill: url(#work-wave-gradient); }
+    .work-wave-back {
+      top: 16px;
+      opacity: .42;
+      animation-duration: 25s;
+      animation-direction: alternate-reverse;
+    }
+    .work-wave-back path { fill: #60a5fa; opacity: .23; }
+    @keyframes work-wave-drift {
+      from { transform: translateX(-2%); }
+      to { transform: translateX(-50%); }
+    }
+    .work-content {
+      padding: 82px 24px 96px;
+      background: linear-gradient(180deg, #f8fafc, #eef5ff);
+    }
+    .work-container { max-width: 1120px; margin: 0 auto; }
+    .work-intro { max-width: 760px; margin: 0 auto 42px; text-align: center; }
+    .work-intro h2 {
+      margin: 0 0 14px;
+      font: 700 clamp(30px, 4vw, 46px)/1.15 'Space Grotesk', sans-serif;
+    }
+    .work-intro p { color: var(--text-secondary); font-size: 17px; }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .work-card {
+      padding: 26px;
+      border: 1px solid rgba(15,23,42,.1);
+      border-radius: 18px;
+      background: rgba(255,255,255,.82);
+      box-shadow: 0 12px 36px rgba(15,23,42,.045);
+    }
+    .work-card h3 { margin-bottom: 9px; font: 700 19px 'Space Grotesk', sans-serif; }
+    .work-card p { color: var(--text-secondary); font-size: 15px; }
+    .purchase-contact {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 28px;
+      margin-top: 32px;
+      padding: 32px;
+      border-radius: 22px;
+      color: #fff;
+      background: linear-gradient(130deg, #172554, #1d4ed8 62%, #059669);
+      box-shadow: 0 20px 48px rgba(37,99,235,.2);
+    }
+    .purchase-contact h2 { margin-bottom: 10px; font: 700 24px 'Space Grotesk', sans-serif; }
+    .purchase-contact p { max-width: 700px; color: rgba(255,255,255,.86); }
+    .purchase-contact .contact-note { margin-top: 10px; font-size: 14px; }
+    .purchase-contact .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      color: #172554;
+      background: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .purchase-contact .btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(15,23,42,.2);
+    }
+    .work-footer { padding: 32px 24px 64px; text-align: center; color: var(--text-muted); }
+    @media (max-width: 900px) {
+      .work-page .nav-links { display: none; }
+      .work-page .nav-links.open {
+        display: flex;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 16px;
+        right: 16px;
+        translate: none;
+        padding: 20px 24px;
+        border: 1px solid rgba(255,255,255,.82);
+        border-radius: 22px;
+        background: rgba(255,255,255,.88);
+        box-shadow: 0 12px 32px rgba(15,23,42,.12);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+        animation: none;
+      }
+      .work-page .hamburger { display: flex; }
+    }
+    @media (max-width: 700px) {
+      .work-grid { grid-template-columns: 1fr; }
+      .work-content { padding: 64px 20px; }
+      .purchase-contact { grid-template-columns: 1fr; padding: 26px 22px; text-align: center; }
+      .purchase-contact .btn-contact { white-space: normal; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .work-wave, .work-page .nav-links { animation: none; }
+    }
+  </style>
+</head>
+<body class="work-page">
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="NovaSphere, inicio">
+        <svg viewBox="0 0 40 40" class="logo-icon" aria-hidden="true">
+          <rect x="2" y="2" width="36" height="36" rx="11" fill="#2563EB"/>
+          <path d="M11 28V12h4l10 10V12h4v16h-4L15 18v10z" fill="#fff"/>
+          <circle cx="31" cy="9" r="3" fill="#A3E635"/>
+        </svg>
+        <span class="logo-text">NovaSphere</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="index.html">Nosotros</a>
+        <a href="sistema-entrega.html">Sistema de entrega</a>
+        <a href="nuestra-forma-de-trabajar.html" aria-current="page">Nuestra forma de trabajar</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <main>
+    <section class="work-hero">
+      <svg class="work-wave work-wave-back" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 170 C240 90 480 234 720 170 C960 106 1200 234 1440 170 C1680 90 1920 234 2160 170 C2400 106 2640 234 2880 170 V0 H0Z" />
+      </svg>
+      <svg class="work-wave" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="work-wave-gradient" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" />
+            <stop offset="100%" stop-color="#10b981" />
+          </linearGradient>
+        </defs>
+        <path d="M0 196 C240 132 480 270 720 196 C960 122 1200 270 1440 196 C1680 132 1920 270 2160 196 C2400 122 2640 270 2880 196 V0 H0Z" />
+      </svg>
+      <div class="work-hero-content">
+        <p class="hero-eyebrow">Nuestra forma de trabajar</p>
+        <h1>Ideas, experiencia y tecnología<br /><span class="gradient-text">para hacer que las cosas funcionen mejor.</span></h1>
+        <p>
+          Somos un equipo de desarrollo liderado por Alex. Analizamos cada necesidad,
+          proponemos una solución clara y construimos software útil, adaptable y preparado
+          para acompañar el crecimiento de cada proyecto.
+        </p>
+      </div>
+    </section>
+    <section class="work-content">
+      <div class="work-container">
+        <div class="work-intro">
+          <h2>Lo que podemos crear contigo</h2>
+          <p>Combinamos desarrollo y comprensión de tus procesos para convertir necesidades en herramientas digitales prácticas.</p>
+        </div>
+        <div class="work-grid">
+          <article class="work-card">
+            <h3>Sistemas web</h3>
+            <p>Portales, paneles administrativos y plataformas para organizar operaciones, clientes y datos.</p>
+          </article>
+          <article class="work-card">
+            <h3>Aplicaciones móviles</h3>
+            <p>Apps que conectan a los equipos con sus tareas, servicios e información desde cualquier lugar.</p>
+          </article>
+          <article class="work-card">
+            <h3>Automatización de procesos</h3>
+            <p>Herramientas para reducir tareas manuales, ordenar flujos de trabajo y facilitar el seguimiento.</p>
+          </article>
+          <article class="work-card">
+            <h3>Integraciones</h3>
+            <p>Conexión de plataformas, servicios y fuentes de información para trabajar de manera coordinada.</p>
+          </article>
+          <article class="work-card">
+            <h3>Soluciones a la medida</h3>
+            <p>Diseño y desarrollo según las reglas, prioridades y necesidades particulares de cada negocio.</p>
+          </article>
+          <article class="work-card">
+            <h3>Mejora y evolución</h3>
+            <p>Ampliación de sistemas existentes, nuevas funciones y ajustes para responder a necesidades cambiantes.</p>
+          </article>
+        </div>
+        <aside class="purchase-contact" aria-labelledby="purchase-title">
+          <div>
+            <h2 id="purchase-title">Cuéntanos qué necesitas</h2>
+            <p>
+              Podemos conversar sobre tu proyecto, desarrollar una solución a la medida
+              o explorar distintas opciones según lo que tengas en mente. Si todavía estás
+              definiendo la idea, también podemos conversar y ayudarte a plantear el siguiente paso.
+            </p>
+            <p class="contact-note">Contacto: Alex · <a href="mailto:alexandrescruz7@gmail.com">alexandrescruz7@gmail.com</a></p>
+          </div>
+          <a class="btn-contact" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alexandrescruz7%40gmail.com" target="_blank" rel="noopener noreferrer">Escribir a Alex</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer class="work-footer">
+    <a href="index.html">NovaSphere · Inicio</a>
+  </footer>
+  <script>
+    const menuButton = document.getElementById('hamburger');
+    const menu = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('open', !expanded);
+    });
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>

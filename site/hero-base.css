@@ -1,0 +1,70 @@
+/* ===== HERO BASE ===== */
+:root {
+  --bg-deep: #f8fafc;
+  --neon-cyan: #0891b2;
+  --neon-emerald: #059669;
+  --glass-border: rgba(15, 23, 42, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+}
+.hero-3d-section {
+  position: relative; min-height: 100vh; background: var(--bg-deep);
+  overflow: visible; display: flex; flex-direction: column;
+}
+#heroParticles {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+}
+.hero-3d-section::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 1400px; height: 700px;
+  background: radial-gradient(circle, rgba(59,130,246,0.16) 0%, transparent 55%);
+  z-index: 0; filter: blur(60px); pointer-events: none;
+}
+.hero-3d-content {
+  position: relative; z-index: 10; flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 40px 20px; text-align: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 999px;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  color: var(--neon-cyan); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  backdrop-filter: blur(12px); margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease-out both;
+}
+.hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
+  line-height: 1.05; color: #0f172a; margin: 0 0 16px 0;
+  letter-spacing: -0.02em; animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+.hero-title .gradient-text {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-emerald));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: clamp(1rem, 1.5vw, 1.25rem); color: #475569;
+  max-width: 640px; margin: 0 auto 32px auto; line-height: 1.7;
+  font-weight: 400; animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 32px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--neon-cyan), #0e7490);
+  color: #ffffff; font-weight: 700; font-size: 1rem; border: none;
+  cursor: pointer; box-shadow: 0 10px 30px rgba(8,145,178,0.35);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  animation: fadeInUp 0.8s ease-out 0.3s both; position: relative; overflow: hidden;
+}
+.hero-cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 45px rgba(8,145,178,0.5);
+}
+.hero-cta:active { transform: translateY(0) scale(0.98); }
+.hero-cta::after {
+  content: ""; position: absolute; inset: 0; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+  pointer-events: none;
+}

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Somos desarrolladores de software. Creamos sistemas web y aplicaciones a la medida para resolver necesidades reales de cada negocio." />
+  <meta name="theme-color" content="#0f172a" />
+  <title>NovaSphere — Desarrollo de sistemas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/novasphere-logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .home-page .navbar {
+      background: transparent;
+      border-bottom: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+    .home-page .nav-container {
+      position: relative;
+    }
+    .home-page .nav-links {
+      position: absolute;
+      left: 50%;
+      translate: -50% 0;
+    }
+    .home-page .nav-links a {
+      position: relative;
+      padding: 8px 2px;
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 500;
+      transition: color .25s ease, transform .25s ease;
+    }
+    .home-page .nav-links {
+      gap: 28px;
+      padding: 7px 22px;
+      border: 1px solid rgba(255, 255, 255, .82);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .58);
+      box-shadow: 0 8px 28px rgba(15, 23, 42, .09), inset 0 1px 0 rgba(255, 255, 255, .9);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      animation: nav-wave-float 6s ease-in-out infinite;
+    }
+    .home-page .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      right: 50%;
+      bottom: 2px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      transition: left .28s ease, right .28s ease;
+    }
+    .home-page .nav-links a:hover {
+      color: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+    .home-page .nav-links a:hover::after,
+    .home-page .nav-links a[aria-current="page"]::after {
+      left: 0;
+      right: 0;
+    }
+    .home-page .nav-links a[aria-current="page"] {
+      color: var(--blue-dark);
+      animation: nav-current-glow 3s ease-in-out infinite;
+    }
+    @keyframes nav-current-glow {
+      0%, 100% { text-shadow: 0 0 0 rgba(37,99,235,0); }
+      50% { text-shadow: 0 0 12px rgba(37,99,235,.28); }
+    }
+    @keyframes nav-wave-float {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+      25% { transform: translate3d(0, -3px, 0) rotate(-.25deg); }
+      50% { transform: translate3d(0, 1px, 0) rotate(0); }
+      75% { transform: translate3d(0, -2px, 0) rotate(.25deg); }
+    }
+    .developer-hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 130px 24px 80px;
+      background:
+        radial-gradient(ellipse at 80% 15%, rgba(59,130,246,.13), transparent 42%),
+        radial-gradient(ellipse at 15% 85%, rgba(16,185,129,.1), transparent 42%),
+        var(--bg);
+      text-align: center;
+    }
+    .developer-hero .hero-content { position: relative; z-index: 2; max-width: 900px; }
+    .developer-hero .hero-subtitle { max-width: 720px; }
+    .developer-wave {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: min(38vh, 320px);
+      pointer-events: none;
+      animation: developer-wave-drift 18s ease-in-out infinite alternate;
+    }
+    .developer-wave path { fill: url(#developer-wave-gradient); }
+    .developer-wave-back {
+      top: 16px;
+      opacity: .42;
+      animation-duration: 25s;
+      animation-direction: alternate-reverse;
+    }
+    .developer-wave-back path { fill: #60a5fa; opacity: .23; }
+    @keyframes developer-wave-drift {
+      from { transform: translateX(-2%); }
+      to { transform: translateX(-50%); }
+    }
+    .developer-values {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      text-align: left;
+    }
+    .developer-value {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.72);
+    }
+    .developer-value h2 { margin-bottom: 8px; font: 700 20px 'Space Grotesk', sans-serif; }
+    .developer-value p { color: var(--text-secondary); font-size: 15px; }
+    .developer-contact { padding: 32px 24px 64px; text-align: center; color: var(--text-muted); }
+    @media (max-width: 700px) {
+      .developer-values { grid-template-columns: 1fr; }
+      .developer-value { text-align: center; }
+      .developer-wave { height: 260px; }
+    }
+    @media (max-width: 900px) {
+      .home-page .nav-links {
+        display: none;
+      }
+      .home-page .nav-links.open {
+        display: flex;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 16px;
+        right: 16px;
+        translate: none;
+        padding: 20px 24px;
+        border: 1px solid rgba(255, 255, 255, .82);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .88);
+        box-shadow: 0 12px 32px rgba(15, 23, 42, .12);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+        animation: none;
+      }
+      .home-page .hamburger { display: flex; }
+    }
+    @media (max-width: 768px) {
+      .home-page .nav-links.open {
+        top: calc(100% + 8px);
+        left: 16px;
+        right: 16px;
+        padding: 20px 24px;
+        border: 1px solid rgba(255, 255, 255, .82);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .88);
+        box-shadow: 0 12px 32px rgba(15, 23, 42, .12);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+        animation: none;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .developer-wave,
+      .home-page .nav-links,
+      .home-page .nav-links a[aria-current="page"] { animation: none; }
+      .home-page .nav-links a,
+      .home-page .nav-links a::after { transition: none; }
+    }
+  </style>
+</head>
+<body class="home-page">
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="NovaSphere, inicio">
+        <svg viewBox="0 0 40 40" class="logo-icon" aria-hidden="true">
+          <rect x="2" y="2" width="36" height="36" rx="11" fill="#2563EB"/>
+          <path d="M11 28V12h4l10 10V12h4v16h-4L15 18v10z" fill="#fff"/>
+          <circle cx="31" cy="9" r="3" fill="#A3E635"/>
+        </svg>
+        <span class="logo-text">NovaSphere</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="index.html" aria-current="page">Nosotros</a>
+        <a href="sistema-entrega.html">Sistema de entrega</a>
+        <a href="nuestra-forma-de-trabajar.html">Nuestra forma de trabajar</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="developer-hero" id="inicio">
+      <svg class="developer-wave developer-wave-back" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 170 C240 90 480 234 720 170 C960 106 1200 234 1440 170 C1680 90 1920 234 2160 170 C2400 106 2640 234 2880 170 V0 H0Z" />
+      </svg>
+      <svg class="developer-wave" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="developer-wave-gradient" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" />
+            <stop offset="100%" stop-color="#10b981" />
+          </linearGradient>
+        </defs>
+        <path d="M0 196 C240 132 480 270 720 196 C960 122 1200 270 1440 196 C1680 132 1920 270 2160 196 C2400 122 2640 270 2880 196 V0 H0Z" />
+      </svg>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Somos desarrolladores de software</p>
+        <h1 class="hero-title">
+          Creamos tecnología<br />
+          <span class="gradient-text">para resolver necesidades reales.</span>
+        </h1>
+        <p class="hero-subtitle">
+          Diseñamos y construimos sistemas digitales pensando en las personas
+          y en la forma de trabajar de cada negocio. Convertimos ideas y procesos
+          en herramientas claras, útiles y preparadas para crecer.
+        </p>
+        <div class="hero-actions">
+          <a href="sistema-entrega.html" class="btn-primary">Conoce nuestro sistema de entrega</a>
+          <a href="nuestra-forma-de-trabajar.html" class="btn-secondary">Nuestra forma de trabajar</a>
+        </div>
+        <div class="developer-values">
+          <article class="developer-value">
+            <h2>Desarrollo a la medida</h2>
+            <p>Construimos plataformas web y aplicaciones móviles según las necesidades de cada proyecto.</p>
+          </article>
+          <article class="developer-value">
+            <h2>Soluciones conectadas</h2>
+            <p>Integramos sistemas, datos y procesos para que el trabajo fluya de principio a fin.</p>
+          </article>
+          <article class="developer-value">
+            <h2>Enfoque práctico</h2>
+            <p>Nos enfocamos en crear herramientas sencillas de usar, confiables y listas para evolucionar.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="developer-contact">
+    <p>Somos NovaSphere, un equipo enfocado en crear soluciones de software útiles y a la medida.</p>
+    <p><a href="sistema-entrega.html">Conoce nuestro sistema de entrega</a></p>
+    <p><a href="nuestra-forma-de-trabajar.html">Nuestra forma de trabajar</a></p>
+    <p><a href="mailto:alexandrescruz7@gmail.com">Contacto: Alex · alexandrescruz7@gmail.com</a></p>
+    <p>© 2026 NovaSphere · Desarrollo de sistemas</p>
+  </footer>
+  <script>
+    const menuButton = document.getElementById('hamburger');
+    const menu = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('open', !expanded);
+    });
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>

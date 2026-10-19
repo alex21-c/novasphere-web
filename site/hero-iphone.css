@@ -1,0 +1,218 @@
+/* ===== HERO IPHONE + NOTIFICACIÓN ===== */
+.iphone-3d {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 190px; height: 400px; z-index: 5;
+  /* El .device-stage es flex-row y .hero-real3d ocupa todo el ancho del stage:
+     sin esto el navegador reparte el desbordamiento comprimiendo el iPhone
+     (~160px de ancho) y se ve como un rectangulo angosto/recortado. */
+  flex-shrink: 0;
+  transform-style: preserve-3d; transition: all 0.9s cubic-bezier(0.34,1.56,0.64,1);
+  opacity: 0; pointer-events: none;
+}
+.iphone-3d.active { opacity: 1; pointer-events: auto; }
+.iphone-device {
+  position: absolute; inset: 0; border-radius: 44px;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px var(--glass-border),
+    inset 0 0 60px rgba(34,211,238,0.05);
+  transform-style: preserve-3d; transform: rotateY(8deg) rotateX(4deg);
+}
+.iphone-screen {
+  position: relative;
+  border-radius: 32px; background: #000; overflow: hidden; box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.iphone-dynamic-island {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 130px; height: 26px; border-radius: 0 0 16px 16px;
+  background: rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.iphone-home {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  width: 52px; height: 8px; border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+}
+.iphone-ui {
+  position: absolute; inset: 16px; display: flex; flex-direction: column;
+  font-family: 'Inter', sans-serif;
+}
+.iphone-header {
+  display: flex; justify-content: space-between; align-items: center; padding: 8px 4px;
+}
+.iphone-header .title { font-size: 15px; font-weight: 600; color: #fff; }
+.iphone-status { display: flex; gap: 6px; font-size: 11px; color: #94a3b8; }
+.iphone-body { flex: 1; overflow: hidden; position: relative; }
+.route-card {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+  border-radius: 24px; border: 1px solid rgba(255,255,255,0.06);
+  padding: 20px; display: flex; flex-direction: column; gap: 14px;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.route-card.visible { opacity: 1; transform: translateY(0); }
+.route-header { display: flex; align-items: center; gap: 10px; }
+.route-dot {
+  width: 10px; height: 10px; border-radius: 50%; background: var(--neon-cyan);
+  box-shadow: 0 0 12px var(--neon-cyan); animation: pulseGlow 2s ease-in-out infinite;
+}
+.route-title { font-size: 14px; font-weight: 700; color: #fff; }
+.route-desc { font-size: 12px; color: #94a3b8; }
+.route-action { margin-top: auto; display: flex; gap: 10px; }
+.btn-accept {
+  flex: 1; padding: 14px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--neon-emerald), #059669);
+  color: #fff; font-weight: 700; font-size: 14px; border: none; cursor: pointer;
+  box-shadow: 0 0 20px rgba(16,185,129,0.45); transition: all 0.2s ease;
+}
+.btn-accept.accepted { background: #64748b; box-shadow: none; cursor: default; }
+.btn-accept:active:not(.accepted) { transform: scale(0.96); }
+.btn-decline {
+  padding: 14px 16px; border-radius: 14px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  color: #94a3b8; font-weight: 600; font-size: 14px; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-decline:hover {
+  background: rgba(239,68,68,0.15); color: #ef4444;
+  border-color: rgba(239,68,68,0.3);
+}
+.mobile-notification {
+  position: absolute; bottom: -70px; left: 50%; transform: translateX(-50%);
+  width: 220px; background: var(--glass-bg);
+  border: 1px solid var(--glass-border); border-radius: 16px;
+  padding: 14px 16px; backdrop-filter: blur(20px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 0 1px var(--glass-border);
+  z-index: 20; opacity: 0; pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.mobile-notification.show { bottom: -50px; opacity: 1; pointer-events: auto; }
+.notif-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);
+  color: var(--neon-emerald); display: flex; align-items: center;
+  justify-content: center; font-size: 18px;
+}
+.notif-body { display: flex; flex-direction: column; gap: 4px; }
+.notif-title { font-size: 13px; font-weight: 700; color: #fff; }
+.notif-sub { font-size: 11px; color: #94a3b8; }
+.notif-progress { width: 100%; height: 4px; background: rgba(255,255,255,0.08);
+  border-radius: 2px; overflow: hidden; }
+.notif-progress-bar { height: 100%; background: var(--neon-emerald); width: 0%;
+  transition: width 1s ease; }
+.notif-progress-bar.filled { width: 100%; }
+.finger-tap {
+  position: absolute; width: 56px; height: 56px;
+  background: rgba(255,255,255,0.1); border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.2); display: flex;
+  align-items: center; justify-content: center; font-size: 26px;
+  pointer-events: none; z-index: 25; opacity: 0; transition: all 0.2s ease;
+  user-select: none;
+}
+.finger-tap.active { opacity: 1; transform: scale(0.85);
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.4)); }
+
+/* ===== IFRAME DENTRO DE LA PANTALLA DEL IPHONE ===== */
+.iphone-screen iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 26px;
+  background: #020617;
+  /* "Puro video": igual que en el modelo 3D real, sin interacción. */
+  pointer-events: none;
+  /* --- NUEVO: modo "puro video" totalmente no interactivo --- */
+  touch-action: none;        /* Ignora toques, scrolls, gestos */
+  user-select: none;         /* Impide selección de texto */
+  -webkit-user-select: none; /* Safari */
+  -webkit-touch-callout: none; /* iOS */
+}
+.iphone-screen iframe::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+}
+.iphone-screen .iphone-screen-label {
+  position: absolute;
+  bottom: 18px; left: 22px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.iphone-screen-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: rgba(255,255,255,0.3);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  z-index: 2;
+}
+.iphone-screen-loading .spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.12);
+  border-top-color: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin-right: 12px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+/* Que el iframe esté oculto hasta que el iphone aparezca */
+.iphone-3d .iphone-screen iframe {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s ease;
+}
+.iphone-3d.active .iphone-screen iframe {
+  visibility: visible;
+  opacity: 1;
+}
+/* Mensaje flash cuando el demo de la laptop termina y el phone aparece */
+.iphone-appeared .iphone-screen iframe {
+  animation: iphoneAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes iphoneAppear {
+  0% { transform: translateY(24px) scale(0.92); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+/* Notificación cuando el demo de la laptop termina */
+.iphone-total-finish .iphone-screen {
+  border-color: rgba(34, 211, 238, 0.35);
+}
+.iphone-total-finish .iphone-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  box-shadow: 0 0 40px rgba(34,211,238,0.08);
+}
+/* Media queries */
+@media (max-width: 1024px) {
+  .iphone-3d { width: 160px; height: 340px; }
+}
+@media (max-width: 640px) {
+  .iphone-3d { width: 140px; height: 290px; }
+  .iphone-screen { border-radius: 26px; }
+  .iphone-device { border-radius: 38px; }
+  .iphone-screen iframe { border-radius: 22px; }
+  .iphone-screen .iphone-screen-label { font-size: 9px; bottom: 14px; left: 16px; }
+}
+
+
