@@ -13,6 +13,29 @@
   function isMobile() {
     return window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
   }
+
+  // ---- Carrusel de fotos dentro de la laptop ----
+  var photoIndex = 0;
+  var photoTotal = 4;
+
+  function updatePhotoCarousel() {
+    var items = document.querySelectorAll('#laptopPhotos .laptop-photo-item');
+    var counter = document.querySelector('#laptopPhotos .laptop-photo-counter');
+    items.forEach(function (item, i) {
+      item.classList.toggle('active', i === photoIndex);
+    });
+    if (counter) counter.textContent = (photoIndex + 1) + ' / ' + photoTotal;
+  }
+
+  function nextPhoto() {
+    photoIndex = (photoIndex + 1) % photoTotal;
+    updatePhotoCarousel();
+  }
+  function prevPhoto() {
+    photoIndex = (photoIndex - 1 + photoTotal) % photoTotal;
+    updatePhotoCarousel();
+  }
+
   function showVideo() {
     var wrap = document.getElementById('demoVideoWrap');
     if (!wrap) return;
@@ -30,6 +53,10 @@
     // Mostrar las fotos del sistema dentro de la pantalla de la laptop
     var photos = document.getElementById('laptopPhotos');
     if (photos) { photos.classList.remove('hidden'); photos.style.display = 'block'; }
+
+    // Reiniciar carrusel a la primera foto
+    photoIndex = 0;
+    updatePhotoCarousel();
 
     // Ocultar el iframe interactivo mientras se ven las fotos
     var iframe = document.getElementById('laptopWebView');
@@ -71,6 +98,16 @@
         if (showingPhotos) showVideo(); else show3D();
       });
     }
+    // Navegación del carrusel de fotos (delegación para evitar problemas si el DOM cambia)
+    document.addEventListener('click', function (e) {
+      if (!showingPhotos) return;
+      var target = e.target;
+      var nav = target.closest('.laptop-photo-nav');
+      if (!nav) return;
+      e.preventDefault();
+      if (nav.classList.contains('next')) nextPhoto();
+      if (nav.classList.contains('prev')) prevPhoto();
+    });
     if (isLowEnd() || isMobile()) { showVideo(); showingPhotos = true; }
   });
 })();
