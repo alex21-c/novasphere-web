@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="assets/novasphere-logo.svg" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="ambient-audio.css" />
   <style>
     .work-page .navbar {
       background: transparent;
@@ -503,6 +504,16 @@
   <footer class="work-footer">
     <a href="index.html">NovaSphere · Inicio</a>
   </footer>
+  <aside class="ambient-audio" aria-label="Sonido ambiental opcional">
+    <button class="ambient-audio-toggle" id="ambientAudioToggle" type="button" aria-pressed="false">
+      <span class="ambient-audio-icon" aria-hidden="true">♫</span>
+      <span class="ambient-audio-label">Activar sonido</span>
+    </button>
+    <label for="ambientAudioVolume">Volumen bajo
+      <input id="ambientAudioVolume" type="range" min="0" max="0.04" step="0.002" value="0.018" />
+    </label>
+    <span class="ambient-audio-status" id="ambientAudioStatus" role="status" aria-live="polite"></span>
+  </aside>
   <script>
     const menuButton = document.getElementById('hamburger');
     const menu = document.querySelector('.nav-links');
@@ -518,5 +529,6 @@
       });
     });
   </script>
+  <script src="ambient-audio.js"></script>
 </body>
 </html>
