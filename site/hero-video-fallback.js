@@ -10,27 +10,33 @@
     } catch (e) {}
     return false;
   }
+  function isMobile() {
+    return window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  }
   function showVideo() {
     var wrap = document.getElementById('demoVideoWrap');
-    var stage = document.getElementById('deviceStage');
     if (!wrap) return;
     wrap.hidden = false;
+    wrap.style.display = 'block';
     var video = document.getElementById('demoVideo');
     if (video) { try { video.play(); } catch (e) {} }
     // ocultar 3D pesado
-    ['.hero-real3d', '#laptop3d', '#iphone3d', '#iphoneRealWrap'].forEach(function (sel) {
+    ['.hero-real3d', '#laptop3d', '#iphone3d', '#iphoneRealWrap', '#realLaptopWrap'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { el.style.display = 'none'; });
     });
+    document.body.classList.add('video-mode');
+    var stage = document.getElementById('deviceStage');
     if (stage) stage.classList.add('video-mode');
   }
   function show3D() {
     var wrap = document.getElementById('demoVideoWrap');
-    if (wrap) wrap.hidden = true;
+    if (wrap) { wrap.hidden = true; wrap.style.display = 'none'; }
     var video = document.getElementById('demoVideo');
     if (video) { try { video.pause(); } catch (e) {} }
     ['.hero-real3d', '#laptop3d', '#iphone3d'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { el.style.display = ''; });
     });
+    document.body.classList.remove('video-mode');
     var stage = document.getElementById('deviceStage');
     if (stage) stage.classList.remove('video-mode');
   }
@@ -42,6 +48,6 @@
         if (wrap && wrap.hidden) showVideo(); else show3D();
       });
     }
-    if (isLowEnd()) showVideo();
+    if (isLowEnd() || isMobile()) showVideo();
   });
 })();
