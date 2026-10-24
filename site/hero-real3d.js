@@ -10,9 +10,7 @@
     var err = document.getElementById('realLaptopError');
     if (loader) loader.classList.add('hidden');
     if (err) { err.textContent = msg; err.classList.add('show'); }
-    // Ocultar el mockup CSS del laptop (gira vacío cuando el 3D real no carga)
-    var laptopMock = document.getElementById('laptop3d');
-    if (laptopMock) laptopMock.style.display = 'none';
+    // NO ocultar #laptop3d: el iframe con el demo debe seguir visible en su pantalla
     var realWrap = document.getElementById('realLaptopWrap');
     if (realWrap) realWrap.style.display = 'none';
     // Cargar el demo en el iframe de la laptop si aún no se ha cargado

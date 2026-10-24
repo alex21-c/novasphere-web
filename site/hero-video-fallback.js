@@ -16,16 +16,17 @@
   function showVideo() {
     var wrap = document.getElementById('demoVideoWrap');
     if (!wrap) return;
-    wrap.hidden = false;
-    wrap.style.display = 'block';
+    // NO mostrar el video MP4 como reemplazo; el iframe de la laptop cargará el demo real
+    wrap.hidden = true;
+    wrap.style.display = 'none';
     var video = document.getElementById('demoVideo');
-    if (video) { try { video.play(); } catch (e) {} }
-    // Cargar el demo en el iframe de la laptop por si el usuario cambia al modo 3D
+    if (video) { try { video.pause(); } catch (e) {} }
+    // Cargar el demo en el iframe de la laptop para que se vea en su pantalla
     if (typeof window.activateDeliveryDemo === 'function') {
       window.activateDeliveryDemo();
     }
-    // ocultar 3D pesado
-    ['.hero-real3d', '#laptop3d', '#iphone3d', '#iphoneRealWrap', '#realLaptopWrap'].forEach(function (sel) {
+    // ocultar solo el 3D pesado (Three.js), NO el mockup CSS de la laptop (#laptop3d)
+    ['.hero-real3d', '#iphoneRealWrap', '#realLaptopWrap'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { el.style.display = 'none'; });
     });
     document.body.classList.add('video-mode');

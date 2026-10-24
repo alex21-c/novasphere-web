@@ -70,10 +70,9 @@
   .hero-real3d { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
   #realLaptopWrap { width: 100%; height: 92vw; min-height: 380px; max-height: none; border-radius: 0; }
 }
-/* video-mode: asegurar que el video quede por encima y el 3D oculto */
+/* video-mode: ocultar solo el 3D pesado (Three.js), NO el mockup CSS de la laptop
+   para que el iframe con el demo siga visible en su pantalla */
 body.video-mode .hero-real3d,
-body.video-mode #laptop3d,
-body.video-mode #iphone3d,
 body.video-mode #iphoneRealWrap { display: none !important; }
 .demo-video-wrap { position: relative; z-index: 20; }
 #demoVideo { position: relative; z-index: 20; }
