@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="hero-anim.css" />
   <link rel="stylesheet" href="hero-models.css?v=20261018l" />
   <link rel="stylesheet" href="hero-real3d.css" />
-  <link rel="stylesheet" href="ambient-audio.css" />
+  <link rel="stylesheet" href="promo-motion.css" />
   <style>
     .system-page .navbar {
       background: transparent;
@@ -454,21 +454,9 @@
   <footer class="developer-contact">
     <a href="index.html">Volver a NovaSphere</a>
   </footer>
-  <aside class="ambient-audio" aria-label="Sonido ambiental opcional">
-    <button class="ambient-audio-toggle" id="ambientAudioToggle" type="button" aria-pressed="false">
-      <span class="ambient-audio-icon" aria-hidden="true">♫</span>
-      <span class="ambient-audio-label">Activar sonido</span>
-    </button>
-    <label for="ambientAudioVolume">Volumen bajo
-      <input id="ambientAudioVolume" type="range" min="0" max="0.04" step="0.002" value="0.018" />
-    </label>
-    <span class="ambient-audio-status" id="ambientAudioStatus" role="status" aria-live="polite"></span>
-  </aside>
-
   <script src="hero-flow.js?v=20261018n"></script>
   <script src="hero-models.js?v=20261018l"></script>
   <script src="hero-real3d.js?v=20261018l"></script>
-  <script src="ambient-audio.js"></script>
   <script>
     const menuButton = document.getElementById('hamburger');
     const menu = document.querySelector('.nav-links');
@@ -484,5 +472,6 @@
       });
     });
   </script>
+  <script src="promo-motion.js"></script>
 </body>
 </html>
