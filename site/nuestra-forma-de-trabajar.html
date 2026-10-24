@@ -120,6 +120,66 @@
     }
     .work-card h3 { margin-bottom: 9px; font: 700 19px 'Space Grotesk', sans-serif; }
     .work-card p { color: var(--text-secondary); font-size: 15px; }
+    .work-design { margin-top: 58px; }
+    .work-design-heading { max-width: 720px; margin: 0 auto 30px; text-align: center; }
+    .work-design-heading h2 {
+      margin-bottom: 12px;
+      font: 700 clamp(28px, 4vw, 40px)/1.15 'Space Grotesk', sans-serif;
+    }
+    .work-design-heading p { color: var(--text-secondary); }
+    .design-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .design-sample {
+      overflow: hidden;
+      border: 1px solid rgba(15,23,42,.1);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 12px 32px rgba(15,23,42,.05);
+    }
+    .design-sample-preview {
+      min-height: 132px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .design-sample-preview.clean { color: #172554; background: linear-gradient(135deg, #eff6ff, #fff); }
+    .design-sample-preview.bold { color: #fff; background: linear-gradient(135deg, #4338ca, #db2777); }
+    .design-sample-preview.dark { color: #f8fafc; background: linear-gradient(135deg, #0f172a, #334155); }
+    .design-sample-preview strong { font: 700 20px 'Space Grotesk', sans-serif; }
+    .design-sample-preview button {
+      align-self: flex-start;
+      padding: 6px 11px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: #2563eb;
+      font: 600 11px var(--font-sans);
+    }
+    .design-sample-preview.bold button { color: #4338ca; background: #fff; }
+    .design-sample-preview.dark button { color: #0f172a; background: #a7f3d0; }
+    .design-sample-copy { padding: 18px; }
+    .design-sample-copy h3 { margin-bottom: 6px; font: 700 17px 'Space Grotesk', sans-serif; }
+    .design-sample-copy p { color: var(--text-secondary); font-size: 14px; }
+    .design-palette { display: flex; gap: 7px; margin-top: 12px; }
+    .design-palette span { width: 21px; height: 21px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(15,23,42,.12); }
+    .design-details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .design-detail {
+      padding: 20px;
+      border-left: 3px solid #3b82f6;
+      border-radius: 12px;
+      background: rgba(255,255,255,.8);
+    }
+    .design-detail h3 { margin-bottom: 6px; font: 700 17px 'Space Grotesk', sans-serif; }
+    .design-detail p { color: var(--text-secondary); font-size: 14px; }
     .process-section { margin-top: 72px; }
     .process-heading { max-width: 720px; margin: 0 auto 34px; text-align: center; }
     .process-heading h2 {
@@ -229,6 +289,7 @@
     }
     @media (max-width: 700px) {
       .work-grid { grid-template-columns: 1fr; }
+      .design-showcase, .design-details { grid-template-columns: 1fr; }
       .process-grid, .work-principles { grid-template-columns: 1fr; }
       .work-content { padding: 64px 20px; }
       .purchase-contact { grid-template-columns: 1fr; padding: 26px 22px; text-align: center; }
@@ -237,6 +298,7 @@
     @media (min-width: 701px) and (max-width: 950px) {
       .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .work-principles { grid-template-columns: 1fr; }
+      .design-showcase { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (prefers-reduced-motion: reduce) {
       .work-wave, .work-page .nav-links { animation: none; }
@@ -318,6 +380,64 @@
             <p>Ampliación de sistemas existentes, nuevas funciones y ajustes para responder a necesidades cambiantes.</p>
           </article>
         </div>
+        <section class="work-design" aria-labelledby="work-design-title">
+          <div class="work-design-heading">
+            <span class="section-tag">Diseño visual y experiencia</span>
+            <h2 id="work-design-title">Elegimos juntos cómo se verá y se sentirá tu producto.</h2>
+            <p>La identidad visual se define contigo: podemos partir de tu marca o crear una propuesta de colores, tipografía y componentes coherente con tus clientes.</p>
+          </div>
+          <div class="design-showcase">
+            <article class="design-sample">
+              <div class="design-sample-preview clean">
+                <strong>Claro y profesional</strong>
+                <button type="button">Ver servicios</button>
+              </div>
+              <div class="design-sample-copy">
+                <h3>Minimalista</h3>
+                <p>Diseño despejado, tonos claros y navegación simple para facilitar la lectura.</p>
+                <div class="design-palette" aria-label="Paleta de ejemplo azul y neutros">
+                  <span style="background:#2563eb"></span><span style="background:#eff6ff"></span><span style="background:#cbd5e1"></span><span style="background:#172554"></span>
+                </div>
+              </div>
+            </article>
+            <article class="design-sample">
+              <div class="design-sample-preview bold">
+                <strong>Una marca que destaca</strong>
+                <button type="button">Explorar</button>
+              </div>
+              <div class="design-sample-copy">
+                <h3>Vibrante y creativo</h3>
+                <p>Degradados, acentos de color y elementos gráficos con una personalidad más expresiva.</p>
+                <div class="design-palette" aria-label="Paleta de ejemplo morado y rosa">
+                  <span style="background:#4338ca"></span><span style="background:#db2777"></span><span style="background:#fb923c"></span><span style="background:#fef3c7"></span>
+                </div>
+              </div>
+            </article>
+            <article class="design-sample">
+              <div class="design-sample-preview dark">
+                <strong>Hecho para concentrarse</strong>
+                <button type="button">Abrir panel</button>
+              </div>
+              <div class="design-sample-copy">
+                <h3>Moderno y oscuro</h3>
+                <p>Contraste cuidado y jerarquía clara para paneles y aplicaciones, también con opción de tema claro.</p>
+                <div class="design-palette" aria-label="Paleta de ejemplo oscura y verde">
+                  <span style="background:#0f172a"></span><span style="background:#334155"></span><span style="background:#a7f3d0"></span><span style="background:#f8fafc"></span>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="design-details">
+            <article class="design-detail">
+              <h3>Páginas web adaptables</h3>
+              <p>Diseñamos páginas promocionales, sitios informativos y paneles que se ajustan a pantallas de celular, tableta y computadora.</p>
+            </article>
+            <article class="design-detail">
+              <h3>Interfaces de aplicaciones</h3>
+              <p>Podemos crear flujos y pantallas para iniciar sesión, consultar información, gestionar tareas, recibir avisos y completar formularios con facilidad.</p>
+            </article>
+          </div>
+        </section>
         <section class="process-section" aria-labelledby="process-title">
           <div class="process-heading">
             <span class="section-tag">Un proceso claro</span>
@@ -375,7 +495,7 @@
             </p>
             <p class="contact-note">Contacto: Alex · <a href="mailto:alexandrescruz7@gmail.com">alexandrescruz7@gmail.com</a></p>
           </div>
-          <a class="btn-contact" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alexandrescruz7%40gmail.com" target="_blank" rel="noopener noreferrer">Escribir a Alex</a>
+          <a class="btn-contact" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alexandrescruz7%40gmail.com&amp;su=Hablemos%20de%20tu%20proyecto&amp;body=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto.%0A%0AMi%20idea%20o%20necesidad%3A%20" target="_blank" rel="noopener noreferrer">Escribir a Alex</a>
         </aside>
       </div>
     </section>

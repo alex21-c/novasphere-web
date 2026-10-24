@@ -302,6 +302,67 @@
     .pricing-panel .btn-primary:hover { background: #eff6ff; box-shadow: 0 8px 24px rgba(255,255,255,.18); }
     .home-cta { text-align: center; }
     .home-cta .btn-primary { display: inline-flex; margin-top: 20px; }
+    .visual-design-section { background: linear-gradient(145deg, #eef4ff, #f0fdf4); }
+    .visual-style-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .visual-style-card {
+      overflow: hidden;
+      border: 1px solid rgba(15,23,42,.1);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 14px 36px rgba(15,23,42,.07);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .visual-style-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 42px rgba(15,23,42,.12);
+    }
+    .style-preview {
+      min-height: 152px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .style-preview.light { color: #172554; background: linear-gradient(135deg, #eff6ff, #fff); }
+    .style-preview.vibrant { color: #fff; background: linear-gradient(135deg, #4f46e5, #ec4899); }
+    .style-preview.natural { color: #183b35; background: linear-gradient(135deg, #d1fae5, #fef3c7); }
+    .preview-browser { display: flex; gap: 5px; }
+    .preview-browser span { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .55; }
+    .preview-heading { font: 700 22px/1.15 'Space Grotesk', sans-serif; }
+    .preview-button {
+      align-self: flex-start;
+      padding: 6px 11px;
+      border-radius: 999px;
+      color: #fff;
+      background: #2563eb;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .vibrant .preview-button { color: #4f46e5; background: #fff; }
+    .natural .preview-button { color: #fff; background: #15803d; }
+    .style-card-copy { padding: 20px; }
+    .style-card-copy h3 { margin-bottom: 6px; font: 700 18px 'Space Grotesk', sans-serif; }
+    .style-card-copy p { color: var(--text-secondary); font-size: 14px; }
+    .palette-swatches { display: flex; gap: 7px; margin-top: 13px; }
+    .palette-swatches span { width: 24px; height: 24px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(15,23,42,.12); }
+    .design-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .design-option {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.8);
+    }
+    .design-option h3 { margin-bottom: 7px; font: 700 17px 'Space Grotesk', sans-serif; }
+    .design-option p { color: var(--text-secondary); font-size: 14px; }
     .developer-contact { padding: 32px 24px 64px; text-align: center; color: var(--text-muted); }
     @media (max-width: 700px) {
       .developer-values { grid-template-columns: 1fr; }
@@ -312,10 +373,11 @@
       .home-details { padding: 68px 20px; }
       .about-panel, .pricing-panel { grid-template-columns: 1fr; }
       .services-grid, .outcomes-grid { grid-template-columns: 1fr; }
+      .visual-style-grid, .design-options { grid-template-columns: 1fr; }
       .pricing-panel .btn-primary { justify-self: start; white-space: normal; }
     }
     @media (min-width: 701px) and (max-width: 950px) {
-      .services-grid, .outcomes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .services-grid, .outcomes-grid, .visual-style-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 900px) {
       .home-page .nav-links {
@@ -523,6 +585,69 @@
         </div>
       </div>
     </section>
+    <section class="home-details visual-design-section" id="diseno" aria-labelledby="design-title">
+      <div class="home-container">
+        <div class="home-section-heading">
+          <span class="section-tag">Diseño a tu estilo</span>
+          <h2 id="design-title">Una experiencia visual que se siente como tu marca.</h2>
+          <p>Definimos juntos colores, tipografías y componentes para que tu página o aplicación sea atractiva, clara y fácil de usar en celular y computadora.</p>
+        </div>
+        <div class="visual-style-grid">
+          <article class="visual-style-card">
+            <div class="style-preview light">
+              <div class="preview-browser"><span></span><span></span><span></span></div>
+              <span class="preview-heading">Simple y profesional</span>
+              <span class="preview-button">Conocer más</span>
+            </div>
+            <div class="style-card-copy">
+              <h3>Claro y minimalista</h3>
+              <p>Fondos limpios, azul y blanco, espacios amplios y navegación directa para transmitir confianza.</p>
+              <div class="palette-swatches" aria-label="Paleta azul, blanco y gris">
+                <span style="background:#2563eb"></span><span style="background:#ffffff"></span><span style="background:#cbd5e1"></span><span style="background:#172554"></span>
+              </div>
+            </div>
+          </article>
+          <article class="visual-style-card">
+            <div class="style-preview vibrant">
+              <div class="preview-browser"><span></span><span></span><span></span></div>
+              <span class="preview-heading">Hazlo memorable</span>
+              <span class="preview-button">Empezar</span>
+            </div>
+            <div class="style-card-copy">
+              <h3>Colorido y dinámico</h3>
+              <p>Colores vivos, degradados y elementos gráficos para marcas que quieren destacar.</p>
+              <div class="palette-swatches" aria-label="Paleta morada, rosa y coral">
+                <span style="background:#4f46e5"></span><span style="background:#ec4899"></span><span style="background:#fb923c"></span><span style="background:#fef3c7"></span>
+              </div>
+            </div>
+          </article>
+          <article class="visual-style-card">
+            <div class="style-preview natural">
+              <div class="preview-browser"><span></span><span></span><span></span></div>
+              <span class="preview-heading">Crece a tu ritmo</span>
+              <span class="preview-button">Descubrir</span>
+            </div>
+            <div class="style-card-copy">
+              <h3>Natural y cercano</h3>
+              <p>Verdes, tonos cálidos y formas suaves para una imagen humana, fresca y accesible.</p>
+              <div class="palette-swatches" aria-label="Paleta verde, crema y amarillo suave">
+                <span style="background:#15803d"></span><span style="background:#d1fae5"></span><span style="background:#fef3c7"></span><span style="background:#334155"></span>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="design-options">
+          <article class="design-option">
+            <h3>Páginas web con personalidad</h3>
+            <p>Desde una página promocional hasta un portal o panel administrativo, diseñamos la estructura, colores y componentes para tu público y tus objetivos.</p>
+          </article>
+          <article class="design-option">
+            <h3>Aplicaciones cómodas de usar</h3>
+            <p>Podemos crear interfaces móviles sencillas o completas, con navegación clara, formularios prácticos, notificaciones y opción de tema claro u oscuro.</p>
+          </article>
+        </div>
+      </div>
+    </section>
     <section class="home-details" id="costos" aria-labelledby="pricing-title">
       <div class="home-container">
         <div class="pricing-panel">
@@ -537,7 +662,7 @@
               <span>Soporte requerido</span>
             </div>
           </div>
-          <a class="btn-primary" href="mailto:alexandrescruz7@gmail.com?subject=Cotizaci%C3%B3n%20de%20proyecto">Solicitar cotización</a>
+          <a class="btn-primary" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alexandrescruz7%40gmail.com&amp;su=Cotizaci%C3%B3n%20de%20proyecto&amp;body=Hola%2C%20quisiera%20solicitar%20una%20cotizaci%C3%B3n.%0A%0AMi%20idea%20o%20necesidad%3A%20" target="_blank" rel="noopener noreferrer">Solicitar cotización</a>
         </div>
       </div>
     </section>
@@ -547,7 +672,7 @@
           <span class="section-tag">Empecemos</span>
           <h2 id="contact-title">¿Tienes un reto que podamos resolver?</h2>
           <p>Cuéntanos qué quieres mejorar. Conversemos sobre tus necesidades y las opciones para convertirlas en una solución digital.</p>
-          <a class="btn-primary" href="mailto:alexandrescruz7@gmail.com?subject=Hablemos%20de%20mi%20proyecto">Hablemos de tu proyecto</a>
+          <a class="btn-primary" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alexandrescruz7%40gmail.com&amp;su=Hablemos%20de%20mi%20proyecto&amp;body=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto.%0A%0AMi%20idea%20o%20necesidad%3A%20" target="_blank" rel="noopener noreferrer">Hablemos de tu proyecto</a>
         </div>
       </div>
     </section>
