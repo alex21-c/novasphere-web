@@ -21,6 +21,12 @@
     var video = document.getElementById('demoVideo');
     if (video) { try { video.pause(); } catch (e) {} }
 
+    // Forzar que la laptop CSS y sus fotos sean visibles (el 3D puede haberla ocultado con .loaded)
+    var lap = document.getElementById('laptop3d');
+    if (lap) lap.style.display = 'block';
+    var hr = document.querySelector('.hero-real3d');
+    if (hr) hr.classList.remove('loaded');
+
     // Mostrar las fotos del sistema dentro de la pantalla de la laptop
     var photos = document.getElementById('laptopPhotos');
     if (photos) { photos.classList.remove('hidden'); photos.style.display = 'block'; }
@@ -58,12 +64,13 @@
   }
   document.addEventListener('DOMContentLoaded', function () {
     var btn = document.getElementById('toggleDemoVideo');
+    var showingPhotos = false;
     if (btn) {
       btn.addEventListener('click', function () {
-        var wrap = document.getElementById('demoVideoWrap');
-        if (wrap && wrap.hidden) showVideo(); else show3D();
+        showingPhotos = !showingPhotos;
+        if (showingPhotos) showVideo(); else show3D();
       });
     }
-    if (isLowEnd() || isMobile()) showVideo();
+    if (isLowEnd() || isMobile()) { showVideo(); showingPhotos = true; }
   });
 })();
