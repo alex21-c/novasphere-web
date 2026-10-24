@@ -16,15 +16,19 @@
   function showVideo() {
     var wrap = document.getElementById('demoVideoWrap');
     if (!wrap) return;
-    // NO mostrar el video MP4 como reemplazo; el iframe de la laptop cargará el demo real
     wrap.hidden = true;
     wrap.style.display = 'none';
     var video = document.getElementById('demoVideo');
     if (video) { try { video.pause(); } catch (e) {} }
-    // Cargar el demo en el iframe de la laptop para que se vea en su pantalla
-    if (typeof window.activateDeliveryDemo === 'function') {
-      window.activateDeliveryDemo();
-    }
+
+    // Mostrar las fotos del sistema dentro de la pantalla de la laptop
+    var photos = document.getElementById('laptopPhotos');
+    if (photos) { photos.classList.remove('hidden'); photos.style.display = 'block'; }
+
+    // Ocultar el iframe interactivo mientras se ven las fotos
+    var iframe = document.getElementById('laptopWebView');
+    if (iframe) iframe.style.display = 'none';
+
     // ocultar solo el 3D pesado (Three.js), NO el mockup CSS de la laptop (#laptop3d)
     ['.hero-real3d', '#iphoneRealWrap', '#realLaptopWrap'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { el.style.display = 'none'; });
@@ -38,6 +42,13 @@
     if (wrap) { wrap.hidden = true; wrap.style.display = 'none'; }
     var video = document.getElementById('demoVideo');
     if (video) { try { video.pause(); } catch (e) {} }
+
+    // Ocultar las fotos y mostrar el iframe interactivo
+    var photos = document.getElementById('laptopPhotos');
+    if (photos) { photos.classList.add('hidden'); photos.style.display = 'none'; }
+    var iframe = document.getElementById('laptopWebView');
+    if (iframe) iframe.style.display = 'block';
+
     ['.hero-real3d', '#laptop3d', '#iphone3d'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { el.style.display = ''; });
     });

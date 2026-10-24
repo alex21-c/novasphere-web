@@ -295,11 +295,35 @@
             <div id="laptop3d" class="laptop-3d">
               <div class="laptop-screen">
                 <div class="laptop-screen-content">
+                  <!-- iframe del demo interactivo (modo 3D / alta gama) -->
                   <iframe id="laptopWebView" src="about:blank" data-src="demo.html" class="laptop-webview" allowfullscreen></iframe>
-                  <div id="laptopFallback" class="laptop-fallback hidden">
-                    <div class="fallback-icon">💻</div>
-                    <div class="fallback-text">Cargando el panel…</div>
-                    <div class="fallback-hint">La demostración interactiva aparecerá aquí.</div>
+
+                  <!-- Fotos del sistema dentro de la laptop (modo ligero / video) -->
+                  <div id="laptopPhotos" class="laptop-photos hidden">
+                    <div class="laptop-photo-item">
+                      <img src="assets/screens/panel-admin.png" alt="Panel de administración" class="laptop-photo-img">
+                      <div class="laptop-photo-caption">
+                        <strong>Panel de administración</strong> — Asigna entregas, rastrea mensajeros y gestiona guías en tiempo real.
+                      </div>
+                    </div>
+                    <div class="laptop-photo-item">
+                      <img src="assets/screens/app-repartidor.png" alt="App del repartidor" class="laptop-photo-img">
+                      <div class="laptop-photo-caption">
+                        <strong>App del repartidor</strong> — El mensajero recibe la ruta, navega con GPS y confirma la entrega.
+                      </div>
+                    </div>
+                    <div class="laptop-photo-item">
+                      <img src="assets/screens/rastreo-gps.png" alt="Rastreo GPS" class="laptop-photo-img">
+                      <div class="laptop-photo-caption">
+                        <strong>Rastreo en vivo</strong> — El cliente ve dónde está su paquete en el mapa, minuto a minuto.
+                      </div>
+                    </div>
+                    <div class="laptop-photo-item">
+                      <img src="assets/screens/prueba-entrega.png" alt="Prueba de entrega" class="laptop-photo-img">
+                      <div class="laptop-photo-caption">
+                        <strong>Prueba de entrega digital</strong> — Firma y foto al momento de recibir, sin papeles.
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -342,11 +366,9 @@
               </div>
               <div class="notif-progress"><div id="notifBar" class="notif-progress-bar"></div></div>
             </div>
-            <div id="demoVideoWrap" class="demo-video-wrap" hidden>
-              <video id="demoVideo" src="assets/demo.mp4" autoplay muted loop playsinline controls preload="metadata"></video>
-              <p class="demo-video-hint">Versión ligera de la demo (video) para dispositivos de bajos recursos.</p>
+            <div id="demoVideoWrap" class="demo-video-wrap" hidden style="display:none;">
             </div>
-            <button id="toggleDemoVideo" class="demo-video-toggle" type="button">Ver demo en video (ligero)</button>
+            <button id="toggleDemoVideo" class="demo-video-toggle" type="button">Ver demo en fotos (ligero)</button>
 
             <!-- Lightbox de imágenes del demo -->
             <div id="demoLightbox" class="demo-lightbox" hidden aria-modal="true" role="dialog" aria-label="Galería del demo 3D">
