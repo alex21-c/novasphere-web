@@ -120,6 +120,60 @@
     }
     .work-card h3 { margin-bottom: 9px; font: 700 19px 'Space Grotesk', sans-serif; }
     .work-card p { color: var(--text-secondary); font-size: 15px; }
+    .process-section { margin-top: 72px; }
+    .process-heading { max-width: 720px; margin: 0 auto 34px; text-align: center; }
+    .process-heading h2 {
+      margin-bottom: 12px;
+      font: 700 clamp(28px, 4vw, 40px)/1.15 'Space Grotesk', sans-serif;
+    }
+    .process-heading p { color: var(--text-secondary); }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .process-card {
+      padding: 22px;
+      border: 1px solid rgba(15,23,42,.1);
+      border-radius: 18px;
+      background: rgba(255,255,255,.9);
+    }
+    .process-number {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 16px;
+      place-items: center;
+      border-radius: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, #3b82f6, #10b981);
+      font-weight: 800;
+    }
+    .process-card h3 { margin-bottom: 8px; font: 700 17px 'Space Grotesk', sans-serif; }
+    .process-card p { color: var(--text-secondary); font-size: 14px; }
+    .work-principles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .work-principle {
+      padding: 22px;
+      border-left: 3px solid #10b981;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .work-principle h3 { margin-bottom: 7px; font: 700 17px 'Space Grotesk', sans-serif; }
+    .work-principle p { color: var(--text-secondary); font-size: 14px; }
+    .project-cost-note {
+      margin-top: 28px;
+      padding: 22px;
+      border: 1px solid rgba(59,130,246,.2);
+      border-radius: 16px;
+      background: #eff6ff;
+    }
+    .project-cost-note h3 { margin-bottom: 7px; font: 700 18px 'Space Grotesk', sans-serif; }
+    .project-cost-note p { color: var(--text-secondary); font-size: 14px; }
     .purchase-contact {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
@@ -175,9 +229,14 @@
     }
     @media (max-width: 700px) {
       .work-grid { grid-template-columns: 1fr; }
+      .process-grid, .work-principles { grid-template-columns: 1fr; }
       .work-content { padding: 64px 20px; }
       .purchase-contact { grid-template-columns: 1fr; padding: 26px 22px; text-align: center; }
       .purchase-contact .btn-contact { white-space: normal; }
+    }
+    @media (min-width: 701px) and (max-width: 950px) {
+      .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .work-principles { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
       .work-wave, .work-page .nav-links { animation: none; }
@@ -259,6 +318,53 @@
             <p>Ampliación de sistemas existentes, nuevas funciones y ajustes para responder a necesidades cambiantes.</p>
           </article>
         </div>
+        <section class="process-section" aria-labelledby="process-title">
+          <div class="process-heading">
+            <span class="section-tag">Un proceso claro</span>
+            <h2 id="process-title">Sabes qué sigue en cada etapa.</h2>
+            <p>Avanzamos contigo con objetivos y acuerdos claros, revisando el alcance antes de construir y validando el resultado durante el desarrollo.</p>
+          </div>
+          <div class="process-grid">
+            <article class="process-card">
+              <span class="process-number">1</span>
+              <h3>Escuchamos y entendemos</h3>
+              <p>Conversamos sobre tu operación, las personas que usarán la solución y el problema que quieres resolver.</p>
+            </article>
+            <article class="process-card">
+              <span class="process-number">2</span>
+              <h3>Definimos el alcance</h3>
+              <p>Priorizamos funciones, aclaramos dependencias y acordamos entregables, tiempos estimados y costos.</p>
+            </article>
+            <article class="process-card">
+              <span class="process-number">3</span>
+              <h3>Diseñamos y construimos</h3>
+              <p>Desarrollamos por etapas y compartimos avances para recibir comentarios y resolver dudas oportunamente.</p>
+            </article>
+            <article class="process-card">
+              <span class="process-number">4</span>
+              <h3>Probamos y entregamos</h3>
+              <p>Revisamos las funciones acordadas, corregimos detalles y coordinamos la puesta en marcha y los siguientes pasos.</p>
+            </article>
+          </div>
+          <div class="work-principles">
+            <article class="work-principle">
+              <h3>Comunicación directa</h3>
+              <p>Conversamos con claridad sobre decisiones, avances, dudas y cambios de alcance.</p>
+            </article>
+            <article class="work-principle">
+              <h3>Prioridades compartidas</h3>
+              <p>Enfocamos el trabajo en las funciones más importantes para que la solución responda a necesidades concretas.</p>
+            </article>
+            <article class="work-principle">
+              <h3>Expectativas transparentes</h3>
+              <p>Antes de iniciar, revisamos lo incluido, lo que depende de terceros y cualquier costo adicional previsto.</p>
+            </article>
+          </div>
+          <aside class="project-cost-note">
+            <h3>¿Cómo se calcula el costo?</h3>
+            <p>No contamos con precios fijos publicados. Cada cotización se presenta en dólares (USD) y depende del alcance, las plataformas, las funciones, las integraciones y el soporte requerido. Primero conocemos tu idea; después conversamos sobre una propuesta y sus entregables, sin asumir compromisos antes de que la revises.</p>
+          </aside>
+        </section>
         <aside class="purchase-contact" aria-labelledby="purchase-title">
           <div>
             <h2 id="purchase-title">Cuéntanos qué necesitas</h2>
