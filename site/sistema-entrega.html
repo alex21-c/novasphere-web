@@ -342,7 +342,11 @@
               </div>
               <div class="notif-progress"><div id="notifBar" class="notif-progress-bar"></div></div>
             </div>
-            <div id="fingerTap" class="finger-tap">👆</div>
+            <div id="demoVideoWrap" class="demo-video-wrap" hidden>
+              <video id="demoVideo" src="assets/demo.mp4" autoplay muted loop playsinline controls preload="metadata"></video>
+              <p class="demo-video-hint">Versión ligera de la demo (video) para dispositivos de bajos recursos.</p>
+            </div>
+            <button id="toggleDemoVideo" class="demo-video-toggle" type="button">Ver demo en video (ligero)</button>
           </div>
         </section>
 
@@ -457,6 +461,7 @@
   <script src="hero-flow.js?v=20261018n"></script>
   <script src="hero-models.js?v=20261018l"></script>
   <script src="hero-real3d.js?v=20261018l"></script>
+  <script src="hero-video-fallback.js?v=20261024a"></script>
   <script>
     const menuButton = document.getElementById('hamburger');
     const menu = document.querySelector('.nav-links');
