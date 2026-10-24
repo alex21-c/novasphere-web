@@ -17,6 +17,8 @@
   // ---- Carrusel de fotos dentro de la laptop ----
   var photoIndex = 0;
   var photoTotal = 4;
+  var photoBtnNext = null;
+  var photoBtnPrev = null;
 
   function updatePhotoCarousel() {
     var items = document.querySelectorAll('#laptopPhotos .laptop-photo-item');
@@ -34,6 +36,28 @@
   function prevPhoto() {
     photoIndex = (photoIndex - 1 + photoTotal) % photoTotal;
     updatePhotoCarousel();
+  }
+
+  function bindPhotoNav() {
+    var photos = document.getElementById('laptopPhotos');
+    if (!photos) return;
+    photoBtnNext = photos.querySelector('.laptop-photo-nav.next');
+    photoBtnPrev = photos.querySelector('.laptop-photo-nav.prev');
+    if (photoBtnNext) {
+      photoBtnNext.removeEventListener('click', nextPhoto);
+      photoBtnNext.addEventListener('click', function (e) { e.preventDefault(); nextPhoto(); });
+    }
+    if (photoBtnPrev) {
+      photoBtnPrev.removeEventListener('click', prevPhoto);
+      photoBtnPrev.addEventListener('click', function (e) { e.preventDefault(); prevPhoto(); });
+    }
+  }
+
+  function unbindPhotoNav() {
+    if (photoBtnNext) photoBtnNext.removeEventListener('click', nextPhoto);
+    if (photoBtnPrev) photoBtnPrev.removeEventListener('click', prevPhoto);
+    photoBtnNext = null;
+    photoBtnPrev = null;
   }
 
   function showVideo() {
@@ -54,9 +78,10 @@
     var photos = document.getElementById('laptopPhotos');
     if (photos) { photos.classList.remove('hidden'); photos.style.display = 'block'; }
 
-    // Reiniciar carrusel a la primera foto
+    // Reiniciar carrusel a la primera foto y enlazar botones
     photoIndex = 0;
     updatePhotoCarousel();
+    bindPhotoNav();
 
     // Ocultar el iframe interactivo mientras se ven las fotos
     var iframe = document.getElementById('laptopWebView');
@@ -82,6 +107,9 @@
     var iframe = document.getElementById('laptopWebView');
     if (iframe) iframe.style.display = 'block';
 
+    // Desenlazar botones del carrusel
+    unbindPhotoNav();
+
     ['.hero-real3d', '#laptop3d', '#iphone3d'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { el.style.display = ''; });
     });
@@ -93,21 +121,12 @@
     var btn = document.getElementById('toggleDemoVideo');
     var showingPhotos = false;
     if (btn) {
-      btn.addEventListener('click', function () {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
         showingPhotos = !showingPhotos;
         if (showingPhotos) showVideo(); else show3D();
       });
     }
-    // Navegación del carrusel de fotos (delegación para evitar problemas si el DOM cambia)
-    document.addEventListener('click', function (e) {
-      if (!showingPhotos) return;
-      var target = e.target;
-      var nav = target.closest('.laptop-photo-nav');
-      if (!nav) return;
-      e.preventDefault();
-      if (nav.classList.contains('next')) nextPhoto();
-      if (nav.classList.contains('prev')) prevPhoto();
-    });
     if (isLowEnd() || isMobile()) { showVideo(); showingPhotos = true; }
   });
 })();
