@@ -347,6 +347,24 @@
               <p class="demo-video-hint">Versión ligera de la demo (video) para dispositivos de bajos recursos.</p>
             </div>
             <button id="toggleDemoVideo" class="demo-video-toggle" type="button">Ver demo en video (ligero)</button>
+
+            <!-- Lightbox de imágenes del demo -->
+            <div id="demoLightbox" class="demo-lightbox" hidden aria-modal="true" role="dialog" aria-label="Galería del demo 3D">
+              <button id="lightboxClose" class="lightbox-close" aria-label="Cerrar galería">&times;</button>
+              <div class="lightbox-nav">
+                <button id="lightboxPrev" class="lightbox-nav-btn lightbox-prev" aria-label="Imagen anterior">&#10094;</button>
+                <div class="lightbox-track">
+                  <img src="assets/lightbox/laptop_front.png" alt="Laptop frontal" class="lightbox-img" data-label="Panel administrativo — vista frontal">
+                  <img src="assets/lightbox/laptop_angle.png" alt="Laptop ángulo" class="lightbox-img" data-label="Panel administrativo — vista angular">
+                  <img src="assets/lightbox/iphone_front.png" alt="iPhone frontal" class="lightbox-img" data-label="App del repartidor — vista frontal">
+                  <img src="assets/lightbox/iphone_angle.png" alt="iPhone ángulo" class="lightbox-img" data-label="App del repartidor — vista angular">
+                </div>
+                <button id="lightboxNext" class="lightbox-nav-btn lightbox-next" aria-label="Siguiente imagen">&#10095;</button>
+              </div>
+              <div id="lightboxCaption" class="lightbox-caption"></div>
+              <div class="lightbox-dots" id="lightboxDots"></div>
+              <p class="lightbox-hint">Desliza o usa las flechas · ESC para cerrar</p>
+            </div>
           </div>
         </section>
 
@@ -460,6 +478,85 @@
   </footer>
   <script src="hero-flow.js?v=20261018n"></script>
   <script src="hero-models.js?v=20261018l"></script>
+  <script>
+    /* ===== LIGHTBOX IMÁGENES DEL DEMO ===== */
+    (function () {
+      const box = document.getElementById('demoLightbox');
+      const stage = document.getElementById('deviceStage');
+      const closeBtn = document.getElementById('lightboxClose');
+      const prevBtn = document.getElementById('lightboxPrev');
+      const nextBtn = document.getElementById('lightboxNext');
+      const track = document.querySelector('.lightbox-track');
+      const caption = document.getElementById('lightboxCaption');
+      const dotsContainer = document.getElementById('lightboxDots');
+      const imgs = Array.from(track.querySelectorAll('img'));
+      let index = 0;
+
+      if (!box || !stage || imgs.length === 0) return;
+
+      function render() {
+        imgs.forEach((img, i) => {
+          img.classList.toggle('active', i === index);
+        });
+        caption.textContent = imgs[index].dataset.label || '';
+        const dots = dotsContainer.querySelectorAll('.lightbox-dot');
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+      }
+
+      function openLightbox() {
+        index = 0;
+        box.hidden = false;
+        document.body.style.overflow = 'hidden';
+        render();
+      }
+
+      function closeLightbox() {
+        box.hidden = true;
+        document.body.style.overflow = '';
+      }
+
+      function goTo(i) {
+        index = (i + imgs.length) % imgs.length;
+        render();
+      }
+
+      // Exponer globalmente para que hero-real3d.js pueda abrirla si el 3D falla
+      window.openDemoLightbox = openLightbox;
+
+      // Abrir al hacer clic en el área 3D / demo
+      stage.addEventListener('click', (e) => {
+        if (e.target.closest('button')) return;
+        openLightbox();
+      });
+
+      // Cerrar
+      closeBtn.addEventListener('click', closeLightbox);
+      box.addEventListener('click', (e) => {
+        if (e.target === box) closeLightbox();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (box.hidden) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') goTo(index - 1);
+        if (e.key === 'ArrowRight') goTo(index + 1);
+      });
+
+      // Navegación
+      prevBtn.addEventListener('click', () => goTo(index - 1));
+      nextBtn.addEventListener('click', () => goTo(index + 1));
+
+      // Dots
+      imgs.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'lightbox-dot';
+        dot.setAttribute('aria-label', 'Imagen ' + (i + 1));
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      });
+
+      render();
+    })();
+  </script>
   <script src="hero-real3d.js?v=20261018l"></script>
   <script src="hero-video-fallback.js?v=20261024a"></script>
   <script>

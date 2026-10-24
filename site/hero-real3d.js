@@ -10,6 +10,24 @@
     var err = document.getElementById('realLaptopError');
     if (loader) loader.classList.add('hidden');
     if (err) { err.textContent = msg; err.classList.add('show'); }
+    // Ocultar el mockup CSS del laptop (gira vacío cuando el 3D real no carga)
+    var laptopMock = document.getElementById('laptop3d');
+    if (laptopMock) laptopMock.style.display = 'none';
+    var realWrap = document.getElementById('realLaptopWrap');
+    if (realWrap) realWrap.style.display = 'none';
+    // Abrir el lightbox con las imágenes estáticas del demo como fallback.
+    // Hacemos polling por si el script del lightbox aún no se ha ejecutado.
+    var attempts = 0;
+    var maxAttempts = 50; // 5 segundos
+    var timer = setInterval(function () {
+      attempts++;
+      if (typeof window.openDemoLightbox === 'function') {
+        clearInterval(timer);
+        window.openDemoLightbox();
+      } else if (attempts >= maxAttempts) {
+        clearInterval(timer);
+      }
+    }, 100);
   }
 
   function init() {
@@ -616,17 +634,43 @@
     });
   }
 
+  // Prueba varias URLs de CDN hasta que una cargue
+  function loadScriptWithFallback(urls) {
+    var idx = 0;
+    function tryNext() {
+      if (idx >= urls.length) return Promise.reject(new Error('Todos los CDN fallaron'));
+      return loadScript(urls[idx]).catch(function (err) {
+        idx++;
+        return tryNext();
+      });
+    }
+    return tryNext();
+  }
+
   function loadThreeDependencies() {
+    var threeUrls = [
+      'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
+      'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js',
+      'https://unpkg.com/three@0.128.0/build/three.min.js'
+    ];
     var loaded = window.THREE ? Promise.resolve() :
-      loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js');
+      loadScriptWithFallback(threeUrls);
     return loaded
       .then(function () {
-        return THREE.GLTFLoader ? undefined :
-          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js');
+        if (THREE.GLTFLoader) return undefined;
+        var gltfUrls = [
+          'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js',
+          'https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js'
+        ];
+        return loadScriptWithFallback(gltfUrls);
       })
       .then(function () {
-        return THREE.CSS3DRenderer ? undefined :
-          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS3DRenderer.js');
+        if (THREE.CSS3DRenderer) return undefined;
+        var cssUrls = [
+          'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS3DRenderer.js',
+          'https://unpkg.com/three@0.128.0/examples/js/renderers/CSS3DRenderer.js'
+        ];
+        return loadScriptWithFallback(cssUrls);
       });
   }
 
