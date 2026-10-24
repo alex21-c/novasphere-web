@@ -20,6 +20,10 @@
     wrap.style.display = 'block';
     var video = document.getElementById('demoVideo');
     if (video) { try { video.play(); } catch (e) {} }
+    // Cargar el demo en el iframe de la laptop por si el usuario cambia al modo 3D
+    if (typeof window.activateDeliveryDemo === 'function') {
+      window.activateDeliveryDemo();
+    }
     // ocultar 3D pesado
     ['.hero-real3d', '#laptop3d', '#iphone3d', '#iphoneRealWrap', '#realLaptopWrap'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { el.style.display = 'none'; });

@@ -15,12 +15,21 @@
     if (laptopMock) laptopMock.style.display = 'none';
     var realWrap = document.getElementById('realLaptopWrap');
     if (realWrap) realWrap.style.display = 'none';
+    // Cargar el demo en el iframe de la laptop si aún no se ha cargado
+    if (typeof window.activateDeliveryDemo === 'function') {
+      window.activateDeliveryDemo();
+    }
     // Abrir el lightbox con las imágenes estáticas del demo como fallback.
     // Hacemos polling por si el script del lightbox aún no se ha ejecutado.
+    // Si el modo video ya está activo, no abrimos el lightbox.
     var attempts = 0;
     var maxAttempts = 50; // 5 segundos
     var timer = setInterval(function () {
       attempts++;
+      if (document.body.classList.contains('video-mode')) {
+        clearInterval(timer);
+        return;
+      }
       if (typeof window.openDemoLightbox === 'function') {
         clearInterval(timer);
         window.openDemoLightbox();
@@ -29,6 +38,20 @@
       }
     }, 100);
   }
+
+  // Función global para cargar el demo en el iframe de la laptop.
+  // Está disponible incluso si Three.js no carga, para que el demo siempre se muestre.
+  window.activateDeliveryDemo = function () {
+    var iframe = document.getElementById('laptopWebView');
+    if (!iframe) return;
+    if (!iframe.src || iframe.src === 'about:blank') {
+      var ds = iframe.getAttribute('data-src');
+      if (ds) {
+        iframe.src = ds;
+        iframe.removeAttribute('data-src');
+      }
+    }
+  };
 
   function init() {
     if (document.body.classList.contains('iphone-only')) return;
