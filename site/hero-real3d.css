@@ -338,3 +338,15 @@ body.video-mode #iphoneRealWrap { display: none !important; }
   .lightbox-next { right: 6px; }
   .lightbox-nav { max-width: 92vw; }
 }
+
+/* ===== Ocultar laptop, celular y capturas ===== */
+#laptop3d,
+#realLaptopWrap,
+#iphoneRealWrap,
+#iphone3d,
+#laptopPhotos,
+.demo-lightbox,
+#toggleDemoVideo {
+  display: none !important;
+  visibility: hidden !important;
+}
