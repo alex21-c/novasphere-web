@@ -1,14 +1,19 @@
 (() => {
-  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const body = document.body;
 
-  // Activa la hoja compartida incluso si el visitante prefiere menos movimiento.
-  document.body.classList.add('christmas-theme');
-  const christmasStyles = document.createElement('link');
-  christmasStyles.rel = 'stylesheet';
-  christmasStyles.href = 'christmas.css';
-  document.head.appendChild(christmasStyles);
+  if (body && !body.classList.contains('christmas-theme')) {
+    body.classList.add('christmas-theme');
+  }
 
-  if (motionQuery.matches) return;
+  if (!document.querySelector('link[href="christmas.css"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'christmas.css';
+    document.head.appendChild(link);
+  }
+
+  if (prefersReducedMotion.matches) return;
 
   const revealTargets = document.querySelectorAll([
     '.developer-hero .hero-content > *',
