@@ -1,5 +1,13 @@
 (() => {
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Activa la hoja compartida incluso si el visitante prefiere menos movimiento.
+  document.body.classList.add('christmas-theme');
+  const christmasStyles = document.createElement('link');
+  christmasStyles.rel = 'stylesheet';
+  christmasStyles.href = 'christmas.css';
+  document.head.appendChild(christmasStyles);
+
   if (motionQuery.matches) return;
 
   const revealTargets = document.querySelectorAll([
@@ -59,10 +67,3 @@
 
   revealTargets.forEach((element) => observer.observe(element));
 })();
-
-// Activa el tema navideño en la página de inicio, que ya carga este script.
-document.body.classList.add('christmas-theme');
-const christmasStyles = document.createElement('link');
-christmasStyles.rel = 'stylesheet';
-christmasStyles.href = 'christmas.css';
-document.head.appendChild(christmasStyles);
