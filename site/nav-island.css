@@ -1,0 +1,124 @@
+/* Isla dinámica central de navegación NovaSphere. */
+body.christmas-theme .nav-container {
+  position: relative;
+}
+
+body.christmas-theme .nav-links,
+body.christmas-theme.home-page .nav-links,
+body.christmas-theme.system-page .nav-links,
+body.christmas-theme.work-page .nav-links {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: max-content;
+  max-width: min(660px, calc(100vw - 360px));
+  padding: 7px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #17241f, #0d1713);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, .2), inset 0 1px 0 rgba(255, 255, 255, .13);
+  transform: translate(-50%, -50%);
+  animation: island-arrive .55s cubic-bezier(.2,.8,.2,1) both;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+body.christmas-theme .nav-links a,
+body.christmas-theme.home-page .nav-links a,
+body.christmas-theme.system-page .nav-links a,
+body.christmas-theme.work-page .nav-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .82);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: color .22s ease, background .22s ease, transform .22s ease, border-color .22s ease;
+}
+
+body.christmas-theme .nav-links a::before {
+  display: inline-grid;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 50%;
+  color: #d7f4df;
+  background: rgba(255, 255, 255, .09);
+  font-size: 13px;
+}
+body.christmas-theme .nav-links a:nth-child(1)::before { content: "⌂"; }
+body.christmas-theme .nav-links a:nth-child(2)::before { content: "↗"; }
+body.christmas-theme .nav-links a:nth-child(3)::before { content: "⌘"; }
+body.christmas-theme .nav-links a::after { display: none !important; }
+body.christmas-theme .nav-links a:hover,
+body.christmas-theme .nav-links a[aria-current="page"] {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .12);
+  background: linear-gradient(135deg, rgba(20, 83, 45, .95), rgba(180, 35, 50, .72));
+  transform: translateY(-1px);
+}
+body.christmas-theme .nav-links a[aria-current="page"]::before {
+  color: #fff;
+  border-color: rgba(255,255,255,.2);
+  background: rgba(255,255,255,.14);
+}
+
+@keyframes island-arrive {
+  from { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(.97); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Quitar el rótulo “Demostración interactiva”; conservar el showcase funcional. */
+body.christmas-theme.system-page .hero-badge { display: none !important; }
+body.christmas-theme.system-page .hero-3d-content { padding-top: 8px; }
+
+@media (max-width: 1050px) {
+  body.christmas-theme .nav-links,
+  body.christmas-theme.home-page .nav-links,
+  body.christmas-theme.system-page .nav-links,
+  body.christmas-theme.work-page .nav-links {
+    display: none;
+    top: calc(100% + 8px);
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-width: none;
+    padding: 10px;
+    border-radius: 20px;
+    transform: none;
+    animation: none;
+  }
+  body.christmas-theme .nav-links.open,
+  body.christmas-theme.home-page .nav-links.open,
+  body.christmas-theme.system-page .nav-links.open,
+  body.christmas-theme.work-page .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  body.christmas-theme .nav-links a { justify-content: flex-start; }
+  body.christmas-theme .hamburger { display: flex; }
+}
+
+@media (max-width: 560px) {
+  body.christmas-theme .nav-links a { min-height: 44px; }
+  body.christmas-theme::after { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.christmas-theme .nav-links { animation: none; }
+}
