@@ -1,16 +1,19 @@
 (() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const body = document.body;
 
-  if (body && !body.classList.contains('christmas-theme')) {
-    body.classList.add('christmas-theme');
-  }
-
+  // Load the shared holiday theme and centered navigation on every page that includes this script.
+  document.body.classList.add('christmas-theme');
   if (!document.querySelector('link[href="christmas.css"]')) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'christmas.css';
-    document.head.appendChild(link);
+    const themeLink = document.createElement('link');
+    themeLink.rel = 'stylesheet';
+    themeLink.href = 'christmas.css';
+    document.head.appendChild(themeLink);
+  }
+  if (!document.querySelector('link[href="nav-island.css"]')) {
+    const islandLink = document.createElement('link');
+    islandLink.rel = 'stylesheet';
+    islandLink.href = 'nav-island.css';
+    document.head.appendChild(islandLink);
   }
 
   if (prefersReducedMotion.matches) return;
