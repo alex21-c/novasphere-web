@@ -3,7 +3,9 @@
   if (motionQuery.matches) return;
 
   const revealTargets = document.querySelectorAll([
+    '.developer-hero .hero-content > *',
     '.developer-values > *',
+    '.delivery-spotlight',
     '.home-section-heading',
     '.about-panel',
     '.services-grid > *',
