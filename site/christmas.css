@@ -9,6 +9,7 @@ body.christmas-theme {
   background-color: var(--holiday-cream);
 }
 
+/* Copos sutiles; se mantienen detrás del contenido y no interceptan clics. */
 body.christmas-theme::before {
   position: fixed;
   z-index: 30;
@@ -29,17 +30,45 @@ body.christmas-theme::before {
   to { background-position: 0 300px; }
 }
 
-body.christmas-theme .navbar {
-  background: rgba(255, 250, 240, .9);
-  border-bottom-color: rgba(20, 83, 45, .14);
+/* Franja informativa y navegación */
+body.christmas-theme::after {
+  position: fixed;
+  z-index: 101;
+  inset: 0 0 auto;
+  display: grid;
+  min-height: 34px;
+  place-items: center;
+  padding: 5px 16px;
+  color: #fff;
+  background: linear-gradient(90deg, #103b2a, #14532d 48%, #8f1725);
+  content: "✦ Temporada navideña · Tecnología creada para hacer crecer tus ideas ✦";
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .25px;
+  text-align: center;
 }
-body.christmas-theme .navbar .logo-icon { color: var(--holiday-pine); }
-body.christmas-theme .navbar .logo-icon rect { fill: var(--holiday-pine); }
-body.christmas-theme .navbar .logo-icon circle { fill: #f2c14e; }
+body.christmas-theme .navbar {
+  top: 34px;
+  background: rgba(255, 250, 240, .92);
+  border-bottom-color: rgba(20, 83, 45, .14);
+  box-shadow: 0 8px 24px rgba(16, 59, 42, .08);
+}
+/* Conservamos intactos el azul y el verde lima originales del logo. */
+body.christmas-theme .navbar .logo-icon rect { fill: #2563EB; }
+body.christmas-theme .navbar .logo-icon circle { fill: #A3E635; }
+body.christmas-theme .navbar .logo { transition: transform .25s ease; }
+body.christmas-theme .navbar .logo:hover { transform: translateY(-2px); }
 body.christmas-theme .btn-nav,
 body.christmas-theme .btn-primary,
 body.christmas-theme .home-page .btn-primary {
-  background: linear-gradient(135deg, var(--holiday-red), #8f1725);
+  background: linear-gradient(120deg, var(--holiday-red), #8f1725, var(--holiday-red));
+  background-size: 200% 100%;
+  box-shadow: 0 8px 20px rgba(180, 35, 50, .2);
+}
+body.christmas-theme .btn-primary:hover,
+body.christmas-theme .home-page .btn-primary:hover {
+  background-position: 100% 0;
+  box-shadow: 0 12px 28px rgba(180, 35, 50, .3);
 }
 body.christmas-theme .developer-hero {
   background:
@@ -47,11 +76,14 @@ body.christmas-theme .developer-hero {
     radial-gradient(ellipse at 14% 82%, rgba(20, 83, 45, .14), transparent 43%),
     linear-gradient(180deg, #fffdf8, var(--holiday-cream));
 }
-body.christmas-theme .developer-wave path { fill: url(#holiday-wave-gradient); }
+body.christmas-theme .developer-wave path { fill: url(#developer-wave-gradient); }
+body.christmas-theme .developer-wave linearGradient stop:first-child { stop-color: #14532d; }
+body.christmas-theme .developer-wave linearGradient stop:last-child { stop-color: #b42332; }
 body.christmas-theme .developer-wave-back path { fill: #b42332; opacity: .15; }
 body.christmas-theme .hero-eyebrow {
   color: var(--holiday-pine);
   background: rgba(20, 83, 45, .08);
+  box-shadow: 0 6px 20px rgba(20, 83, 45, .08);
 }
 body.christmas-theme .hero-eyebrow::before {
   content: "✦ FELICES FIESTAS · ";
@@ -59,16 +91,33 @@ body.christmas-theme .hero-eyebrow::before {
 }
 body.christmas-theme .gradient-text {
   background: linear-gradient(110deg, var(--holiday-pine), var(--holiday-red) 58%, var(--holiday-gold));
+  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
+  animation: holiday-title-shimmer 8s ease-in-out infinite alternate;
+}
+@keyframes holiday-title-shimmer {
+  to { background-position: 100% center; }
 }
 body.christmas-theme .delivery-spotlight,
 body.christmas-theme .pricing-panel {
   background: linear-gradient(115deg, #103b2a, #14532d 58%, #8f1725);
+  background-size: 180% 180%;
+  animation: holiday-gradient-drift 12s ease-in-out infinite alternate;
+}
+@keyframes holiday-gradient-drift {
+  to { background-position: 100% 100%; }
 }
 body.christmas-theme .delivery-spotlight::before { background: rgba(242, 193, 78, .24); }
 body.christmas-theme .spotlight-label { color: #fde68a; }
-body.christmas-theme .spotlight-label::before { background: #f2c14e; box-shadow: 0 0 14px rgba(242, 193, 78, .7); }
+body.christmas-theme .spotlight-label::before {
+  background: #f2c14e;
+  box-shadow: 0 0 14px rgba(242, 193, 78, .7);
+  animation: holiday-lamp 2s ease-in-out infinite;
+}
+@keyframes holiday-lamp {
+  50% { box-shadow: 0 0 22px rgba(242, 193, 78, .95); }
+}
 body.christmas-theme .home-details:nth-of-type(even) { background: #f4f7ef; }
 body.christmas-theme .visual-design-section { background: linear-gradient(145deg, #f3f7ef, #fff5ed); }
 body.christmas-theme .section-tag,
@@ -86,6 +135,56 @@ body.christmas-theme .home-page .nav-links a[aria-current="page"] { color: var(-
 body.christmas-theme .developer-contact { background: #f4f7ef; }
 body.christmas-theme .developer-contact a { color: var(--holiday-pine); }
 
+/* Más profundidad y respuesta al interactuar, sin perder legibilidad. */
+body.christmas-theme .developer-value,
+body.christmas-theme .about-panel,
+body.christmas-theme .service-card,
+body.christmas-theme .outcome-card,
+body.christmas-theme .visual-style-card,
+body.christmas-theme .design-option {
+  border-color: rgba(20, 83, 45, .12);
+  box-shadow: 0 12px 32px rgba(16, 59, 42, .06);
+}
+body.christmas-theme .developer-value,
+body.christmas-theme .service-card,
+body.christmas-theme .outcome-card,
+body.christmas-theme .visual-style-card,
+body.christmas-theme .design-option {
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+body.christmas-theme .developer-value:hover,
+body.christmas-theme .service-card:hover,
+body.christmas-theme .outcome-card:hover,
+body.christmas-theme .visual-style-card:hover,
+body.christmas-theme .design-option:hover {
+  transform: translateY(-7px);
+  border-color: rgba(20, 83, 45, .26);
+  box-shadow: 0 20px 42px rgba(16, 59, 42, .13);
+}
+body.christmas-theme .about-highlight {
+  background: linear-gradient(145deg, #103b2a, #14532d 62%, #8f1725);
+}
+body.christmas-theme .service-icon { transition: transform .3s ease; }
+body.christmas-theme .service-card:hover .service-icon { transform: rotate(-8deg) scale(1.1); }
+body.christmas-theme .delivery-spotlight { border-color: rgba(242, 193, 78, .3); }
+body.christmas-theme .delivery-spotlight:focus-visible,
+body.christmas-theme a:focus-visible,
+body.christmas-theme button:focus-visible {
+  outline: 3px solid #b7791f;
+  outline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+  body.christmas-theme::after { font-size: 10px; }
+  body.christmas-theme .navbar { top: 34px; }
+}
 @media (prefers-reduced-motion: reduce) {
-  body.christmas-theme::before { animation: none; }
+  body.christmas-theme::before,
+  body.christmas-theme .gradient-text,
+  body.christmas-theme .delivery-spotlight,
+  body.christmas-theme .pricing-panel,
+  body.christmas-theme .spotlight-label::before { animation: none; }
+  body.christmas-theme *,
+  body.christmas-theme *::before,
+  body.christmas-theme *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
