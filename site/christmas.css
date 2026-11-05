@@ -1,0 +1,91 @@
+/* Tema festivo de NovaSphere: cálido, elegante y fácilmente removible. */
+body.christmas-theme {
+  --holiday-pine: #14532d;
+  --holiday-deep: #103b2a;
+  --holiday-red: #b42332;
+  --holiday-gold: #b7791f;
+  --holiday-cream: #fffaf0;
+  --holiday-snow: #fff;
+  background-color: var(--holiday-cream);
+}
+
+body.christmas-theme::before {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: .42;
+  background-image:
+    radial-gradient(2px 2px at 18px 34px, #fff 98%, transparent),
+    radial-gradient(1.5px 1.5px at 76px 88px, #fff 98%, transparent),
+    radial-gradient(2px 2px at 138px 22px, #fff 98%, transparent),
+    radial-gradient(1.5px 1.5px at 194px 116px, #fff 98%, transparent);
+  background-size: 220px 150px;
+  animation: holiday-snow 18s linear infinite;
+}
+
+@keyframes holiday-snow {
+  to { background-position: 0 300px; }
+}
+
+body.christmas-theme .navbar {
+  background: rgba(255, 250, 240, .9);
+  border-bottom-color: rgba(20, 83, 45, .14);
+}
+body.christmas-theme .navbar .logo-icon { color: var(--holiday-pine); }
+body.christmas-theme .navbar .logo-icon rect { fill: var(--holiday-pine); }
+body.christmas-theme .navbar .logo-icon circle { fill: #f2c14e; }
+body.christmas-theme .btn-nav,
+body.christmas-theme .btn-primary,
+body.christmas-theme .home-page .btn-primary {
+  background: linear-gradient(135deg, var(--holiday-red), #8f1725);
+}
+body.christmas-theme .developer-hero {
+  background:
+    radial-gradient(ellipse at 82% 18%, rgba(180, 35, 50, .13), transparent 40%),
+    radial-gradient(ellipse at 14% 82%, rgba(20, 83, 45, .14), transparent 43%),
+    linear-gradient(180deg, #fffdf8, var(--holiday-cream));
+}
+body.christmas-theme .developer-wave path { fill: url(#holiday-wave-gradient); }
+body.christmas-theme .developer-wave-back path { fill: #b42332; opacity: .15; }
+body.christmas-theme .hero-eyebrow {
+  color: var(--holiday-pine);
+  background: rgba(20, 83, 45, .08);
+}
+body.christmas-theme .hero-eyebrow::before {
+  content: "✦ FELICES FIESTAS · ";
+  color: var(--holiday-red);
+}
+body.christmas-theme .gradient-text {
+  background: linear-gradient(110deg, var(--holiday-pine), var(--holiday-red) 58%, var(--holiday-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+body.christmas-theme .delivery-spotlight,
+body.christmas-theme .pricing-panel {
+  background: linear-gradient(115deg, #103b2a, #14532d 58%, #8f1725);
+}
+body.christmas-theme .delivery-spotlight::before { background: rgba(242, 193, 78, .24); }
+body.christmas-theme .spotlight-label { color: #fde68a; }
+body.christmas-theme .spotlight-label::before { background: #f2c14e; box-shadow: 0 0 14px rgba(242, 193, 78, .7); }
+body.christmas-theme .home-details:nth-of-type(even) { background: #f4f7ef; }
+body.christmas-theme .visual-design-section { background: linear-gradient(145deg, #f3f7ef, #fff5ed); }
+body.christmas-theme .section-tag,
+body.christmas-theme .home-section-heading .section-tag { color: var(--holiday-pine); }
+body.christmas-theme .service-icon {
+  color: var(--holiday-pine);
+  background: rgba(20, 83, 45, .1);
+}
+body.christmas-theme .outcome-card { border-top-color: var(--holiday-red); }
+body.christmas-theme .outcome-card:nth-child(2) { border-top-color: var(--holiday-pine); }
+body.christmas-theme .outcome-card:nth-child(3) { border-top-color: var(--holiday-gold); }
+body.christmas-theme .home-page .nav-links a::after { background: linear-gradient(90deg, var(--holiday-red), var(--holiday-pine)); }
+body.christmas-theme .home-page .nav-links a:hover,
+body.christmas-theme .home-page .nav-links a[aria-current="page"] { color: var(--holiday-pine); }
+body.christmas-theme .developer-contact { background: #f4f7ef; }
+body.christmas-theme .developer-contact a { color: var(--holiday-pine); }
+
+@media (prefers-reduced-motion: reduce) {
+  body.christmas-theme::before { animation: none; }
+}
