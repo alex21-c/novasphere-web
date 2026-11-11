@@ -1,6 +1,21 @@
 (() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  // Keep contact actions in the visitor's preferred email app instead of forcing Gmail web.
+  document.querySelectorAll('a[href*="mail.google.com/mail/?view=cm"]').forEach((link) => {
+    try {
+      const composeUrl = new URL(link.href);
+      const recipient = composeUrl.searchParams.get('to') || 'alexandrescruz7@gmail.com';
+      const subject = composeUrl.searchParams.get('su') || 'Hablemos de mi proyecto';
+      const body = composeUrl.searchParams.get('body') || 'Hola, quisiera conversar sobre mi proyecto.';
+      link.href = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      link.removeAttribute('target');
+      link.removeAttribute('rel');
+    } catch (error) {
+      link.href = 'mailto:alexandrescruz7@gmail.com';
+    }
+  });
+
   // Load the shared holiday theme and centered navigation on every page that includes this script.
   document.body.classList.add('christmas-theme');
   if (!document.querySelector('link[href="christmas.css"]')) {
