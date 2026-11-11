@@ -1,34 +1,31 @@
 (() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const usesAiSubpageTheme = document.body.matches('.system-page, .work-page');
 
-  // Keep contact actions in the visitor's preferred email app instead of forcing Gmail web.
-  document.querySelectorAll('a[href*="mail.google.com/mail/?view=cm"]').forEach((link) => {
-    try {
-      const composeUrl = new URL(link.href);
-      const recipient = composeUrl.searchParams.get('to') || 'alexandrescruz7@gmail.com';
-      const subject = composeUrl.searchParams.get('su') || 'Hablemos de mi proyecto';
-      const body = composeUrl.searchParams.get('body') || 'Hola, quisiera conversar sobre mi proyecto.';
-      link.href = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      link.removeAttribute('target');
-      link.removeAttribute('rel');
-    } catch (error) {
-      link.href = 'mailto:alexandrescruz7@gmail.com';
+  if (usesAiSubpageTheme) {
+    // These pages use the same dark AI visual system as the NovaSphere landing page.
+    // Load the theme after their legacy inline styles so it can override the old palette.
+    if (!document.querySelector('link[href*="ai-subpages.css"]')) {
+      const aiThemeLink = document.createElement('link');
+      aiThemeLink.rel = 'stylesheet';
+      aiThemeLink.href = 'ai-subpages.css?v=20261111';
+      document.head.appendChild(aiThemeLink);
     }
-  });
-
-  // Load the shared holiday theme and centered navigation on every page that includes this script.
-  document.body.classList.add('christmas-theme');
-  if (!document.querySelector('link[href="christmas.css"]')) {
-    const themeLink = document.createElement('link');
-    themeLink.rel = 'stylesheet';
-    themeLink.href = 'christmas.css';
-    document.head.appendChild(themeLink);
-  }
-  if (!document.querySelector('link[href="nav-island.css"]')) {
-    const islandLink = document.createElement('link');
-    islandLink.rel = 'stylesheet';
-    islandLink.href = 'nav-island.css';
-    document.head.appendChild(islandLink);
+  } else {
+    // Keep the existing seasonal theme on pages that have not moved to the AI design.
+    document.body.classList.add('christmas-theme');
+    if (!document.querySelector('link[href="christmas.css"]')) {
+      const themeLink = document.createElement('link');
+      themeLink.rel = 'stylesheet';
+      themeLink.href = 'christmas.css';
+      document.head.appendChild(themeLink);
+    }
+    if (!document.querySelector('link[href="nav-island.css"]')) {
+      const islandLink = document.createElement('link');
+      islandLink.rel = 'stylesheet';
+      islandLink.href = 'nav-island.css';
+      document.head.appendChild(islandLink);
+    }
   }
 
   if (prefersReducedMotion.matches) return;
