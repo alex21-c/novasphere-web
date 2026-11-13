@@ -1,0 +1,56 @@
+/* ===== HERO ANIMACIONES ===== */
+@keyframes openLaptop {
+  0% { transform: rotateX(80deg) translateZ(-80px); opacity: 0; }
+  100% { transform: rotateX(12deg) translateZ(0); opacity: 1; }
+}
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatDevice {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 12px var(--neon-cyan); opacity: 1; }
+  50% { box-shadow: 0 0 24px var(--neon-cyan); opacity: 0.7; }
+}
+@keyframes chartPulse {
+  0%, 100% { height: 40%; opacity: 0.6; }
+  50% { height: 75%; opacity: 1; }
+}
+@keyframes chartShine {
+  0% { transform: translateX(-100%) rotate(30deg); }
+  100% { transform: translateX(200%) rotate(30deg); }
+}
+@keyframes routeSlide {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes tapRipple {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Ocultar hero antigua para que la 3D sea la principal */
+.hero#inicio { display: none !important; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .device-stage {
+    flex-direction: column; height: auto; gap: 30px; padding-bottom: 40px;
+  }
+  .laptop-3d { width: 320px; height: 200px; }
+  .laptop-3d.compact {
+    width: 130px !important; height: 80px !important;
+    transform: translateX(-140px) translateY(20px) scale(0.5) rotateY(10deg) rotateX(-8deg) !important;
+  }
+  .iphone-3d { width: 160px; height: 340px; }
+  .mobile-notification { width: 200px; }
+}
+@media (max-width: 640px) {
+  .device-stage { gap: 20px; }
+  .laptop-3d { width: 260px; height: 160px; }
+  .iphone-3d { width: 140px; height: 290px; }
+  .hero-title { font-size: 2.2rem; }
+}

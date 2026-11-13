@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conoce el sistema de entrega NovaSphere: panel administrativo, aplicación móvil, GPS y prueba de entrega digital." />
+  <meta name="theme-color" content="#f8fafc" />
+  <title>Sistema de entrega — NovaSphere</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/novasphere-logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="promo-motion.css" />
+  <style>
+    .system-page .section-tag {
+      color: #000;
+    }
+    .system-contact {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 28px;
+      margin-top: 56px;
+      padding: 32px;
+      border-radius: 22px;
+      color: #fff;
+      background: linear-gradient(130deg, #172554, #1d4ed8 62%, #059669);
+      box-shadow: 0 20px 48px rgba(37, 99, 235, .2);
+    }
+    .system-contact h2 {
+      margin-bottom: 10px;
+      font: 700 24px 'Space Grotesk', sans-serif;
+    }
+    .system-contact p { max-width: 700px; color: rgba(255, 255, 255, .86); }
+    .system-contact .contact-note { margin-top: 10px; font-size: 14px; }
+    .system-contact .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      color: #172554;
+      background: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .system-contact .btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .2);
+    }
+    .system-details {
+      margin-top: 72px;
+      padding: clamp(26px, 4vw, 44px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .82);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, .06);
+    }
+    .system-overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+      align-items: center;
+      gap: clamp(24px, 5vw, 56px);
+      max-width: 1000px;
+      margin: 0 auto 72px;
+      padding: clamp(24px, 4vw, 40px);
+      border: 1px solid rgba(59, 130, 246, .16);
+      border-radius: 24px;
+      background:
+        radial-gradient(ellipse at 100% 0, rgba(34, 211, 238, .09), transparent 44%),
+        linear-gradient(140deg, #fff, #f3f8ff);
+      box-shadow: 0 20px 56px rgba(30, 64, 175, .08);
+    }
+    .system-overview h2 {
+      margin-bottom: 12px;
+      font: 700 clamp(25px, 3vw, 34px)/1.15 'Space Grotesk', sans-serif;
+    }
+    .system-overview p { color: var(--text-secondary); }
+    .system-overview-points { display: grid; gap: 12px; }
+    .system-overview-point {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(59, 130, 246, .12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .76);
+    }
+    .system-overview-point span {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid rgba(34, 211, 238, .28);
+      border-radius: 11px;
+      color: #0369a1;
+      background: linear-gradient(145deg, rgba(34, 211, 238, .14), rgba(59, 130, 246, .12));
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .system-overview-point p { color: #334155; font-size: 13px; font-weight: 600; }
+    .system-details-heading { max-width: 760px; margin: 0 auto 34px; text-align: center; }
+    .system-details-heading h2 {
+      margin-bottom: 12px;
+      font: 700 clamp(28px, 4vw, 40px)/1.15 'Space Grotesk', sans-serif;
+    }
+    .system-details-heading p { color: var(--text-secondary); }
+    .system-benefits, .system-capabilities {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .system-benefit, .system-capability {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+    }
+    .system-benefit h3, .system-capability h3 {
+      margin-bottom: 8px;
+      font: 700 18px 'Space Grotesk', sans-serif;
+    }
+    .system-benefit p, .system-capability p { color: var(--text-secondary); font-size: 14px; }
+    .system-details-subheading {
+      margin: 34px 0 16px;
+      font: 700 22px 'Space Grotesk', sans-serif;
+      text-align: center;
+    }
+    .system-investment {
+      margin-top: 26px;
+      padding: 22px;
+      border-left: 4px solid #10b981;
+      border-radius: 12px;
+      background: #ecfdf5;
+    }
+    .system-investment h3 { margin-bottom: 6px; font: 700 18px 'Space Grotesk', sans-serif; }
+    .system-investment p { color: var(--text-secondary); font-size: 14px; }
+    .system-page #sistema-entrega {
+      isolation: isolate;
+      overflow: hidden;
+      overflow-anchor: none;
+      padding-top: 200px;
+    }
+    .system-page,
+    .system-page main {
+      overflow-anchor: none;
+    }
+    .system-page #sistema-entrega > .container {
+      position: relative;
+      z-index: 2;
+    }
+    .system-wave {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: min(38vh, 320px);
+      pointer-events: none;
+      animation: system-wave-drift 18s ease-in-out infinite alternate;
+    }
+    .system-wave path { fill: url(#system-wave-gradient); }
+    .system-wave-back {
+      top: 16px;
+      opacity: .42;
+      animation-duration: 25s;
+      animation-direction: alternate-reverse;
+    }
+    .system-wave-back path { fill: #60a5fa; opacity: .23; }
+    @keyframes system-wave-drift {
+      from { transform: translateX(-2%); }
+      to { transform: translateX(-50%); }
+    }
+    @media (max-width: 700px) {
+      .system-page #sistema-entrega { padding-top: 155px; }
+      .system-overview {
+        grid-template-columns: 1fr;
+        margin-bottom: 48px;
+      }
+      .system-benefits, .system-capabilities { grid-template-columns: 1fr; }
+      .system-details { margin-top: 48px; }
+      .system-contact {
+        grid-template-columns: 1fr;
+        padding: 26px 22px;
+        text-align: center;
+      }
+      .system-contact .btn-contact { white-space: normal; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .system-wave { animation: none; }
+    }
+  </style>
+</head>
+<body class="system-page">
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="NovaSphere, inicio">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40">
+          <rect x="1" y="1" width="38" height="38" rx="13" fill="currentColor"/>
+          <path d="M11 28V12h4l10 10V12h4v16h-4L15 18v10z" fill="#fff"/>
+          <circle cx="31" cy="9" r="3" fill="#a5f3fc"/>
+          </svg>
+        </span>
+        <span>Nova<span class="brand-light">Sphere</span></span>
+      </a>
+      <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav"><span></span><span></span></button>
+      <nav class="nav-links" id="main-nav" aria-label="Navegación principal">
+        <a href="index.html#inicio">Somos desarrolladores de software</a>
+        <a href="index.html#nosotros">Nuestro enfoque</a>
+        <a href="index.html#servicios">Soluciones</a>
+        <a href="index.html#sistema-entrega" aria-current="page">Sistema de entrega</a>
+        <a href="index.html#como-trabajamos">Cómo trabajamos</a>
+      </nav>
+      <a class="nav-cta" href="mailto:alexandrescruz7@gmail.com?subject=Hablemos%20de%20mi%20proyecto">Hablemos <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section tech-section" id="sistema-entrega">
+      <svg class="system-wave system-wave-back" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 170 C240 90 480 234 720 170 C960 106 1200 234 1440 170 C1680 90 1920 234 2160 170 C2400 106 2640 234 2880 170 V0 H0Z" />
+      </svg>
+      <svg class="system-wave" viewBox="0 0 2880 320" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="system-wave-gradient" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" />
+            <stop offset="100%" stop-color="#10b981" />
+          </linearGradient>
+        </defs>
+        <path d="M0 196 C240 132 480 270 720 196 C960 122 1200 270 1440 196 C1680 132 1920 270 2160 196 C2400 122 2640 270 2880 196 V0 H0Z" />
+      </svg>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Plataforma integral</span>
+          <h1 class="section-title">Sistema de entrega <span class="gradient-text">a tu medida</span></h1>
+          <p class="section-text">
+            Una plataforma digital para organizar pedidos, coordinar repartidores y conocer el estado de cada entrega desde un mismo lugar.
+          </p>
+        </div>
+        <section class="system-overview" aria-labelledby="system-overview-title">
+          <div>
+            <span class="section-tag">¿Qué es?</span>
+            <h2 id="system-overview-title">Un centro de control para tus entregas.</h2>
+            <p>El sistema reúne en un solo flujo la gestión desde la oficina y el trabajo de los repartidores. El equipo registra pedidos y organiza recorridos; el personal de reparto recibe sus asignaciones y actualiza cada visita desde la aplicación móvil.</p>
+          </div>
+          <div class="system-overview-points" aria-label="Componentes principales">
+            <div class="system-overview-point"><span>01</span><p>Pedidos, guías y asignaciones organizados.</p></div>
+            <div class="system-overview-point"><span>02</span><p>Seguimiento de rutas y estados de entrega.</p></div>
+            <div class="system-overview-point"><span>03</span><p>Registro de resultados, evidencias e incidencias.</p></div>
+          </div>
+        </section>
+
+        <div class="tech-grid">
+          <article class="tech-card laptop-card">
+            <div class="tech-card-icon">💻</div>
+            <h2 class="tech-card-title">Panel administrativo</h2>
+            <p class="tech-card-text">
+              Administra guías, repartidores, rutas y entregas desde el panel web.
+            </p>
+            <ul class="tech-card-list">
+              <li>Rastreo GPS en tiempo real</li>
+              <li>Gestión de guías e incidencias</li>
+              <li>Panel multiusuario</li>
+            </ul>
+          </article>
+          <article class="tech-card phone-card">
+            <div class="tech-card-icon">📱</div>
+            <h2 class="tech-card-title">App del repartidor</h2>
+            <p class="tech-card-text">
+              Gestiona recorridos, GPS e incidencias y registra la prueba de entrega.
+            </p>
+            <ul class="tech-card-list">
+              <li>Navegación y contacto del destinatario</li>
+              <li>Captura de firma y foto</li>
+              <li>Estado de entrega sincronizado</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step">
+            <div class="step-number">1</div>
+            <h2 class="step-title">Crea las entregas</h2>
+            <p>Registra cada paquete o solicitud desde el panel web.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">2</div>
+            <h2 class="step-title">Asigna una ruta</h2>
+            <p>Envía recorridos y guías al repartidor desde el panel.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">3</div>
+            <h2 class="step-title">Sigue el recorrido</h2>
+            <p>Consulta la ubicación GPS y los estados de entrega.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">4</div>
+            <h2 class="step-title">Confirma la entrega</h2>
+            <p>Registra firma, foto o incidencia desde la aplicación móvil.</p>
+          </article>
+        </div>
+        <section class="system-details" aria-labelledby="system-benefits-title">
+          <div class="system-details-heading">
+            <span class="section-tag">Más control de principio a fin</span>
+            <h2 id="system-benefits-title">Información clara para coordinar cada entrega.</h2>
+            <p>Centraliza tareas del equipo y consulta el avance de la operación desde un flujo conectado entre el panel administrativo y la aplicación móvil.</p>
+          </div>
+          <div class="system-benefits">
+            <article class="system-benefit">
+              <h3>Visibilidad de la operación</h3>
+              <p>Consulta estados y ubicación de los recorridos para saber qué está pendiente y qué ya fue atendido.</p>
+            </article>
+            <article class="system-benefit">
+              <h3>Pruebas de entrega</h3>
+              <p>Registra firma, fotografía o incidencias para tener constancia digital del resultado de cada visita.</p>
+            </article>
+            <article class="system-benefit">
+              <h3>Mejor coordinación</h3>
+              <p>Comparte guías y asignaciones con el equipo de reparto y mantiene la información vinculada a cada entrega.</p>
+            </article>
+          </div>
+          <h3 class="system-details-subheading">Funciones que pueden adaptarse a tu operación</h3>
+          <div class="system-capabilities">
+            <article class="system-capability">
+              <h3>Gestión de pedidos y guías</h3>
+              <p>Organiza destinatarios, direcciones, referencias y estados en un mismo proceso.</p>
+            </article>
+            <article class="system-capability">
+              <h3>Usuarios y roles</h3>
+              <p>Define accesos para administración y personal operativo según las necesidades del equipo.</p>
+            </article>
+            <article class="system-capability">
+              <h3>Reportes e integraciones</h3>
+              <p>Evalúa opciones para consultar resultados o conectar otras herramientas, según el alcance acordado.</p>
+            </article>
+          </div>
+          <aside class="system-investment">
+            <h3>Implementación y costos</h3>
+            <p>La configuración, las funciones y las integraciones se definen según tu operación. No publicamos una tarifa fija: preparamos cotizaciones en dólares (USD) después de conocer el alcance y las necesidades del proyecto.</p>
+          </aside>
+        </section>
+        <aside class="system-contact" aria-labelledby="system-contact-title">
+          <div>
+            <h2 id="system-contact-title">Cuéntanos qué necesitas</h2>
+            <p>
+              Podemos conversar sobre tu proyecto, desarrollar una solución a la medida
+              o explorar distintas opciones según lo que tengas en mente. Si todavía estás
+              definiendo la idea, también podemos conversar y ayudarte a plantear el siguiente paso.
+            </p>
+            <p class="contact-note">Contacto: Alex · <a href="mailto:alexandrescruz7@gmail.com">alexandrescruz7@gmail.com</a></p>
+          </div>
+          <a class="btn-contact" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alexandrescruz7%40gmail.com" target="_blank" rel="noopener noreferrer">Escribir a Alex</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="developer-contact">
+    <a href="index.html">Volver a NovaSphere</a>
+  </footer>
+  <script>
+    const menuButton = document.getElementById('hamburger');
+    const menu = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('open', !expanded);
+    });
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+  <script src="promo-motion.js"></script>
+</body>
+</html>
