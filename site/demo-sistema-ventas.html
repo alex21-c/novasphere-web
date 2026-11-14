@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N • NovaSphere // Modo Demo & Grabación</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,2 C85,2 98,15 98,50 C98,85 85,98 50,98 C15,98 2,85 2,50 C2,15 15,2 50,2 Z' fill='%233b82f6'/%3E%3Cpath d='M28,73 L28,31 L38.5,31 L62,58 L62,31 L72,31 L72,73 L61.5,73 L38,46 L38,73 Z' fill='%23ffffff'/%3E%3Ccircle cx='77.5' cy='22.5' r='8' fill='%23aef8ff'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg-base: #f7faff;
+      --glass-bg: rgba(255, 255, 255, 0.74);
+      --glass-strong: rgba(255, 255, 255, 0.92);
+      --glass-border: rgba(255, 255, 255, 0.95);
+      --line-subtle: rgba(99, 132, 185, 0.18);
+      --text-main: #0e1b33;
+      --text-muted: #5b6e8c;
+      --ai-blue: #2563eb;
+      --ai-brand: #3b82f6;
+      --ai-cyan: #06b6d4;
+      --ai-violet: #7c3aed;
+      --ai-mint: #10b981;
+      --ai-red: #ef4444;
+      --shadow-glass: 0 20px 50px rgba(31, 68, 132, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      --font-sans: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .aurora-bg {
+      position: fixed; inset: 0; z-index: -1; overflow: hidden;
+      background: radial-gradient(circle at 15% 15%, #ffffff 0%, #f1f6ff 55%, #eef4ff 100%);
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(75px); opacity: 0.55;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 520px; height: 520px; background: #bae6fd; top: -120px; left: -80px; }
+    .orb-2 { width: 460px; height: 460px; background: #ddd6fe; bottom: -100px; right: -60px; animation-delay: -5s; }
+    .orb-3 { width: 380px; height: 380px; background: #a7f3d0; top: 40%; left: 45%; opacity: 0.35; animation-delay: -10s; }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(45px, -35px) scale(1.08); }
+      100% { transform: translate(-30px, 40px) scale(0.95); }
+    }
+
+    .tech-grid {
+      position: fixed; inset: 0; z-index: -1;
+      background-image: linear-gradient(rgba(59, 130, 246, 0.035) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(59, 130, 246, 0.035) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(ellipse at center, black 40%, transparent 90%);
+    }
+
+    /* Banner flotante de Escena para el Video */
+    .demo-caption {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      border: 1.5px solid rgba(59, 130, 246, 0.35);
+      box-shadow: 0 18px 45px rgba(15, 45, 100, 0.18);
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ai-blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1200;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+    .demo-caption.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .topbar {
+      max-width: 1460px;
+      margin: 0 auto 20px auto;
+      background: var(--glass-bg);
+      backdrop-filter: blur(22px);
+      border: 1.5px solid var(--glass-border);
+      box-shadow: var(--shadow-glass);
+      border-radius: 20px;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .demo-notice {
+      max-width: 1460px;
+      margin: 0 auto 20px;
+      padding: 14px 18px;
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: 14px;
+      color: #334155;
+      background: rgba(239, 246, 255, 0.9);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    .demo-notice strong { color: #1d4ed8; }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+
+    .logo-wrap {
+      width: 48px; height: 48px;
+      display: grid; place-items: center;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 8px 18px rgba(59, 130, 246, 0.32));
+    }
+    .logo-wrap.thinking { animation: logoPulse 1s ease-in-out infinite alternate; }
+    .logo-wrap.thinking .logo-dot { animation: dotGlow 0.6s ease-in-out infinite alternate; }
+
+    @keyframes logoPulse {
+      from { transform: scale(1); filter: drop-shadow(0 8px 18px rgba(59, 130, 246, 0.35)); }
+      to { transform: scale(1.08); filter: drop-shadow(0 0 26px rgba(174, 248, 255, 0.95)); }
+    }
+    @keyframes dotGlow {
+      from { opacity: 0.75; transform: scale(0.92); transform-origin: 77.5px 22.5px; }
+      to { opacity: 1; transform: scale(1.18); transform-origin: 77.5px 22.5px; }
+    }
+
+    .brand h1 {
+      font-size: 1.18rem; font-weight: 800; letter-spacing: -0.3px;
+      background: linear-gradient(90deg, #0e1b33, #2563eb, #06b6d4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .brand span { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.6px; }
+
+    .btn-ai {
+      position: relative;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 16px; border-radius: 12px;
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      border: none; cursor: pointer; overflow: hidden;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .btn-ai::before {
+      content: ''; position: absolute; top: 0; left: -130%; width: 65%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.72), transparent);
+      transform: skewX(-25deg); transition: left 0.6s ease;
+    }
+    .btn-ai:hover::before { left: 140%; }
+    .btn-ai:hover { transform: translateY(-2px); }
+    .btn-ai:active { transform: translateY(1px) scale(0.97); }
+
+    .btn-prism {
+      background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 55%, #6366f1 100%);
+      background-size: 180% 180%; color: #ffffff;
+      box-shadow: 0 8px 22px rgba(59, 130, 246, 0.28);
+      animation: gradientShift 5s ease infinite;
+    }
+    @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.88); color: var(--ai-blue);
+      border: 1.5px solid rgba(59, 130, 246, 0.24);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.08);
+    }
+    .btn-mint {
+      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #06b6d4 100%);
+      color: #ffffff; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.28);
+    }
+    .btn-rec {
+      background: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%);
+      color: #e11d48; border: 1.5px solid #fda4af;
+    }
+    .btn-rec.active {
+      background: linear-gradient(135deg, #ef4444, #e11d48);
+      color: #ffffff; box-shadow: 0 0 22px rgba(239, 68, 68, 0.45);
+    }
+    .btn-voice {
+      background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%);
+      color: var(--ai-blue); border: 1.5px solid rgba(59, 130, 246, 0.28);
+    }
+    .btn-voice.recording {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4); color: #ffffff;
+      box-shadow: 0 0 22px rgba(6, 182, 212, 0.5);
+    }
+    .btn-sm { padding: 7px 13px; font-size: 0.68rem; border-radius: 10px; }
+
+    .led-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--ai-mint); box-shadow: 0 0 8px var(--ai-mint);
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    .workspace {
+      max-width: 1460px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.22fr 1fr; gap: 20px; align-items: start;
+    }
+    @media (max-width: 1100px) { .workspace { grid-template-columns: 1fr; } }
+
+    .glass-card {
+      background: var(--glass-bg); backdrop-filter: blur(22px);
+      border: 1.5px solid var(--glass-border); border-radius: 22px;
+      padding: 22px; box-shadow: var(--shadow-glass); margin-bottom: 20px;
+    }
+
+    .card-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .card-title {
+      font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px; color: var(--ai-blue);
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .table-container {
+      position: relative; max-height: 310px; overflow: auto;
+      border-radius: 14px; background: rgba(255, 255, 255, 0.82); border: 1px solid var(--line-subtle);
+    }
+    .laser-scanner {
+      position: absolute; left: 0; right: 0; top: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--ai-brand), #aef8ff, transparent);
+      box-shadow: 0 0 18px 4px rgba(59, 130, 246, 0.55);
+      z-index: 10; opacity: 0; pointer-events: none;
+    }
+    .laser-scanner.scanning { opacity: 1; animation: scanTable 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    @keyframes scanTable { 0% { top: 0%; opacity: 0.9; } 90% { top: 96%; opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th {
+      position: sticky; top: 0; background: rgba(244, 248, 255, 0.96);
+      font-family: var(--font-mono); font-size: 0.67rem; color: var(--text-muted);
+      text-transform: uppercase; padding: 10px 12px; text-align: left;
+      border-bottom: 1px solid var(--line-subtle); z-index: 3;
+    }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(99, 132, 185, 0.1); }
+    tr.ai-hit {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.14), rgba(59, 130, 246, 0.08)) !important;
+      box-shadow: inset 3px 0 0 var(--ai-mint);
+    }
+
+    .badge-stock { padding: 3px 9px; border-radius: 999px; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; }
+    .st-ok { background: #d1fae5; color: #047857; }
+    .st-low { background: #fef3c7; color: #b45309; }
+    .st-out { background: #ffe4e6; color: #be123c; }
+
+    .mini-form {
+      display: grid; grid-template-columns: 0.8fr 1.6fr 0.9fr 1.1fr 0.7fr 0.6fr auto;
+      gap: 8px; margin-top: 14px; align-items: end;
+    }
+    @media (max-width: 780px) { .mini-form { grid-template-columns: repeat(2, 1fr); } }
+    .field label { display: block; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    input, select {
+      width: 100%; padding: 9px 11px; border-radius: 10px;
+      border: 1.5px solid rgba(99, 132, 185, 0.22); background: rgba(255, 255, 255, 0.9);
+      color: var(--text-main); font-size: 0.83rem;
+    }
+
+    .neural-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 650px) { .neural-grid { grid-template-columns: 1fr; } }
+    .node-card {
+      background: rgba(255, 255, 255, 0.78); border: 1.5px solid rgba(99, 132, 185, 0.16);
+      border-radius: 14px; padding: 14px; transition: all 0.35s ease;
+    }
+    .node-card.lit {
+      background: #ffffff; border-color: var(--ai-brand);
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.14); transform: translateY(-2px);
+    }
+    .node-tag { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; color: var(--ai-blue); margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .node-body { font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.45; }
+
+    .chat-shell {
+      background: var(--glass-strong); backdrop-filter: blur(26px);
+      border: 1.5px solid var(--glass-border); border-radius: 24px;
+      box-shadow: var(--shadow-glass); height: 710px;
+      display: flex; flex-direction: column; overflow: hidden;
+      position: sticky; top: 20px;
+    }
+    .chat-header {
+      padding: 16px 20px; background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(239,246,255,0.85));
+      border-bottom: 1px solid var(--line-subtle); display: flex; justify-content: space-between; align-items: center;
+    }
+    .quick-bar {
+      padding: 10px 16px; background: rgba(248, 250, 255, 0.85);
+      border-bottom: 1px solid var(--line-subtle); display: flex; gap: 8px; overflow-x: auto;
+    }
+    .ai-chip {
+      white-space: nowrap; background: #ffffff; border: 1px solid rgba(59, 130, 246, 0.24);
+      color: var(--ai-blue); padding: 6px 12px; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    }
+    .chat-stream {
+      flex: 1; padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+      background: linear-gradient(180deg, rgba(247,250,255,0.5) 0%, rgba(240,246,255,0.8) 100%);
+    }
+    .bubble { max-width: 88%; padding: 13px 16px; border-radius: 18px; font-size: 0.86rem; line-height: 1.5; animation: springBubble 0.38s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes springBubble { from { opacity: 0; transform: translateY(10px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .bubble-user {
+      align-self: flex-end; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: #ffffff; border-bottom-right-radius: 4px; box-shadow: 0 8px 22px rgba(59, 130, 246, 0.24);
+    }
+    .bubble-ai {
+      align-self: flex-start; background: #ffffff; color: var(--text-main);
+      border: 1px solid rgba(99, 132, 185, 0.18); border-bottom-left-radius: 4px;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    }
+
+    .thinking-pill {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
+      background: linear-gradient(90deg, #eff6ff, #ecfeff, #f5f3ff); background-size: 200% 100%;
+      animation: shimmerBg 1.6s linear infinite; border: 1px solid rgba(59, 130, 246, 0.25);
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--ai-blue); align-self: flex-start;
+    }
+    @keyframes shimmerBg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .waveform { display: inline-flex; align-items: center; gap: 3px; height: 16px; }
+    .wave-bar { width: 3px; background: currentColor; border-radius: 3px; animation: wave 0.8s ease-in-out infinite; }
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+    @keyframes wave { 0%, 100% { height: 4px; } 50% { height: 15px; } }
+
+    .confidence-pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 6px;
+      background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0;
+      font-family: var(--font-mono); font-size: 0.67rem; font-weight: 700; margin-bottom: 8px;
+    }
+    .upsell-card {
+      margin-top: 10px; padding: 10px 12px; border-radius: 12px;
+      background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%);
+      border: 1px dashed rgba(59, 130, 246, 0.35); font-size: 0.78rem;
+    }
+
+    .chat-composer { padding: 14px 16px; background: rgba(255, 255, 255, 0.92); border-top: 1px solid var(--line-subtle); display: flex; gap: 8px; align-items: center; }
+    .chat-composer input { flex: 1; border-radius: 14px; padding: 12px 15px; background: #f8faff; }
+
+    .modal-bg {
+      position: fixed; inset: 0; background: rgba(14, 27, 51, 0.28); backdrop-filter: blur(8px);
+      display: none; place-items: center; z-index: 999; padding: 18px;
+    }
+    .modal-bg.open { display: grid; }
+    .modal-glass {
+      background: rgba(255, 255, 255, 0.96); border: 1.5px solid #ffffff; border-radius: 22px;
+      max-width: 450px; width: 100%; padding: 24px; box-shadow: 0 25px 60px rgba(15, 45, 100, 0.2);
+      animation: springBubble 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="aurora-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="tech-grid"></div>
+
+  <!-- Subtítulo en vivo durante la Demo -->
+  <div class="demo-caption" id="demo-caption">
+    <span class="led-dot"></span>
+    <span id="demo-caption-text">Iniciando presentación automática...</span>
+  </div>
+
+  <!-- Barra Superior -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-wrap" id="brand-logo">
+        <svg viewBox="0 0 100 100" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50,2 C85,2 98,15 98,50 C98,85 85,98 50,98 C15,98 2,85 2,50 C2,15 15,2 50,2 Z" fill="#3b82f6"/>
+          <path d="M28,73 L28,31 L38.5,31 L62,58 L62,31 L72,31 L72,73 L61.5,73 L38,46 L38,73 Z" fill="#ffffff"/>
+          <circle class="logo-dot" cx="77.5" cy="22.5" r="8" fill="#aef8ff"/>
+        </svg>
+      </div>
+      <div>
+        <h1>NovaSphere</h1>
+        <span>Bot Cotizador WhatsApp + Escáner Excel + Factura Fiscal DGI</span>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <button class="btn-ai btn-prism btn-sm" id="btn-autodemo" onclick="runAutoDemo()">
+        🎬 Auto-Demo
+      </button>
+      <button class="btn-ai btn-rec btn-sm" id="btn-rec" onclick="recordDemoVideo()">
+        🔴 Grabar Demo (.WebM)
+      </button>
+    </div>
+  </header>
+
+  <aside class="demo-notice" aria-label="Alcance de la demostración">
+    <strong>Prototipo demostrativo:</strong> este recorrido usa un catálogo de ejemplo y simula la conversación,
+    la nota de voz, el pago y la emisión de la factura. No se conecta a cuentas reales de WhatsApp, Yappy,
+    Excel/Google Sheets ni DGI; esas integraciones requieren validación y configuración para cada negocio.
+  </aside>
+
+  <main class="workspace">
+    <div>
+      <!-- Catálogo Excel -->
+      <section class="glass-card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            01 // Catálogo Sincronizado (Excel / Google Sheets)
+          </div>
+          <div style="display:flex; gap:8px;">
+            <input type="file" id="csv-file" accept=".csv" style="display:none" onchange="importCSV(event)" />
+            <button class="btn-ai btn-glass btn-sm" onclick="document.getElementById('csv-file').click()">Subir .CSV</button>
+            <button class="btn-ai btn-glass btn-sm" onclick="exportCSV()">Exportar Excel</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="laser-scanner" id="laser-scanner"></div>
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Repuesto / Producto</th>
+                <th>Marca</th>
+                <th>Modelo / Años</th>
+                <th>Precio (B/.)</th>
+                <th>Stock</th>
+              </tr>
+            </thead>
+            <tbody id="catalog-rows"></tbody>
+          </table>
+        </div>
+
+        <div class="mini-form">
+          <div class="field"><label>Código</label><input id="f-code" placeholder="FR-901" /></div>
+          <div class="field"><label>Producto</label><input id="f-name" placeholder="Disco de Freno" /></div>
+          <div class="field"><label>Marca</label><input id="f-brand" placeholder="Kia" /></div>
+          <div class="field"><label>Modelo/Año</label><input id="f-model" placeholder="Picanto 2021" /></div>
+          <div class="field"><label>Precio</label><input id="f-price" type="number" step="0.01" placeholder="45.00" /></div>
+          <div class="field"><label>Stock</label><input id="f-stock" type="number" placeholder="8" /></div>
+          <button class="btn-ai btn-prism btn-sm" onclick="addNewRow()">+ Agregar</button>
+        </div>
+      </section>
+
+      <!-- Telemetría Neural -->
+      <section class="glass-card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+            02 // Razonamiento IA en Tiempo Real
+          </div>
+          <span id="telemetry-ms" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted);">En espera</span>
+        </div>
+
+        <div class="neural-grid">
+          <div class="node-card" id="node-1">
+            <div class="node-tag"><span>01 // ENTIDADES</span><span>NLP</span></div>
+            <div class="node-body" id="node-1-val">Analiza jerga local, vehículo, año y repuesto.</div>
+          </div>
+          <div class="node-card" id="node-2">
+            <div class="node-tag"><span>02 // VECTOR EXCEL</span><span>RAG</span></div>
+            <div class="node-body" id="node-2-val">Escanea inventario real sin inventar precios.</div>
+          </div>
+          <div class="node-card" id="node-3">
+            <div class="node-tag"><span>03 // CONVERSIÓN</span><span>UPSELL</span></div>
+            <div class="node-body" id="node-3-val">Calcula ITBMS, sugiere combo y link Yappy.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Chat WhatsApp IA -->
+    <aside class="chat-shell">
+      <div class="chat-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="logo-wrap" id="chat-logo" style="width:40px; height:40px;">
+            <svg viewBox="0 0 100 100" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+              <path d="M50,2 C85,2 98,15 98,50 C98,85 85,98 50,98 C15,98 2,85 2,50 C2,15 15,2 50,2 Z" fill="#3b82f6"/>
+              <path d="M28,73 L28,31 L38.5,31 L62,58 L62,31 L72,31 L72,73 L61.5,73 L38,46 L38,73 Z" fill="#ffffff"/>
+              <circle class="logo-dot" cx="77.5" cy="22.5" r="8" fill="#aef8ff"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-weight:800; font-size:0.95rem;">Asistente IA • WhatsApp</div>
+            <div style="font-size:0.71rem; color:var(--ai-mint); font-family:var(--font-mono); display:flex; align-items:center; gap:6px;">
+              <span class="led-dot"></span> Conectado al Inventario
+            </div>
+          </div>
+        </div>
+        <button class="btn-ai btn-glass btn-sm" onclick="clearChat()">Limpiar</button>
+      </div>
+
+      <div class="quick-bar">
+        <button class="ai-chip" onclick="sendPreset('Buenas, tendrán pastillas de freno pal Hyundai Grand i10 2021?')">🚗 Pastillas Hyundai i10 2021</button>
+        <button class="ai-chip" onclick="sendPreset('Precio del filtro de aceite Toyota Hilux 2022')">🛢️ Filtro Toyota Hilux</button>
+        <button class="ai-chip" onclick="sendPreset('Cuanto cuesta el taladro percutor DeWalt?')">🛠️ Taladro DeWalt</button>
+        <button class="ai-chip" onclick="sendPreset('Busco amortiguador Nissan Frontier 2022')">⚠️ Sin Stock (Agotado)</button>
+      </div>
+
+      <div class="chat-stream" id="chat-stream">
+        <div class="bubble bubble-ai">
+          <div class="confidence-pill">✨ IA LISTA • ANTI-ALUCINACIÓN ACTIVA</div><br>
+          ¡Hola! Haz clic en <strong>🎬 Auto-Demo</strong> arriba para ver un recorrido completo automático de todo lo que hace el sistema.
+        </div>
+      </div>
+
+      <div class="chat-composer">
+        <button class="btn-ai btn-voice btn-sm" id="voice-btn" onclick="simulateVoiceNote()">🎤 Voz</button>
+        <input type="text" id="msg-input" placeholder="Pregunta por repuestos o herramientas..." onkeypress="if(event.key==='Enter') handleSend()" />
+        <button class="btn-ai btn-prism btn-sm" onclick="handleSend()">Enviar</button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Modal Checkout + Factura Fiscal -->
+  <div class="modal-bg" id="checkout-modal">
+    <div class="modal-glass">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <span style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; color:var(--ai-blue);">✨ CIERRE AUTOMÁTICO + FACTURA DGI</span>
+        <button class="btn-ai btn-glass btn-sm" onclick="closeCheckout()">✕</button>
+      </div>
+      <div id="checkout-summary" style="background:#f8faff; border:1px solid var(--line-subtle); border-radius:14px; padding:16px; font-size:0.86rem; line-height:1.55; margin-bottom:16px;"></div>
+      <button class="btn-ai btn-mint" style="width:100%;" onclick="completeOrder()">
+        💳 Confirmar Yappy & Generar Factura Fiscal
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let catalog = [
+      { code: 'FR-1042', name: 'Pastillas de Freno Delanteras Cerámica', brand: 'Hyundai', model: 'Grand i10 2020-2023', price: 34.50, stock: 14, upsell: 'LIQ-09' },
+      { code: 'LIQ-09', name: 'Líquido de Frenos DOT-4 Sintético 500ml', brand: 'Bosch', model: 'Universal Autos', price: 7.50, stock: 22, upsell: null },
+      { code: 'FIL-309', name: 'Filtro de Aceite Original', brand: 'Toyota', model: 'Hilux 2.4 / 2.8 2016-2024', price: 14.75, stock: 28, upsell: 'ACE-530' },
+      { code: 'ACE-530', name: 'Aceite Sintético 5W-30 Galón', brand: 'Castrol', model: 'Motor Gasolina / Diésel', price: 32.00, stock: 16, upsell: null },
+      { code: 'HER-501', name: 'Taladro Percutor Inalámbrico 20V + 2 Bat', brand: 'DeWalt', model: 'DCD778D2 Construcción', price: 189.00, stock: 4, upsell: 'BRO-12' },
+      { code: 'BRO-12', name: 'Set 15 Brocas Concreto y Metal', brand: 'DeWalt', model: 'Accesorios Taladro', price: 18.50, stock: 11, upsell: null },
+      { code: 'FER-210', name: 'Cemento Gris Uso General 42.5kg', brand: 'Argos', model: 'Construcción / Obra', price: 8.65, stock: 120, upsell: null },
+      { code: 'SUS-401', name: 'Amortiguador Delantero Derecho', brand: 'Nissan', model: 'Frontier NP300 2016-2024', price: 68.00, stock: 0, upsell: null }
+    ];
+
+    let activeProduct = null;
+    let demoRunning = false;
+    let mediaRecorder = null;
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    function showCaption(text) {
+      const box = document.getElementById('demo-caption');
+      document.getElementById('demo-caption-text').textContent = text;
+      box.classList.add('show');
+    }
+
+    function hideCaption() {
+      document.getElementById('demo-caption').classList.remove('show');
+    }
+
+    // Secuencia Coreografiada Automática para Grabar Video
+    async function runAutoDemo() {
+      if (demoRunning) return;
+      demoRunning = true;
+      const btn = document.getElementById('btn-autodemo');
+      btn.textContent = '⏸ Reproduciendo...';
+
+      clearChat();
+      await sleep(600);
+
+      showCaption('1/5 • Cliente envía nota de voz por WhatsApp...');
+      await simulateVoiceNote('Buenas maestro, tendrá pastillas de freno delanteras pal Grand i10 2021?');
+      await sleep(2800);
+
+      showCaption('2/5 • IA escanea Excel, verifica año 2021 y sugiere Upsell...');
+      await sleep(1400);
+
+      showCaption('3/5 • Cliente toca Link de Pago Yappy + ITBMS (7%)...');
+      if (activeProduct) {
+        openPay(encodeURIComponent(JSON.stringify({ product: activeProduct, upsell: null })));
+      }
+      await sleep(2500);
+
+      showCaption('4/5 • Pago confirmado: descuenta stock y emite Factura DGI...');
+      completeOrder();
+      await sleep(2800);
+
+      showCaption('5/5 • Prueba Anti-Alucinación: producto agotado (0 stock)...');
+      await handleSend('Busco amortiguador Nissan Frontier 2022', false);
+      await sleep(3200);
+
+      showCaption('✅ Demo completada • Listo para vender a comercios');
+      await sleep(2500);
+      hideCaption();
+
+      btn.textContent = '🎬 Auto-Demo';
+      demoRunning = false;
+    }
+
+    // Grabador Nativo del Navegador (.WebM)
+    async function recordDemoVideo() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+        alert('Tu navegador no permite captura directa aquí. Presiona Win+Alt+R (Windows) o Cmd+Shift+5 (Mac) y pulsa "Auto-Demo".');
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 30 }, audio: false });
+        const chunks = [];
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+
+        const recBtn = document.getElementById('btn-rec');
+        recBtn.classList.add('active');
+        recBtn.textContent = '⏹ Grabando...';
+
+        mediaRecorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'video/webm' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'demo_novasphere.webm';
+          a.click();
+          recBtn.classList.remove('active');
+          recBtn.textContent = '🔴 Grabar Demo (.WebM)';
+          stream.getTracks().forEach(t => t.stop());
+        };
+
+        mediaRecorder.start();
+        await runAutoDemo();
+        if (mediaRecorder.state === 'recording') mediaRecorder.stop();
+      } catch (err) {
+        alert('Grabación cancelada. Puedes usar "🎬 Auto-Demo" y grabar tu pantalla manualmente.');
+      }
+    }
+
+    function renderTable(hitCodes = []) {
+      const tbody = document.getElementById('catalog-rows');
+      tbody.innerHTML = '';
+      catalog.forEach(item => {
+        const isHit = hitCodes.includes(item.code);
+        const stCls = item.stock > 5 ? 'st-ok' : (item.stock > 0 ? 'st-low' : 'st-out');
+        const tr = document.createElement('tr');
+        if (isHit) tr.className = 'ai-hit';
+        tr.innerHTML = `
+          <td style="font-family:var(--font-mono); font-weight:700; color:var(--ai-blue);">${esc(item.code)}</td>
+          <td><strong>${esc(item.name)}</strong></td>
+          <td>${esc(item.brand)}</td>
+          <td>${esc(item.model)}</td>
+          <td style="font-family:var(--font-mono); font-weight:700;">B/. ${item.price.toFixed(2)}</td>
+          <td><span class="badge-stock ${stCls}">${item.stock > 0 ? item.stock + ' und' : 'Agotado'}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function addNewRow() {
+      const code = document.getElementById('f-code').value.trim() || `PRD-${catalog.length + 1}`;
+      const name = document.getElementById('f-name').value.trim();
+      const brand = document.getElementById('f-brand').value.trim() || 'Genérico';
+      const model = document.getElementById('f-model').value.trim() || 'Universal';
+      const price = parseFloat(document.getElementById('f-price').value);
+      const stock = parseInt(document.getElementById('f-stock').value) || 0;
+      if (!name || isNaN(price)) return alert('Completa al menos producto y precio.');
+      catalog.unshift({ code, name, brand, model, price, stock, upsell: null });
+      renderTable();
+      ['f-code','f-name','f-brand','f-model','f-price','f-stock'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    function exportCSV() {
+      const header = 'Codigo,Producto,Marca,Modelo,Precio,Stock\n';
+      const body = catalog.map(r => `"${r.code}","${r.name}","${r.brand}","${r.model}",${r.price},${r.stock}`).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([header + body], { type: 'text/csv' }));
+      a.download = 'catalogo_novasphere.csv';
+      a.click();
+    }
+
+    function importCSV(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const lines = ev.target.result.split(/\r?\n/).filter(Boolean);
+        const rows = [];
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
+          if (cols.length >= 5) {
+            const c = s => (s || '').replace(/^"|"$/g, '').trim();
+            rows.push({ code: c(cols[0]), name: c(cols[1]), brand: c(cols[2]), model: c(cols[3]), price: parseFloat(c(cols[4])) || 0, stock: parseInt(c(cols[5])) || 0, upsell: null });
+          }
+        }
+        if (rows.length) { catalog = rows; renderTable(); }
+      };
+      reader.readAsText(file);
+    }
+
+    function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+
+    function extractEntities(text) {
+      const stop = new Set(['hola','buenas','maestro','compa','tendran','tienen','tienes','pal','para','cuesta','cuanto','precio','vale','busco','necesito','quiero','un','una','de','del','el','la','por','favor','hay']);
+      return norm(text).replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length >= 2 && !stop.has(w));
+    }
+
+    function matchCatalog(tokens) {
+      if (!tokens.length) return [];
+      return catalog.map(item => {
+        const hay = norm(`${item.code} ${item.name} ${item.brand} ${item.model}`);
+        let score = 0; let reasons = [];
+        tokens.forEach(t => { if (hay.includes(t)) { score += (t.length > 3 ? 25 : 15); reasons.push(t); } });
+        const yr = tokens.find(t => /^(19|20)\d{2}$/.test(t));
+        const rng = item.model.match(/(\d{4})\s*-\s*(\d{4})/);
+        if (yr && rng && parseInt(yr) >= parseInt(rng[1]) && parseInt(yr) <= parseInt(rng[2])) {
+          score += 35; reasons.push(`Año ${yr} ∈ ${rng[1]}-${rng[2]}`);
+        }
+        return { ...item, score, confidence: Math.min(99, Math.max(score, 0)), reasons };
+      }).filter(x => x.score >= 30).sort((a, b) => b.score - a.score).slice(0, 2);
+    }
+
+    function triggerLaserScan() {
+      const laser = document.getElementById('laser-scanner');
+      laser.classList.remove('scanning');
+      void laser.offsetWidth;
+      laser.classList.add('scanning');
+    }
+
+    function sendPreset(txt) { document.getElementById('msg-input').value = txt; handleSend(); }
+
+    async function simulateVoiceNote(fixedText = null) {
+      const btn = document.getElementById('voice-btn');
+      btn.classList.add('recording');
+      btn.innerHTML = `<span class="waveform"><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span></span> Escuchando...`;
+      await sleep(1200);
+      btn.classList.remove('recording');
+      btn.innerHTML = `🎤 Voz`;
+      const voiceSamples = [
+        'Buenas maestro, tendrá pastillas de freno delanteras pal Grand i10 2021?',
+        'Qué cuesta el filtro de aceite para una Toyota Hilux 2022?'
+      ];
+      await handleSend(fixedText || voiceSamples[Math.floor(Math.random() * voiceSamples.length)], true);
+    }
+
+    async function handleSend(overrideText = null, isVoice = false) {
+      const input = document.getElementById('msg-input');
+      const text = (overrideText || input.value).trim();
+      if (!text) return;
+      if (!overrideText) input.value = '';
+
+      appendUserBubble(text, isVoice);
+
+      const brandLogo = document.getElementById('brand-logo');
+      const chatLogo = document.getElementById('chat-logo');
+      brandLogo.classList.add('thinking');
+      chatLogo.classList.add('thinking');
+      triggerLaserScan();
+
+      const stream = document.getElementById('chat-stream');
+      const thinkEl = document.createElement('div');
+      thinkEl.className = 'thinking-pill';
+      thinkEl.innerHTML = `<span class="waveform" style="height:12px;"><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span></span> Escaneando Excel y verificando stock...`;
+      stream.appendChild(thinkEl);
+      stream.scrollTop = stream.scrollHeight;
+
+      const t0 = performance.now();
+      const tokens = extractEntities(text);
+      const hits = matchCatalog(tokens);
+
+      ['node-1','node-2','node-3'].forEach(id => document.getElementById(id).classList.add('lit'));
+      document.getElementById('node-1-val').textContent = tokens.length ? `Tokens: [${tokens.join(', ')}]` : 'Sin entidades claras';
+      document.getElementById('node-2-val').textContent = `${hits.length} coincidencia(s) exactas`;
+      renderTable(hits.map(h => h.code));
+
+      await sleep(850);
+      thinkEl.remove();
+      brandLogo.classList.remove('thinking');
+      chatLogo.classList.remove('thinking');
+
+      let html = '';
+      let mainProduct = null;
+      let upsellItem = null;
+
+      if (hits.length > 0) {
+        const best = hits[0];
+        if (best.stock > 0) {
+          mainProduct = best;
+          activeProduct = best;
+          upsellItem = best.upsell ? catalog.find(c => c.code === best.upsell && c.stock > 0) : null;
+          const total = (best.price * 1.07).toFixed(2);
+          html = `
+            <div class="confidence-pill">✓ ${best.confidence}% MATCH • ${esc(best.reasons.join(' + '))}</div><br>
+            ¡Sí tenemos en bodega! Te comparto el dato exacto:<br><br>
+            <strong>${esc(best.name)}</strong> (${esc(best.brand)} • ${esc(best.model)})<br>
+            • Código: <code>${esc(best.code)}</code> | Disponible: <strong>${best.stock} und.</strong><br>
+            • Precio: <strong>B/. ${best.price.toFixed(2)}</strong> (Total c/ ITBMS: <strong>B/. ${total}</strong>)
+          `;
+          if (upsellItem) {
+            html += `<div class="upsell-card">💡 <strong>Sugerencia IA:</strong> Quienes compran esto suelen llevar <strong>${esc(upsellItem.name)}</strong> por solo <strong>B/. ${upsellItem.price.toFixed(2)}</strong> adicionales.</div>`;
+          }
+          document.getElementById('node-3-val').textContent = `Cierre listo: ${best.code} ${upsellItem ? '+ Upsell ' + upsellItem.code : ''}`;
+        } else {
+          html = `<div class="confidence-pill" style="background:#ffe4e6; color:#be123c; border-color:#fecdd3;">⚠️ STOCK EN 0 • ${esc(best.code)}</div><br>
+          Encontré <strong>${esc(best.name)}</strong>, pero figura <strong>Agotado</strong> en este momento. Puedo pasarte con un asesor para revisar bodega alterna.`;
+          document.getElementById('node-3-val').textContent = 'Derivado a asesor (0 stock)';
+        }
+      } else {
+        html = `No hallé coincidencia exacta en el Excel para <em>"${esc(text)}"</em>. Un vendedor humano verificará compatibilidad.`;
+        document.getElementById('node-3-val').textContent = 'Escalado a vendedor humano';
+      }
+
+      document.getElementById('telemetry-ms').textContent = `Procesado en ${Math.round(performance.now() - t0)} ms`;
+      appendAiBubbleWithTypewriter(html, mainProduct, upsellItem);
+    }
+
+    function appendUserBubble(text, isVoice) {
+      const stream = document.getElementById('chat-stream');
+      const div = document.createElement('div');
+      div.className = 'bubble bubble-user';
+      div.innerHTML = isVoice
+        ? `<div style="font-family:var(--font-mono); font-size:0.68rem; opacity:0.85; margin-bottom:4px;">🎤 Nota de voz transcrita por IA:</div>"${esc(text)}"`
+        : esc(text);
+      stream.appendChild(div);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function appendAiBubbleWithTypewriter(fullHtml, product, upsell) {
+      const stream = document.getElementById('chat-stream');
+      const div = document.createElement('div');
+      div.className = 'bubble bubble-ai';
+      stream.appendChild(div);
+
+      const words = fullHtml.split(' ');
+      let i = 0;
+      const timer = setInterval(() => {
+        i += 4;
+        div.innerHTML = words.slice(0, i).join(' ');
+        stream.scrollTop = stream.scrollHeight;
+        if (i >= words.length) {
+          clearInterval(timer);
+          let actions = `<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; padding-top:10px; border-top:1px dashed var(--line-subtle);">`;
+          if (product) {
+            const payload = encodeURIComponent(JSON.stringify({ product, upsell }));
+            actions += `<button class="btn-ai btn-mint btn-sm" onclick="openPay('${payload}')">💳 Pagar B/. ${(product.price * 1.07).toFixed(2)}</button>`;
+          }
+          actions += `<button class="btn-ai btn-glass btn-sm" onclick="alert('Abriendo WhatsApp del vendedor de turno...')">👤 Vendedor</button></div>`;
+          div.innerHTML = fullHtml + actions;
+          stream.scrollTop = stream.scrollHeight;
+        }
+      }, 24);
+    }
+
+    function openPay(encoded) {
+      const data = JSON.parse(decodeURIComponent(encoded));
+      activeProduct = data.product;
+      const sub = data.product.price;
+      const itbms = sub * 0.07;
+      document.getElementById('checkout-summary').innerHTML = `
+        <strong>Artículo:</strong> ${esc(data.product.name)} (<code>${esc(data.product.code)}</code>)<br>
+        <strong>Subtotal:</strong> B/. ${sub.toFixed(2)}<br>
+        <strong>ITBMS (7%):</strong> B/. ${itbms.toFixed(2)}<br>
+        <hr style="margin:8px 0; border:none; border-top:1px dashed var(--line-subtle);">
+        <strong style="color:var(--ai-blue); font-size:1.05rem;">Total Yappy / Tarjeta: B/. ${(sub + itbms).toFixed(2)}</strong>
+      `;
+      document.getElementById('checkout-modal').classList.add('open');
+    }
+
+    function closeCheckout() { document.getElementById('checkout-modal').classList.remove('open'); }
+
+    function completeOrder() {
+      if (!activeProduct) return;
+      const row = catalog.find(c => c.code === activeProduct.code);
+      if (row && row.stock > 0) row.stock--;
+      renderTable([activeProduct.code]);
+      closeCheckout();
+      appendAiBubbleWithTypewriter(`✅ <strong>¡Pedido confirmado y pagado!</strong><br>Se descontó 1 unidad de <code>${esc(activeProduct.code)}</code> y se emitió la Factura Fiscal electrónica <strong>CAFE #001-000048</strong>.`, null, null);
+    }
+
+    function clearChat() {
+      document.getElementById('chat-stream').innerHTML = `<div class="bubble bubble-ai"><div class="confidence-pill">✨ SISTEMA LISTO</div><br>Haz clic en <strong>🎬 Auto-Demo</strong> para reproducir la demostración automática.</div>`;
+      renderTable();
+    }
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+
+    renderTable();
+  </script>
+</body>
+</html>

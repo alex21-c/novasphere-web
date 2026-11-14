@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conoce NovaSphere Commerce: una demostración de cotización conversacional, catálogo de productos, consulta de existencias y flujo de compra." />
+  <meta name="theme-color" content="#f8fafc" />
+  <title>Sistema de ventas — NovaSphere Commerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/novasphere-logo.svg" />
+  <link rel="stylesheet" href="styles.css?v=nav-refresh-20261113" />
+  <style>
+    .sales-hero {
+      position: relative;
+      overflow: hidden;
+      padding: 142px 24px 80px;
+      background:
+        radial-gradient(ellipse at 86% 12%, rgba(59,130,246,.16), transparent 40%),
+        radial-gradient(ellipse at 14% 82%, rgba(16,185,129,.1), transparent 38%),
+        var(--bg);
+      text-align: center;
+    }
+    .sales-hero-content { position: relative; z-index: 1; width: min(100%, 980px); margin: 0 auto; }
+    .sales-hero .hero-subtitle { max-width: 780px; }
+    .sales-logo {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 20px;
+      filter: drop-shadow(0 10px 24px rgba(37,99,235,.2));
+    }
+    .sales-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .sales-actions .btn-secondary { display: inline-flex; align-items: center; justify-content: center; }
+    .sales-overview, .sales-details, .sales-demo-note {
+      margin-top: 58px;
+      padding: clamp(24px, 4vw, 40px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: rgba(255,255,255,.84);
+      box-shadow: 0 16px 40px rgba(15,23,42,.06);
+    }
+    .sales-overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+      align-items: center;
+      gap: clamp(24px, 5vw, 56px);
+      border-color: rgba(59,130,246,.16);
+      background:
+        radial-gradient(ellipse at 100% 0, rgba(34,211,238,.09), transparent 44%),
+        linear-gradient(140deg, #fff, #f3f8ff);
+    }
+    .sales-overview h2, .sales-details-heading h2 {
+      margin-bottom: 12px;
+      font: 700 clamp(25px, 3vw, 34px)/1.15 'Space Grotesk', sans-serif;
+    }
+    .sales-overview p, .sales-details-heading p { color: var(--text-secondary); }
+    .sales-points { display: grid; gap: 12px; }
+    .sales-point {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(59,130,246,.12);
+      border-radius: 14px;
+      background: rgba(255,255,255,.8);
+    }
+    .sales-point span {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 11px;
+      color: #0369a1;
+      background: linear-gradient(145deg, rgba(34,211,238,.14), rgba(59,130,246,.12));
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .sales-point p { color: #334155; font-size: 13px; font-weight: 600; }
+    .sales-video-section { padding-top: 64px; }
+    .sales-video-frame {
+      overflow: hidden;
+      width: min(100%, 1080px);
+      margin: 28px auto 0;
+      border: 1px solid rgba(255,255,255,.92);
+      border-radius: 22px;
+      background: #0b1220;
+      box-shadow: 0 24px 70px rgba(15,23,42,.2);
+    }
+    .sales-video-frame video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1918 / 944;
+      background: #0b1220;
+      object-fit: contain;
+    }
+    .sales-video-note, .sales-demo-note p { color: var(--text-muted); font-size: 13px; }
+    .sales-video-note { margin: 12px auto 0; text-align: center; }
+    .sales-section-heading { max-width: 780px; margin: 0 auto 34px; text-align: center; }
+    .sales-section-heading h2 {
+      margin-bottom: 12px;
+      font: 700 clamp(28px, 4vw, 40px)/1.15 'Space Grotesk', sans-serif;
+    }
+    .sales-section-heading p { color: var(--text-secondary); }
+    .sales-feature-grid, .sales-steps, .sales-benefits, .sales-capabilities {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .sales-feature-card, .sales-step, .sales-benefit, .sales-capability {
+      height: 100%;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--bg-card);
+      box-shadow: 0 12px 30px rgba(15,23,42,.05);
+    }
+    .sales-feature-icon {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 16px;
+      place-items: center;
+      border-radius: 13px;
+      background: rgba(59,130,246,.11);
+      font-size: 22px;
+    }
+    .sales-feature-card h3, .sales-benefit h3, .sales-capability h3 {
+      margin-bottom: 8px;
+      font: 700 18px 'Space Grotesk', sans-serif;
+    }
+    .sales-feature-card p, .sales-benefit p, .sales-capability p, .sales-step p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    .sales-steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .sales-step-number {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .sales-step h3 { margin-bottom: 8px; font: 700 16px 'Space Grotesk', sans-serif; }
+    .sales-details-heading { max-width: 800px; margin: 0 auto 30px; text-align: center; }
+    .sales-subheading { margin: 34px 0 14px; font: 700 20px 'Space Grotesk', sans-serif; }
+    .sales-investment {
+      margin-top: 24px;
+      padding: 22px;
+      border: 1px solid rgba(59,130,246,.14);
+      border-radius: 16px;
+      background: linear-gradient(100deg, rgba(34,211,238,.08), rgba(59,130,246,.07), rgba(16,185,129,.06));
+    }
+    .sales-investment h3 { margin-bottom: 8px; font: 700 18px 'Space Grotesk', sans-serif; }
+    .sales-investment p { color: var(--text-secondary); }
+    .sales-demo-note {
+      border-color: rgba(217,119,6,.22);
+      background: #fffbeb;
+      box-shadow: none;
+    }
+    .sales-demo-note h2 { margin-bottom: 8px; font: 700 20px 'Space Grotesk', sans-serif; }
+    .sales-demo-note p { color: #78350f; font-size: 14px; }
+    .sales-demo-link { display: inline-flex; margin-top: 14px; font-weight: 700; }
+    .sales-contact { margin-top: 58px; }
+    .sales-contact {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 28px;
+      padding: 32px;
+      border-radius: 22px;
+      color: #fff;
+      background: linear-gradient(130deg, #172554, #1d4ed8 62%, #059669);
+      box-shadow: 0 20px 48px rgba(37,99,235,.2);
+    }
+    .sales-contact h2 { margin-bottom: 10px; font: 700 24px 'Space Grotesk', sans-serif; }
+    .sales-contact p { max-width: 700px; color: rgba(255,255,255,.86); }
+    .sales-contact .contact-note { margin-top: 10px; font-size: 14px; }
+    .sales-contact .contact-note a { color: #fff; }
+    .sales-contact .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      color: #172554;
+      background: #fff;
+      font-weight: 700;
+      text-align: center;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .sales-contact .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(15,23,42,.2); }
+    .sales-footer { padding: 32px 24px 64px; color: var(--text-muted); text-align: center; }
+    .sales-footer a { color: var(--text-secondary); }
+    @media (max-width: 900px) {
+      .sales-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 700px) {
+      .sales-hero { padding: 126px 20px 68px; }
+      .sales-overview { grid-template-columns: 1fr; }
+      .sales-video-section { padding-top: 42px; }
+      .sales-video-frame { border-radius: 14px; }
+      .sales-feature-grid, .sales-steps, .sales-benefits, .sales-capabilities { grid-template-columns: 1fr; }
+      .sales-actions { flex-direction: column; align-items: center; }
+      .sales-actions > * { width: min(100%, 320px); }
+      .sales-contact { grid-template-columns: 1fr; padding: 26px; }
+      .sales-contact .btn-contact { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="NovaSphere, inicio">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40">
+            <rect x="1" y="1" width="38" height="38" rx="13" fill="currentColor"/>
+            <path d="M11 28V12h4l10 10V12h4v16h-4L15 18v10z" fill="#fff"/>
+            <circle cx="31" cy="9" r="3" fill="#a5f3fc"/>
+          </svg>
+        </span>
+        <span>Nova<span class="brand-light">Sphere</span></span>
+      </a>
+      <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav"><span></span><span></span></button>
+      <nav class="nav-links" id="main-nav" aria-label="Navegación principal">
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#servicios">Soluciones</a>
+        <details class="nav-dropdown">
+          <summary aria-haspopup="true">Sistemas</summary>
+          <div class="nav-dropdown-menu">
+            <a href="sistema-entrega.html">Sistema de entrega</a>
+            <a href="sistema-ventas.html" aria-current="page">Sistema de ventas</a>
+          </div>
+        </details>
+        <a href="nuestra-forma-de-trabajar.html">Cómo trabajamos</a>
+      </nav>
+      <a class="nav-cta" href="mailto:alexandrescruz7@gmail.com?subject=Consulta%20sobre%20NovaSphere%20Commerce">Hablemos <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="sales-hero">
+      <div class="sales-hero-content">
+        <svg class="sales-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <defs><linearGradient id="sales-logo-gradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3987ff"/><stop offset="1" stop-color="#624de6"/></linearGradient></defs>
+          <rect x="2" y="2" width="36" height="36" rx="11" fill="url(#sales-logo-gradient)"/>
+          <path d="M11 28V12h4l10 10V12h4v16h-4L15 18v10z" fill="#fff"/>
+          <circle cx="31" cy="9" r="3" fill="#a3e635"/>
+        </svg>
+        <p class="hero-eyebrow">NovaSphere Commerce · Sistema de ventas</p>
+        <h1 class="hero-title">Cada consulta puede avanzar.<br /><span class="gradient-text">Del catálogo a la compra.</span></h1>
+        <p class="hero-subtitle">
+          Una propuesta para atender consultas de productos con información de catálogo,
+          verificar existencias y acompañar al cliente en el proceso de cotización y compra.
+        </p>
+        <div class="sales-actions">
+          <a href="#funciones" class="btn-primary">Conocer las funciones</a>
+          <a href="demo-sistema-ventas.html" class="btn-secondary">Probar demostración interactiva</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sales-overview-title">
+      <div class="container">
+        <div class="sales-overview">
+          <div>
+            <span class="section-tag">¿Qué es?</span>
+            <h2 id="sales-overview-title">Un asistente de ventas conectado al catálogo.</h2>
+            <p>
+              NovaSphere Commerce presenta un flujo conversacional para que un negocio responda consultas
+              de productos utilizando datos como código, nombre, marca, modelo, año, precio y existencias.
+              La demostración muestra ejemplos de repuestos, herramientas y productos de construcción.
+            </p>
+          </div>
+          <div class="sales-points" aria-label="Componentes principales">
+            <div class="sales-point"><span>01</span><p>Catálogo de productos con precios y disponibilidad.</p></div>
+            <div class="sales-point"><span>02</span><p>Consulta conversacional y coincidencias por producto y compatibilidad.</p></div>
+            <div class="sales-point"><span>03</span><p>Flujo de cotización, pago y comprobante mostrado en la demo.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="funciones" aria-labelledby="sales-features-title">
+      <div class="container">
+        <div class="sales-section-heading">
+          <span class="section-tag">Funciones del prototipo</span>
+          <h2 id="sales-features-title">Herramientas para atender y cotizar.</h2>
+          <p>La demostración permite recorrer las funciones con productos y datos de ejemplo.</p>
+        </div>
+        <div class="sales-feature-grid">
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon" aria-hidden="true">📋</div>
+            <h3>Catálogo de productos</h3>
+            <p>Consulta códigos, nombres, marcas, modelos, años, precios y niveles de stock desde una tabla central.</p>
+          </article>
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon" aria-hidden="true">📥</div>
+            <h3>Importación y exportación CSV</h3>
+            <p>Carga un archivo CSV con productos o descarga el catálogo de muestra para trabajarlo en una hoja de cálculo.</p>
+          </article>
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon" aria-hidden="true">💬</div>
+            <h3>Consultas conversacionales</h3>
+            <p>Prueba consultas de texto y ejemplos de notas de voz sobre piezas, herramientas y otros artículos.</p>
+          </article>
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon" aria-hidden="true">🔎</div>
+            <h3>Búsqueda y compatibilidad</h3>
+            <p>El prototipo compara términos de la consulta con el código, producto, marca, modelo y rango de años del catálogo.</p>
+          </article>
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon" aria-hidden="true">📦</div>
+            <h3>Disponibilidad y derivación</h3>
+            <p>Muestra las existencias registradas y contempla pasar la consulta a una persona cuando no encuentra el artículo o aparece agotado.</p>
+          </article>
+          <article class="sales-feature-card">
+            <div class="sales-feature-icon" aria-hidden="true">🧾</div>
+            <h3>Resumen de compra</h3>
+            <p>En el recorrido de ejemplo calcula ITBMS al 7%, muestra una confirmación, descuenta una unidad y presenta una factura de muestra.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sales-process-title">
+      <div class="container">
+        <div class="sales-section-heading">
+          <span class="section-tag">Flujo de atención</span>
+          <h2 id="sales-process-title">Así se recorre la demostración.</h2>
+          <p>Un ejemplo desde la pregunta del cliente hasta la respuesta o el apoyo de un vendedor.</p>
+        </div>
+        <div class="sales-steps">
+          <article class="sales-step">
+            <div class="sales-step-number">1</div>
+            <h3>El cliente consulta</h3>
+            <p>Pregunta por nombre, marca, modelo, año o código de un producto.</p>
+          </article>
+          <article class="sales-step">
+            <div class="sales-step-number">2</div>
+            <h3>Se revisa el catálogo</h3>
+            <p>La demo busca coincidencias en su catálogo local de ejemplo.</p>
+          </article>
+          <article class="sales-step">
+            <div class="sales-step-number">3</div>
+            <h3>Se responde con datos</h3>
+            <p>Presenta precio y stock; puede mostrar un artículo complementario configurado.</p>
+          </article>
+          <article class="sales-step">
+            <div class="sales-step-number">4</div>
+            <h3>Se muestra el cierre</h3>
+            <p>El recorrido simula el resumen, el impuesto y la confirmación del pedido.</p>
+          </article>
+          <article class="sales-step">
+            <div class="sales-step-number">5</div>
+            <h3>Se atienden excepciones</h3>
+            <p>Si no hay coincidencia o el producto está agotado, indica apoyo de un asesor.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sales-video-section" id="demostracion" aria-labelledby="sales-video-title">
+      <div class="container">
+        <div class="sales-section-heading">
+          <span class="section-tag">NovaSphere Commerce en acción</span>
+          <h2 id="sales-video-title">Mira el recorrido del sistema.</h2>
+          <p>Observa la consulta, la búsqueda de productos, la disponibilidad y el cierre de compra de ejemplo.</p>
+        </div>
+        <div class="sales-video-frame">
+          <video controls playsinline preload="metadata" aria-label="Video de presentación del sistema de ventas NovaSphere">
+            <source src="assets/novasphere-commerce-presentacion.mp4" type="video/mp4" />
+            Tu navegador no puede reproducir este video.
+          </video>
+        </div>
+        <p class="sales-video-note">Activa el sonido para escuchar la presentación.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sales-benefits-title">
+      <div class="container">
+        <div class="sales-details">
+          <div class="sales-details-heading">
+            <span class="section-tag">Diseñado para tu operación</span>
+            <h2 id="sales-benefits-title">Una base que se puede adaptar al negocio.</h2>
+            <p>La versión final se define contigo: catálogo, reglas de atención, usuarios y conexiones necesarias.</p>
+          </div>
+          <div class="sales-benefits">
+            <article class="sales-benefit">
+              <h3>Respuestas consistentes</h3>
+              <p>Consulta los mismos datos de producto y disponibilidad al atender las preguntas frecuentes.</p>
+            </article>
+            <article class="sales-benefit">
+              <h3>Menos búsqueda manual</h3>
+              <p>Encuentra referencias de catálogo usando códigos, nombres, marcas y modelos.</p>
+            </article>
+            <article class="sales-benefit">
+              <h3>Atención con respaldo humano</h3>
+              <p>Deja previsto el apoyo de un vendedor para casos sin coincidencia o con existencias agotadas.</p>
+            </article>
+          </div>
+          <h3 class="sales-subheading">Opciones que deben definirse para cada implementación</h3>
+          <div class="sales-capabilities">
+            <article class="sales-capability">
+              <h3>Catálogo e inventario</h3>
+              <p>Formato de datos, fuente del inventario y frecuencia de actualización.</p>
+            </article>
+            <article class="sales-capability">
+              <h3>Canales y pagos</h3>
+              <p>Canal de mensajería, pasarela de pago y permisos o cuentas requeridas.</p>
+            </article>
+            <article class="sales-capability">
+              <h3>Facturación y soporte</h3>
+              <p>Requisitos fiscales, reglas de escalamiento y acceso de los asesores.</p>
+            </article>
+          </div>
+          <aside class="sales-investment">
+            <h3>Implementación y costos</h3>
+            <p>Las funciones, integraciones y costos se cotizan según el alcance, los sistemas existentes y las necesidades de tu negocio. No se muestra una tarifa fija antes de revisar esos requisitos.</p>
+          </aside>
+        </div>
+
+        <aside class="sales-demo-note" aria-labelledby="sales-demo-note-title">
+          <h2 id="sales-demo-note-title">Alcance de la demostración</h2>
+          <p>
+            La página y la demo interactiva muestran un prototipo con datos de ejemplo. La búsqueda, la nota de voz,
+            el pago Yappy/tarjeta, el descuento de inventario y la factura DGI se representan en el navegador;
+            no significan que ya exista conexión con cuentas reales de WhatsApp, Google Sheets, Excel, Yappy o DGI.
+            Las integraciones reales se deben evaluar y acordar para cada implementación.
+          </p>
+          <a class="sales-demo-link" href="demo-sistema-ventas.html">Abrir demostración interactiva →</a>
+        </aside>
+
+        <aside class="system-contact sales-contact" aria-labelledby="sales-contact-title">
+          <div>
+            <h2 id="sales-contact-title">¿Quieres explorar esta solución para tu negocio?</h2>
+            <p>Conversemos sobre tu catálogo, cómo atiendes a tus clientes y qué integraciones necesitas.</p>
+            <p class="contact-note">Contacto: Alex · <a href="mailto:alexandrescruz7@gmail.com">alexandrescruz7@gmail.com</a></p>
+          </div>
+          <a class="btn-contact" href="mailto:alexandrescruz7@gmail.com?subject=Consulta%20sobre%20NovaSphere%20Commerce">Solicitar información</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sales-footer">
+    <p>© 2026 NovaSphere · <a href="index.html">Desarrollo de sistemas</a> · <a href="sistema-entrega.html">Sistema de entrega</a></p>
+  </footer>
+
+  <script>
+    const menuButton = document.getElementById('hamburger');
+    const menu = document.getElementById('main-nav');
+    menuButton.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('open', !expanded);
+    });
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>
