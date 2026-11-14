@@ -81,7 +81,7 @@ ul { list-style: none; }
   align-items: center;
   gap: 4px;
   padding: 6px;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid rgba(59, 130, 246, .16);
   border-radius: 14px;
   background:
@@ -144,6 +144,64 @@ ul { list-style: none; }
 .nav-links a:hover::after,
 .nav-links a[aria-current="page"]::after,
 .nav-links a[aria-current="location"]::after { transform: scaleX(1); }
+.nav-dropdown {
+  position: relative;
+  z-index: 2;
+  font-family: 'DM Sans', var(--font-sans);
+}
+.nav-dropdown summary {
+  position: relative;
+  z-index: 1;
+  padding: 9px 28px 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  list-style: none;
+  transition: color .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.nav-dropdown summary::-webkit-details-marker { display: none; }
+.nav-dropdown summary::after {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  content: "";
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform .2s ease;
+}
+.nav-dropdown[open] summary::after { transform: translateY(-30%) rotate(225deg); }
+.nav-dropdown summary:hover,
+.nav-dropdown[open] summary {
+  border-color: rgba(59, 130, 246, .2);
+  color: #1d4ed8;
+  background: linear-gradient(135deg, rgba(59, 130, 246, .1), rgba(34, 211, 238, .08));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 0 18px rgba(59, 130, 246, .06);
+}
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  display: grid;
+  min-width: 210px;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid rgba(59, 130, 246, .16);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .98);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, .16);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+.nav-dropdown:not([open]) > .nav-dropdown-menu { display: none; }
+.nav-dropdown-menu a { display: block; }
+.nav-dropdown-menu a::after { display: none; }
 @keyframes nav-energy-sweep {
   from { transform: translateX(0); opacity: .55; }
   to { transform: translateX(190%); opacity: 1; }
@@ -222,6 +280,20 @@ ul { list-style: none; }
   }
   .nav-links a { padding: 10px 12px; border-radius: 9px; }
   .nav-links a::after { display: none; }
+  .nav-dropdown { width: 100%; }
+  .nav-dropdown summary { padding: 10px 32px 10px 12px; border-radius: 9px; }
+  .nav-dropdown-menu {
+    position: static;
+    min-width: 0;
+    margin: 4px 0 0 12px;
+    padding: 4px;
+    border: 0;
+    border-left: 2px solid rgba(59, 130, 246, .2);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .nav-dropdown-menu a { padding-left: 14px; }
   .hamburger { display: flex; }
 }
 @media (max-width: 560px) {
@@ -235,6 +307,8 @@ ul { list-style: none; }
   .nav-links::before { animation: none; }
   .nav-links a,
   .nav-links a::after,
+  .nav-dropdown summary,
+  .nav-dropdown summary::after,
   .hamburger span,
   .nav-cta { transition: none; }
 }
